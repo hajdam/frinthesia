@@ -1,4 +1,7 @@
 rootProject.name = 'frinthesia-project'
+
+include ":modules:frinika-core"
+include ":modules:frinika-mod"
+
 include ":tools:frinthesia"
 include ":tools:frinika"
-include ":modules:frinika-core"

@@ -8,6 +8,9 @@ task wrapper(type: Wrapper, description: 'Creates and deploys the Gradle wrapper
 
 subprojects.each { subproject -> evaluationDependsOn(subproject.path) }
 
+distZip.dependsOn project(':tools').subprojects.assemble
+distTar.dependsOn project(':tools').subprojects.assemble
+
 distributions {
     main {
         contents {
@@ -20,7 +23,6 @@ distributions {
 
             into('lib') {
                 from 'lib'
-                include 'jspf.core-1.0.2.jar'
             }
             project(':modules').subprojects.each { p ->
                 p.plugins.withType(JavaPlugin) {
@@ -38,10 +40,7 @@ distributions {
                         from p.configurations.runtime
                         include '*'
                     }
-                }
-            }
-            project(':tools').subprojects.each { p ->
-                p.plugins.withType(JavaPlugin) {
+
                     into('bin') {
                         from p.jar.archivePath
                         include '*'
@@ -55,6 +54,10 @@ distributions {
             }
             into('resources') {
                 from 'resources'
+                include '**'
+            }
+            into('bin/lib') {
+                from 'src/dist/bin'
                 include '**'
             }
         }

@@ -1,12 +1,10 @@
 package com.frinika.project.gui;
 
 import com.frinika.About;
-import com.frinika.FrinikaMain;
 import com.frinika.global.ConfigError;
 import com.frinika.global.ConfigListener;
 import com.frinika.global.FrinikaConfig;
 import static com.frinika.localization.CurrentLocale.getMessage;
-import com.frinika.mod.MODImporter;
 import com.frinika.notation.NotationPanel;
 import com.frinika.project.FrinikaAudioSystem;
 import com.frinika.project.ProjectContainer;
@@ -1561,14 +1559,14 @@ public class ProjectFrame extends JFrame {
 
 		fileMenu.add(importMidiMenuItem);
 
-		JMenuItem item = new JMenuItem("Import Module...");
+		/* JMenuItem item = new JMenuItem("Import Module...");
 		item.setIcon(getIconResource("import.gif"));
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MODImporter.load(ProjectFrame.this);
 			}
 		});
-		fileMenu.add(item);
+		fileMenu.add(item); */
 
 		final JMenuItem exportMidiMenuItem = new JMenuItem(
 				getMessage("project.menu.file.export_midi"));
@@ -1721,7 +1719,7 @@ public class ProjectFrame extends JFrame {
 		 * 
 		 */
 
-		if (!FrinikaMain.isMac()) {
+		if (!isMac()) {
 
 			fileMenu.addSeparator();
 
@@ -2567,7 +2565,7 @@ public class ProjectFrame extends JFrame {
 		menuBar.add(toolsMenu()); // Jens
 		menuBar.add(renderMenu());
                 menuBar.add(connectedMenu());
-		if (!FrinikaMain.isMac())
+		if (!isMac())
 			menuBar.add(helpMenu());
 		menuBar.add(debugMenu());
                 
@@ -2996,4 +2994,9 @@ public class ProjectFrame extends JFrame {
 		}
 	}
 
+	private static boolean ismac = false;
+
+	public static boolean isMac() {
+		return ismac;
+	}        
 }
