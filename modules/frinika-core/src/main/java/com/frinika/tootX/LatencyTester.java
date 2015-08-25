@@ -25,7 +25,7 @@
 
 package com.frinika.tootX;
 
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 import java.util.Observable;
 import java.util.Observer;
 

@@ -38,7 +38,7 @@ import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.model.MidiPart;
 import com.frinika.sequencer.model.MultiEvent;
 import com.frinika.sequencer.model.NoteEvent;
@@ -285,7 +285,8 @@ public class GroovePatternFromSequence implements GroovePattern {
 	
 	public void openAsOwnProject() throws Exception {
 		ProjectContainer newProject = new ProjectContainer(sequence);
-		ProjectFrame newProjectFrame = new ProjectFrame(newProject);
+                throw new UnsupportedOperationException("Not supported yet.");
+		// TODO ProjectFrame newProjectFrame = new ProjectFrame(newProject);
 	}
 	
 	/**

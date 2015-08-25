@@ -27,10 +27,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.frinika.project.ProjectContainer;
 import com.frinika.sequencer.gui.ItemPanel;
 import com.frinika.sequencer.model.MidiPart;
 import com.frinika.sequencer.model.Part;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 /**
  *
@@ -41,13 +41,13 @@ import com.frinika.sequencer.model.Part;
 public class PartSelectedAction extends AbstractAction {
 	private static final long serialVersionUID = 1L;
 
-	ProjectContainer project;
+	AbstractSequencerProjectContainer project;
 
 	static boolean ignoreWarp = false;
 
 	ItemPanel panel;
 
-	public PartSelectedAction(ProjectContainer project, ItemPanel panel) {
+	public PartSelectedAction(AbstractSequencerProjectContainer project, ItemPanel panel) {
 
 		this.panel = panel;
 		this.project = project;

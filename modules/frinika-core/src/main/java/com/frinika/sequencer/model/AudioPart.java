@@ -46,7 +46,7 @@ import uk.org.toot.audio.server.AudioServer;
 
 import com.frinika.global.FrinikaConfig;
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.gui.ItemPanel;
 import com.frinika.sequencer.gui.menu.AudioAnalysisAction;
 import com.frinika.sequencer.gui.partview.PartView;

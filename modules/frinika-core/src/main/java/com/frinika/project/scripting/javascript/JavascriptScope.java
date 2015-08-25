@@ -27,10 +27,9 @@ package com.frinika.project.scripting.javascript;
 import static com.frinika.localization.CurrentLocale.getMessage;
 
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.project.scripting.FrinikaScriptingEngine;
 import com.frinika.project.scripting.gui.ScriptingDialog;
-import com.frinika.project.scripting.javascript.JavascriptScope;
 import com.frinika.sequencer.FrinikaSequencer;
 import com.frinika.sequencer.SongPositionListener;
 import com.frinika.sequencer.gui.transport.StartAction;
@@ -391,7 +390,7 @@ public class JavascriptScope extends ScriptableObject {
 
 	private Context context;
 
-	private ProjectFrame frame;
+	private ProjectContainer project;
 
 	private ScriptingDialog dialog;
 
@@ -403,22 +402,21 @@ public class JavascriptScope extends ScriptableObject {
 	 * Createsa a JavascriptContext. This is a bridge between JavaScript and
 	 * Java, application-specific to Frinika.
 	 * 
-	 * @param frame
+	 * @param project
 	 * @param events
 	 */
-	public JavascriptScope(Context context, ProjectFrame frame, SortedSet<MultiEvent> events, ScriptingDialog dialog) {
+	public JavascriptScope(Context context, ProjectContainer project, SortedSet<MultiEvent> events, ScriptingDialog dialog) {
 		super();
 		this.context = context;
-		this.frame = frame;
+		this.project = project;
 		this.dialog = dialog;
-		ProjectContainer p = frame.getProjectContainer();
-		timeUtils = new TimeUtils(p);
+		timeUtils = new TimeUtils(project);
 		wrapperCache = new HashMap<Object, Object>();
 		
-		song = new Song(p);
+		song = new Song(project);
 		selection = new Selection(events);
 		initMenu();
-		this.persistent = new PropertiesWrapper( p.getScriptingEngine().getPersistentProperties() );
+		this.persistent = new PropertiesWrapper( project.getScriptingEngine().getPersistentProperties() );
 		this.global = new PropertiesWrapper() {
 			@Override
 			public void set(String variable, String value) {
@@ -539,23 +537,23 @@ public class JavascriptScope extends ScriptableObject {
 
 	public void message(String s) {
 		System.out.println(s);
-		if (frame != null) {
-			frame.message(s);
+		if (project != null) {
+			project.message(s);
 		}
 	}
 
 	public void error(String s) {
 		System.err.println(s);
-		if (frame != null) {
-			frame.error(s);
+		if (project != null) {
+			project.error(s);
 		}
 	}
 
 	public boolean confirm(String s) {
 		System.out.print(s);
-		if (frame != null) {
+		if (project != null) {
 			System.out.println("... Ok.");
-			return frame.confirm(s);
+			return project.confirm(s);
 		} else {
 			System.out.println("... Cancel.");
 			return false;
@@ -565,8 +563,8 @@ public class JavascriptScope extends ScriptableObject {
 	public String prompt(String s) {
 		System.out.print(s);
 		String r;
-		if (frame != null) {
-			r = frame.prompt(s);
+		if (project != null) {
+			r = project.prompt(s);
 		} else {
 			r = null;
 		}
@@ -577,7 +575,7 @@ public class JavascriptScope extends ScriptableObject {
 	public String promptFile(String defaultFilename, String suffices, boolean saveMode) {
 		System.out.print("prompting for " + (saveMode ? "saving" : "loading") + ", default " + defaultFilename + ":");
 		String r;
-		if (frame != null) {
+		if (project != null) {
 			String[][] s = null;
 			boolean directoryMode = false;
 			if (suffices != null) {
@@ -601,7 +599,7 @@ public class JavascriptScope extends ScriptableObject {
 			} else {
 				s = new String[0][0];
 			}
-			r = frame.promptFile(defaultFilename, s, saveMode, directoryMode);
+			r = project.promptFile(defaultFilename, s, saveMode, directoryMode);
 		} else {
 			r = null;
 		}
@@ -732,7 +730,7 @@ public class JavascriptScope extends ScriptableObject {
 	}*/
 
 	public void panic() {
-		frame.getProjectContainer().getSequencer().panic();
+		project.getSequencer().panic();
 	}
 	
 	public int shellExecute(String cmd, boolean fork) {
@@ -744,7 +742,7 @@ public class JavascriptScope extends ScriptableObject {
 				return p.waitFor();
 			}
 		} catch (Exception e) {
-			frame.error(e);
+			project.error(e);
 			return -1;
 		}
 	}
@@ -817,15 +815,15 @@ public class JavascriptScope extends ScriptableObject {
 		}
 		
 		public void setPosition(int tick) {
-			frame.getProjectContainer().getSequencer().setTickPosition(tick);
+			project.getSequencer().setTickPosition(tick);
 		}
 		
 		public int getPosition() {
-			return (int)frame.getProjectContainer().getSequencer().getTickPosition();
+			return (int)project.getSequencer().getTickPosition();
 		}
 
 		public void play() {
-			(new StartAction(frame)).actionPerformed(null);
+			(new StartAction(project)).actionPerformed(null);
 			/*FrinikaSequencer sequencer = frame.getProjectContainer().getSequencer();
 			if ( ! sequencer.isRunning() ) {
 				sequencer.start();
@@ -833,7 +831,7 @@ public class JavascriptScope extends ScriptableObject {
 		}
 
 		public void playUntil(final int tick) {
-			FrinikaSequencer sequencer = frame.getProjectContainer().getSequencer();
+			FrinikaSequencer sequencer = project.getSequencer();
 			long current = sequencer.getTickPosition();
 			if (tick <= current) return;
 			
@@ -841,7 +839,7 @@ public class JavascriptScope extends ScriptableObject {
 			final Object lock = new Object();
 			SongPositionListener spl = new SongPositionListener() {
 				public void notifyTickPosition(long t) {
-					FrinikaSequencer sequencer = frame.getProjectContainer().getSequencer();
+					FrinikaSequencer sequencer = project.getSequencer();
 					if (t >= tick) {
 						sequencer.stop();
 						synchronized (lock) {
@@ -873,19 +871,19 @@ public class JavascriptScope extends ScriptableObject {
 		}
 
 		public void stop() {
-			(new StopAction(frame)).actionPerformed(null);
+			(new StopAction(project)).actionPerformed(null);
 			//FrinikaSequencer sequencer = frame.getProjectContainer().getSequencer();
 			//sequencer.stop();
 		}
 
 		public void rewind() {
-			(new RewindAction(frame)).actionPerformed(null);
+			(new RewindAction(project)).actionPerformed(null);
 			//FrinikaSequencer sequencer = frame.getProjectContainer().getSequencer();
 			//sequencer.setTickPosition(0);
 		}
 
 		public void record() {
-			(new RecordAction(frame)).actionPerformed(null);
+			(new RecordAction(project)).actionPerformed(null);
 			//FrinikaSequencer sequencer = frame.getProjectContainer().getSequencer();
 			//sequencer.startRecording();
 		}
@@ -896,7 +894,7 @@ public class JavascriptScope extends ScriptableObject {
 				try {
 					p.saveProject(file);
 				} catch (Throwable t) {
-					frame.error(t);
+					project.error(t);
 				}
 			} else {
 				// nop (script must test whether filename valid)
@@ -911,36 +909,40 @@ public class JavascriptScope extends ScriptableObject {
 											// lastSaved... value of project
 											// like manual saving
 				} catch (Throwable t) {
-					frame.error(t);
+					project.error(t);
 				}
 			} else {
-				frame.error("Invalid filename for saving '" + filename + "'.");
+				project.error("Invalid filename for saving '" + filename + "'.");
 			}
 		}
 
 		public void open(String filename) {
 			// opens a new project, but we don't have a reference to it, so no
 			// further automatic scripting from here on the new project
+                        throw new UnsupportedOperationException("Not supported yet.");
+                        // TODO
+                        /*
 			try {
 				new ProjectFrame(ProjectContainer
 						.loadProject(new File(filename)));
 			} catch (Throwable t) {
-				frame.error(t);
-			}
+				project.error(t);
+			} */
 		}
 
 		public void createNew() {
 			// new project, but same restrictions as with open apply
+                        // TODO
+                        /*
 			try {
 				new ProjectFrame(new ProjectContainer());
 			} catch (Exception e) {
-				frame.error(e);
-			}
+				project.error(e);
+			} */
 		}
 
 		public Object newLane(String name, int type) {
 			com.frinika.sequencer.model.Lane lane;
-			ProjectContainer project = frame.getProjectContainer();
 			switch (type) {
 			case TYPE_MIDI:
 				//(new CreateMidiLaneAction(frame)).actionPerformed(null);
@@ -957,7 +959,7 @@ public class JavascriptScope extends ScriptableObject {
 				project.getEditHistoryContainer().mark(getMessage("sequencer.project.add_text_lane"));
 				lane = project.createTextLane();
 				break;
-			default: frame.error("cannot create new lane, unknown type " + type);
+			default: project.error("cannot create new lane, unknown type " + type);
 				return null;
 			}
 			lane.setName(name);
@@ -1001,7 +1003,7 @@ public class JavascriptScope extends ScriptableObject {
 		}
 
 		public int getIndex() {
-			return frame.getProjectContainer().getLanes().indexOf(l);
+			return project.getLanes().indexOf(l);
 		}
 
 		public String getName() {
@@ -1026,7 +1028,6 @@ public class JavascriptScope extends ScriptableObject {
 		}
 		
 		public Object newPartOfType(int startTick, int duration, int type) {
-			ProjectContainer project = frame.getProjectContainer();
 
 			if (typeName(type) == null) { // type-value may be left out
 				type = this.getType();
@@ -1040,7 +1041,7 @@ public class JavascriptScope extends ScriptableObject {
 			} else if (type == TYPE_TEXT) {
 				part = new TextPart((TextLane) l);
 			} else {
-				frame.error("cannot create new part, unknown type " + type);
+				project.error("cannot create new part, unknown type " + type);
 				return null;
 			}
 
@@ -1067,8 +1068,8 @@ public class JavascriptScope extends ScriptableObject {
 
 		public void remove() {
 			//l.setSelected(true);
-			frame.getProjectContainer().getLaneSelection().setSelected(l);
-			(new DeleteAction(frame.getProjectContainer())).actionPerformed(null);
+			project.getLaneSelection().setSelected(l);
+			(new DeleteAction(project)).actionPerformed(null);
 		}
 
 		// MidiLanes
@@ -1203,8 +1204,8 @@ public class JavascriptScope extends ScriptableObject {
 
 		public void remove() {
 			//p.setSelected(true);
-			frame.getProjectContainer().getPartSelection().setSelected(p);
-			(new DeleteAction(frame.getProjectContainer())).actionPerformed(null);
+			project.getPartSelection().setSelected(p);
+			(new DeleteAction(project)).actionPerformed(null);
 		}
 		
 		public int getStartTick() {
@@ -1255,7 +1256,6 @@ public class JavascriptScope extends ScriptableObject {
 
 		public void insertNote(int note, int tick, int duration, int velocity) {
 			if (type == TYPE_MIDI) {
-				ProjectContainer project = frame.getProjectContainer();
 				project.getEditHistoryContainer().mark(getMessage("sequencer.pianoroll.add_note"));
 
 				NoteEvent newNote = new NoteEvent((MidiPart) p, tick, note, velocity, ((MidiPart) p).getMidiChannel(), duration);
@@ -1269,7 +1269,6 @@ public class JavascriptScope extends ScriptableObject {
 
 		public void removeNote(int note, int tick) { // TODO test
 			if (type == TYPE_MIDI) {
-				ProjectContainer project = frame.getProjectContainer();
 				project.getEditHistoryContainer().mark(
 						getMessage("sequencer.pianoroll.add_note"));
 
@@ -1340,8 +1339,8 @@ public class JavascriptScope extends ScriptableObject {
 				part = new Part(first.getPart(), (Lane) lane);
 			} else { // no events selected, but maybe at least a part?
 						// (multiple part selection not supprted)
-				Collection<com.frinika.sequencer.model.Part> partSelection = frame
-						.getProjectContainer().getPartSelection().getSelected();
+				Collection<com.frinika.sequencer.model.Part> partSelection = project
+						.getPartSelection().getSelected();
 				if (!partSelection.isEmpty()) {
 					com.frinika.sequencer.model.Part prt = partSelection
 							.iterator().next();
@@ -1351,8 +1350,8 @@ public class JavascriptScope extends ScriptableObject {
 					lane = new Lane(prt.getLane());
 					part = new Part(prt, (Lane) lane);
 				} else { // no part selected either, at least a lane?
-					Collection<com.frinika.sequencer.model.Lane> laneSelection = frame
-							.getProjectContainer().getLaneSelection()
+					Collection<com.frinika.sequencer.model.Lane> laneSelection = project
+							.getLaneSelection()
 							.getSelected();
 					if (!laneSelection.isEmpty()) {
 						com.frinika.sequencer.model.Lane ln = laneSelection
@@ -1440,7 +1439,9 @@ public class JavascriptScope extends ScriptableObject {
 	}
 
 	protected void initMenu() {
-		JMenuBar menuBar = frame.getJMenuBar();
+            throw new UnsupportedOperationException("Not supported yet.");
+            /*
+		JMenuBar menuBar = project.getJMenuBar();
 		Object[][] o = new Object[menuBar.getMenuCount()][];
 		for (int i = 0; i < o.length; i++) {
 			final JMenu menu = menuBar.getMenu(i);
@@ -1462,6 +1463,7 @@ public class JavascriptScope extends ScriptableObject {
 			}).toArray();
 		}
 		this.menu = o;
+            */
 	}
 
 	// --- tools ---

@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.FrinikaSequencer;
 
 public class StopAction extends AbstractAction {
@@ -19,10 +19,10 @@ public class StopAction extends AbstractAction {
 	private FrinikaSequencer sequencer;
 	private ProjectContainer project;
 	
-	public StopAction(ProjectFrame project) {
+	public StopAction(ProjectContainer project) {
 		super(getMessage("sequencer.project.start_stop"));
-		this.sequencer=project.getProjectContainer().getSequencer();
-		this.project=project.getProjectContainer();
+		this.sequencer=project.getSequencer();
+		this.project=project;
 		
 	//	putValue(ACCELERATOR_KEY,KeyStroke.getKeyStroke(
 	//			KeyEvent.VK_SPACE,0));

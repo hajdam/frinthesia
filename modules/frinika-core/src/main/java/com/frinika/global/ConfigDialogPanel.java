@@ -24,12 +24,12 @@
 
 package com.frinika.global;
 
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.gui.util.PropertiesEditor;
 import java.util.Collection;
 import java.util.Vector;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;

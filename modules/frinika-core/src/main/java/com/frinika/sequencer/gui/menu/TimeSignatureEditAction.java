@@ -23,6 +23,7 @@
 package com.frinika.sequencer.gui.menu;
 
 import static com.frinika.localization.CurrentLocale.getMessage;
+import com.frinika.project.ProjectContainer;
 
 import java.awt.event.ActionEvent;
 
@@ -34,7 +35,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.model.timesignature.TimeSignatureList;
 import com.frinika.sequencer.model.timesignature.TimeSignatureList.TimeSignatureEvent;
 
@@ -51,7 +52,7 @@ public class TimeSignatureEditAction extends AbstractAction {
 	private TimeSignatureList list;
 
 	public TimeSignatureEditAction(ProjectFrame project) {
-		super(getMessage("sequencer.project.edit_timesignature"), ProjectFrame
+		super(getMessage("sequencer.project.edit_timesignature"), ProjectContainer
 				.getIconResource("timesig.png"));
 		this.project = project;
 		this.list = project.getProjectContainer().getTimeSignatureList();

@@ -24,7 +24,6 @@
 package com.frinika.sequencer.gui.pianoroll;
 
 
-import com.frinika.project.ProjectContainer;
 import com.frinika.sequencer.gui.MyAbstractTableModel;
 import com.frinika.sequencer.gui.menu.midi.MidiStepRecordAction;
 import com.frinika.sequencer.model.MultiEvent;
@@ -33,6 +32,7 @@ import com.frinika.sequencer.model.NoteEvent;
 import com.frinika.sequencer.model.util.TimeUtils;
 
 import static com.frinika.localization.CurrentLocale.getMessage;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 /**
  * @author Peter Johan Salomonsen
@@ -66,7 +66,7 @@ public class MultiEventTableModel extends MyAbstractTableModel {
 	int quantize;
 	TimeUtils time;
 	
-	public MultiEventTableModel(ProjectContainer project,MultiEvent note, int quantize, int ticksPerBeat) {
+	public MultiEventTableModel(AbstractSequencerProjectContainer project,MultiEvent note, int quantize, int ticksPerBeat) {
 		this.event = note;
 		this.quantize = quantize;
 		this.ticksPerBeat = ticksPerBeat;

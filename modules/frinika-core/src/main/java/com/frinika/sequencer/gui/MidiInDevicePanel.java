@@ -29,7 +29,6 @@ import java.util.Vector;
 
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.MidiDevice.Info;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
@@ -37,7 +36,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.frinika.global.FrinikaConfig;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.tootX.midi.MidiInDeviceManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 //
@@ -73,7 +72,7 @@ public class MidiInDevicePanel extends JPanel {
 				}
 				FrinikaConfig.setMidiInDeviceList(list);
 				FrinikaConfig.store();
-				ProjectFrame.midiInDeviceChange();
+				midiInDeviceChange();
 			}
 		};
 
@@ -114,5 +113,10 @@ public class MidiInDevicePanel extends JPanel {
 		f.setContentPane(new MidiInDevicePanel());
 		f.pack();
 		f.setVisible(true);
+	}
+
+	public static void midiInDeviceChange() {
+		System.out.println("MIDIIN CHANGER");
+		MidiInDeviceManager.reset(FrinikaConfig.getMidiInDeviceList());
 	}
 }

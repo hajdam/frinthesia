@@ -30,7 +30,7 @@ import java.io.File;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.model.AudioLane;
 import com.frinika.sequencer.model.AudioPart;
 import com.frinika.sequencer.model.Lane;

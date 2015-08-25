@@ -55,11 +55,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.gui.DefaultOptionsBinder;
 import com.frinika.gui.util.FontChooser;
 import com.frinika.gui.util.PresentationPanel;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 
 
 /**
@@ -338,7 +338,7 @@ public class FrinikaConfig {
 				showingDialog.dispose();
 			}
 		}
-		showingDialogFrame = frame;
+		showingDialogFrame = frame.getFrame();
 		showingDialog = createDialog(frame);
 		showingDialog.show();
 	}
@@ -663,7 +663,7 @@ public class FrinikaConfig {
 		if (directory) {
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		}
-		fc.showDialog(frame, "Choose");
+		fc.showDialog(frame.getFrame(), "Choose");
 		file = fc.getSelectedFile();
 		if (file != null) {
 			s = fileToString(file);
@@ -674,7 +674,7 @@ public class FrinikaConfig {
 	public static void pickFont(ProjectFrame frame, JTextField boundTextField) {
 		String s = boundTextField.getText();
 		Font font = stringToFont(s);
-		font = FontChooser.showDialog(frame, "Pick Font...", font);
+		font = FontChooser.showDialog(frame.getFrame(), "Pick Font...", font);
 		if (font != null) {
 			s = fontToString(font);
 			boundTextField.setText(s);

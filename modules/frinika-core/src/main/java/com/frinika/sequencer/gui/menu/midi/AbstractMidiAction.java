@@ -24,8 +24,6 @@
 
 package com.frinika.sequencer.gui.menu.midi;
 
-import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.gui.partview.PartView;
 import com.frinika.sequencer.gui.pianoroll.PianoRoll;
 import com.frinika.sequencer.gui.selection.MidiSelection;
@@ -34,6 +32,7 @@ import com.frinika.sequencer.model.NoteEvent;
 import com.frinika.sequencer.model.MidiLane;
 import com.frinika.sequencer.model.MidiPart;
 import com.frinika.gui.AbstractDialogAction;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import javax.swing.JMenuItem;
 
 import java.awt.KeyboardFocusManager;
@@ -53,12 +52,11 @@ abstract public class AbstractMidiAction extends AbstractDialogAction {
 	protected long lastTick;
 	protected long endTick;
 
-	public AbstractMidiAction(ProjectFrame frame, String actionId) {
-		super(frame, actionId);
+	public AbstractMidiAction(AbstractSequencerProjectContainer project, String actionId) {
+		super(project, actionId);
 	}
 	
 	public void performPrepare() {
-		ProjectContainer project = frame.getProjectContainer();
 		MidiSelection m = project.getMidiSelection();
 		events = m.getSelected();
 		if ((events == null) || (events.isEmpty())) {

@@ -52,9 +52,9 @@ import javax.swing.JPanel;
 
 import rasmus.midi.provider.RasmusSynthesizer;
 
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.gui.mixer.MidiDeviceIconProvider;
 import com.frinika.sequencer.model.MidiLane;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import com.frinika.synth.Synth;
 
 /**
@@ -469,8 +469,8 @@ public class DrumMapper implements MidiDevice, MidiDeviceIconProvider {
 		defaultDevice = midiDevice;
 	}
 
-	public JPanel getGUIPanel(ProjectFrame frame,MidiLane lane) {
-		return new DrumMapperGUI(this, frame.getProjectContainer(),lane);
+	public JPanel getGUIPanel(AbstractSequencerProjectContainer project,MidiLane lane) {
+		return new DrumMapperGUI(this, project,lane);
 	}
 
 

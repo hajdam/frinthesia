@@ -25,13 +25,14 @@
 package com.frinika.sequencer.midi.groovepattern.gui;
 
 import com.frinika.gui.AbstractDialog;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.gui.selection.PartSelection;
 import com.frinika.sequencer.midi.groovepattern.GroovePatternManager;
 import com.frinika.sequencer.midi.groovepattern.GroovePattern;
 import com.frinika.sequencer.midi.groovepattern.GroovePatternFromSequence;
 import com.frinika.sequencer.model.MidiPart;
 import com.frinika.sequencer.model.Part;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 import java.awt.Point;
 import java.io.File;
@@ -239,7 +240,7 @@ public class GroovePatternManagerDialog extends AbstractDialog {
 
     /**
      * 
-     * @param frame
+     * @param project
      * @see com.frinika.sequencer.gui.menu.midi.GroovePatternCreateFromMidiPart 
      */
     public static void interactionImportGroovePatternFromMidiPartSelection(ProjectFrame frame) {

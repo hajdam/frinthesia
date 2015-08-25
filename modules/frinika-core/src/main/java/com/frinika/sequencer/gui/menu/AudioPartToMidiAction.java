@@ -30,7 +30,7 @@ import javax.swing.AbstractAction;
 
 import com.frinika.sequencer.model.audio.AudioPartToMidi;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.model.AudioPart;
 import com.frinika.sequencer.model.MidiLane;
 import com.frinika.sequencer.model.MidiPart;

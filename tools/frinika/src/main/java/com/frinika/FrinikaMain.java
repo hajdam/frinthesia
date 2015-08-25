@@ -1,27 +1,23 @@
 package com.frinika;
 
-import com.frinika.SplashDialog;
-import com.frinika.WelcomeDialog;
 import com.frinika.global.FrinikaConfig;
 import com.frinika.global.Toolbox;
 import static com.frinika.localization.CurrentLocale.getMessage;
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.project.ProjectContainer;
+import com.frinika.project.gui.FrinikaFrame;
 import com.frinika.project.gui.ProjectFocusListener;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.gui.menu.CreateProjectAction;
-import com.frinika.sequencer.gui.menu.OpenProjectAction;
+import com.frinika.project.gui.menu.OpenProjectAction;
 import com.frinika.settings.SetupDialog;
 import com.frinika.tootX.midi.MidiInDeviceManager;
 
-import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.UIManager;
-import net.roydesign.app.Application;
 
 /*
  * Created on Mar 6, 2006
@@ -131,7 +127,7 @@ public class FrinikaMain {
 		exitHook = new FrinikaExitHandler();
 		Runtime.getRuntime().addShutdownHook(exitHook);
 
-		ProjectFrame.addProjectFocusListener(new ProjectFocusListener() {
+		FrinikaFrame.addProjectFocusListener(new ProjectFocusListener() {
 
 			public void projectFocusNotify(ProjectContainer project) {
 				FrinikaAudioSystem.installClient(project.getAudioClient());

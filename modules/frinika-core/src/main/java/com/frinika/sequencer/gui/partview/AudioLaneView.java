@@ -32,7 +32,7 @@ import javax.swing.JComponent;
 
 import uk.org.toot.audio.core.AudioProcess;
 
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.sequencer.gui.ListProvider;
 import com.frinika.sequencer.gui.PopupClient;
 import com.frinika.sequencer.gui.PopupSelectorButton;

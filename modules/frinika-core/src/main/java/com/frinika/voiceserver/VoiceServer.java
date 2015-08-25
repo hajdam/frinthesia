@@ -27,7 +27,7 @@ import java.util.Vector;
 
 import javax.swing.JFrame;
 
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.global.FrinikaConfig;
 
 /**

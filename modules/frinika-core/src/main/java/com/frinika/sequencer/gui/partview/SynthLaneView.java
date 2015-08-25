@@ -59,11 +59,12 @@ import javax.swing.JSeparator;
 
 import com.frinika.global.FrinikaConfig;
 import com.frinika.project.MidiDeviceDescriptor;
-import com.frinika.project.SoundBankNameHolder;
+import com.frinika.sequencer.project.SoundBankNameHolder;
 import com.frinika.project.SynthesizerDescriptor;
 import com.frinika.sequencer.gui.mixer.SynthWrapper;
 import com.frinika.sequencer.model.Lane;
 import com.frinika.sequencer.model.SynthLane;
+import com.frinika.sequencer.project.MidiDeviceDescriptorIntf;
 import com.frinika.soundbank.JARSoundbankLoader;
 import com.frinika.synth.importers.soundfont.SoundFontFileFilter;
 import java.awt.event.ActionListener;
@@ -73,7 +74,7 @@ public class SynthLaneView extends LaneView {
 	private static final long serialVersionUID = 1L;
 
 	SynthLane synthlane;
-	MidiDeviceDescriptor midiDescriptor;
+	MidiDeviceDescriptorIntf midiDescriptor;
 	MidiDevice midiDevice;
 	MidiDevice realDevice;
 	SynthWrapper synthWrapper = null;

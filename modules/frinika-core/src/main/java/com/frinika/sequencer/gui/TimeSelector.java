@@ -25,7 +25,7 @@
 package com.frinika.sequencer.gui;
 
 import com.frinika.sequencer.model.util.TimeUtils;
-import com.frinika.project.ProjectContainer;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
@@ -84,9 +84,9 @@ public class TimeSelector extends JPanel {
 	private JList listBox;
 	private boolean multiLine;
 	private TimeUtils timeUtil;
-	private ProjectContainer project;
+	private AbstractSequencerProjectContainer project;
 	
-	public TimeSelector(String label, long defaultTicks, boolean allowNegative, ProjectContainer project, TimeFormat format, boolean multiLine) {
+	public TimeSelector(String label, long defaultTicks, boolean allowNegative, AbstractSequencerProjectContainer project, TimeFormat format, boolean multiLine) {
 		this.project = project;
 		this.format = format;
 		this.multiLine = multiLine;
@@ -169,56 +169,56 @@ public class TimeSelector extends JPanel {
 		}
 	}
 
-	public TimeSelector(String label, long defaultTicks, ProjectContainer project, TimeFormat format, boolean multiLine) {
+	public TimeSelector(String label, long defaultTicks, AbstractSequencerProjectContainer project, TimeFormat format, boolean multiLine) {
 		this(label, defaultTicks, false, project, format, multiLine);
 	}
 
-	public TimeSelector(String label, long defaultTicks, ProjectContainer project, TimeFormat format) {
+	public TimeSelector(String label, long defaultTicks, AbstractSequencerProjectContainer project, TimeFormat format) {
 		this(label, defaultTicks, project, format, false);
 	}
 	
-	public TimeSelector(String label, long defaultTicks, boolean allowNegative, ProjectContainer project, TimeFormat format) {
+	public TimeSelector(String label, long defaultTicks, boolean allowNegative, AbstractSequencerProjectContainer project, TimeFormat format) {
 		this(label, defaultTicks, allowNegative, project, format, false);
 	}
 	
-	public TimeSelector(String label, String defaultStr, ProjectContainer project, TimeFormat format, boolean multiLine) {
+	public TimeSelector(String label, String defaultStr, AbstractSequencerProjectContainer project, TimeFormat format, boolean multiLine) {
 		this(null, 0l, project, format, multiLine);
 		setString(defaultStr);
 	}
 
-	public TimeSelector(String label, String defaultStr, ProjectContainer project, TimeFormat format) {
+	public TimeSelector(String label, String defaultStr, AbstractSequencerProjectContainer project, TimeFormat format) {
 		this(null, 0l, project, format, false);
 	}
 
-	public TimeSelector(String defaultStr, ProjectContainer project, TimeFormat format, boolean multiLine) {
+	public TimeSelector(String defaultStr, AbstractSequencerProjectContainer project, TimeFormat format, boolean multiLine) {
 		this(null, defaultStr, project, format, multiLine);
 	}
 
-	public TimeSelector(String defaultStr, ProjectContainer project, TimeFormat format) {
+	public TimeSelector(String defaultStr, AbstractSequencerProjectContainer project, TimeFormat format) {
 		this(null, defaultStr, project, format, false);
 	}
 
-	public TimeSelector(long defaultTicks, ProjectContainer project, TimeFormat format, boolean multiLine) {
+	public TimeSelector(long defaultTicks, AbstractSequencerProjectContainer project, TimeFormat format, boolean multiLine) {
 		this(null, defaultTicks, project, format,multiLine);
 	}
 	
-	public TimeSelector(ProjectContainer project, TimeFormat format, boolean multiLine) {
+	public TimeSelector(AbstractSequencerProjectContainer project, TimeFormat format, boolean multiLine) {
 		this(0l, project, format, multiLine);
 	}
 	
-	public TimeSelector(long defaultTicks, ProjectContainer project, TimeFormat format) {
+	public TimeSelector(long defaultTicks, AbstractSequencerProjectContainer project, TimeFormat format) {
 		this(null, defaultTicks, project, format, false);
 	}
 	
-	public TimeSelector(long defaultTicks, boolean allowNegative, ProjectContainer project, TimeFormat format) {
+	public TimeSelector(long defaultTicks, boolean allowNegative, AbstractSequencerProjectContainer project, TimeFormat format) {
 		this(null, defaultTicks, allowNegative, project, format, false);
 	}
 	
-	public TimeSelector(ProjectContainer project, TimeFormat format) {
+	public TimeSelector(AbstractSequencerProjectContainer project, TimeFormat format) {
 		this(0l, project, format, false);
 	}
 	
-	public TimeSelector(ProjectContainer project) {
+	public TimeSelector(AbstractSequencerProjectContainer project) {
 		this(project, TimeFormat.BAR_BEAT_TICK);
 	}
 	
@@ -324,7 +324,7 @@ public class TimeSelector extends JPanel {
 		return formatStringImpl(ticks, timeUtil, format);
 	}
 	
-	private static long parseStringImpl(String s, TimeUtils timeUtil, TimeFormat format, ProjectContainer project) {
+	private static long parseStringImpl(String s, TimeUtils timeUtil, TimeFormat format, AbstractSequencerProjectContainer project) {
 		int sgn = 1;
 		s = s.trim();
 		if (s.length() == 0) return 0;

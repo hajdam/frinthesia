@@ -7,7 +7,7 @@ package com.frinika.versionmanagement;
 
 import com.frinika.VersionProperties;
 import com.frinika.global.FrinikaConfig;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.lightminds.appletservice.AppletServiceClient;
 import com.lightminds.appletservice.AppletServiceClientProxy;
 import java.awt.BorderLayout;
@@ -58,7 +58,7 @@ public class AutomaticVersionCheck {
                                 newVersionDialogPanel.add(automaticCheckNewVersionCheckBox,BorderLayout.SOUTH);
                                 
                                 if(versionNumeric<fvm.getLatestFrinikaVersion())
-                                    JOptionPane.showMessageDialog(pf, newVersionDialogPanel );
+                                    JOptionPane.showMessageDialog(pf.getFrame(), newVersionDialogPanel );
                                 else
                                     Logger.getLogger(AutomaticVersionCheck.class.getName()).info("Checked for new Frinika version - no new versions exist");
 

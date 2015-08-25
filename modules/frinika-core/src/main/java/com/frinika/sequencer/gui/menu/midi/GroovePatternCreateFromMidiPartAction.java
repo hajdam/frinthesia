@@ -25,12 +25,12 @@
 package com.frinika.sequencer.gui.menu.midi;
 
 import static com.frinika.localization.CurrentLocale.getMessage;
+import com.frinika.sequencer.gui.ProjectFrame;
 
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.midi.groovepattern.gui.GroovePatternManagerDialog;
 
 /**

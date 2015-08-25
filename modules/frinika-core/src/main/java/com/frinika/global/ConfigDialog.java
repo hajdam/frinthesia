@@ -25,7 +25,7 @@
 package com.frinika.global;
 
 import com.frinika.gui.OptionsBinder;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 
 /**
  * Dialog to display global configuration.
@@ -36,13 +36,13 @@ import com.frinika.project.gui.ProjectFrame;
  */
 public class ConfigDialog extends javax.swing.JDialog {
     
-	protected ProjectFrame parent;
+    protected ProjectFrame parent;
     protected OptionsBinder optionsBinder;
     protected boolean hasBeenApplied = false;
     
     /** Creates new form ConfigDialog */
     public ConfigDialog(ProjectFrame parent, OptionsBinder optionsBinder) {
-        super(parent, false);
+        super(parent.getFrame(), false);
         this.parent = parent;
         this.optionsBinder = optionsBinder;
         initComponents();

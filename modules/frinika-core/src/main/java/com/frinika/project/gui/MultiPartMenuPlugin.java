@@ -4,7 +4,7 @@
  */
 package com.frinika.project.gui;
 
-import com.frinika.project.MultiPart;
+import com.frinika.sequencer.project.MultiPart;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;

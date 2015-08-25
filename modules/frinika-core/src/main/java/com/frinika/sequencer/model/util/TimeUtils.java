@@ -27,6 +27,7 @@ package com.frinika.sequencer.model.util;
 import com.frinika.project.ProjectContainer;
 import com.frinika.sequencer.model.timesignature.TimeSignatureList;
 import com.frinika.sequencer.model.timesignature.TimeSignatureList.TimeSignatureEvent;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 /**
  * Helper class to convert ticks into the display format and visa versa
@@ -69,7 +70,7 @@ public class TimeUtils {
 	 * 
 	 * @param proj
 	 */
-	public TimeUtils(ProjectContainer proj) {   // could get rid of this ?
+	public TimeUtils(AbstractSequencerProjectContainer proj) {   // could get rid of this ?
 		this(proj.getSequence().getResolution(), proj.getTimeSignatureList());
 	}
 

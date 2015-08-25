@@ -24,9 +24,11 @@
 
 package com.frinika.sequencer.gui.menu;
 
+import com.frinika.gui.AbstractDialog;
 import static com.frinika.localization.CurrentLocale.getMessage;
+import com.frinika.project.ProjectContainer;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.project.scripting.FrinikaScript;
 import com.frinika.project.scripting.gui.ScriptingDialog;
 import javax.swing.AbstractAction;
@@ -53,26 +55,26 @@ public class ScriptingAction extends AbstractAction {
 
 	public final static String actionId = "sequencer.project.scripting"; // also accessed by ScriptingDialog
 
-	private ProjectFrame frame;
+	private ProjectContainer project;
 	private FrinikaScript script; 
 	private ScriptingDialog scriptingDialog;
 
 	
-	public ScriptingAction(ProjectFrame frame) {
+	public ScriptingAction(ProjectContainer project) {
 		super(getMessage(actionId));
-		this.frame = frame;
+		this.project = project;
 		script = null;
 	}
 	
-	public ScriptingAction(ProjectFrame frame, FrinikaScript script) {
+	public ScriptingAction(ProjectContainer project, FrinikaScript script) {
 		super(script.getName());
-		this.frame = frame;
+		this.project = project;
 		this.script = script;
 		scriptingDialog = null;
 	}
 
 	public void initDialog(JMenu scriptingSubmenu) { // must be called extra, after menu-item as been added to submenu
-		scriptingDialog = new ScriptingDialog(frame, scriptingSubmenu);
+		scriptingDialog = new ScriptingDialog(new AbstractDialog(), project, scriptingSubmenu);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -84,7 +86,7 @@ public class ScriptingAction extends AbstractAction {
                         scriptingDialog.setVisible(true);
                     }
 		} else {
-			frame.getProjectContainer().getScriptingEngine().executeScript(script, frame, null);
+			project.getScriptingEngine().executeScript(script, project, null);
 		}
 	}
 }

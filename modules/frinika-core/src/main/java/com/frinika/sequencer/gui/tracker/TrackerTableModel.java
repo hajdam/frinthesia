@@ -32,8 +32,6 @@ import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
-import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.FrinikaSequence;
 import com.frinika.sequencer.FrinikaSequencer;
 import com.frinika.sequencer.model.ChannelEvent;
@@ -48,6 +46,7 @@ import com.frinika.sequencer.model.NoteEvent;
 import com.frinika.sequencer.model.PitchBendEvent;
 import com.frinika.sequencer.model.SysexEvent;
 import com.frinika.sequencer.model.util.TimeUtils;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 /**
  * @author Peter Johan Salomonsen
@@ -88,11 +87,10 @@ public class TrackerTableModel extends AbstractTableModel implements EditHistory
     double editDuration = 1.0;
 
     TimeUtils timeUtils;
-    ProjectFrame frame;
+    AbstractSequencerProjectContainer project;
     
-    public TrackerTableModel(ProjectFrame frame) {
-    	this.frame = frame;
-    	ProjectContainer project = frame.getProjectContainer();
+    public TrackerTableModel(AbstractSequencerProjectContainer project) {
+    	this.project = project;
         this.sequence = project.getSequence();
         this.ticksPerRow = sequence.getResolution() / 4.0; // Default 1/4th notes
         this.sequencer = project.getSequencer();
@@ -475,7 +473,7 @@ public class TrackerTableModel extends AbstractTableModel implements EditHistory
                 }
                 else if(val == MultiEventCellComponent.EVENT_VALUE_SYSEX) { // Jens
                     SysexEvent event = new SysexEvent(midiPart,getTickForRow(row));
-					event.showEditorGUI(frame);
+					event.showEditorGUI(project);
 					if (event.isSuccessfullyParsed()) {
 	                    midiPart.getEditHistoryContainer().mark(getMessage("sequencer.sysex.new_sysex"));
 	                    addMultiEvent(event,col);
@@ -526,7 +524,7 @@ public class TrackerTableModel extends AbstractTableModel implements EditHistory
 	                        new MultiEventChangeRecorder("change note",me) { 
 	                            public void doChange(MultiEvent me) { ((NoteEvent)me).setNote((Integer)value); }};
 	                    } else if (me instanceof SysexEvent) {
-							((SysexEvent)me).showEditorGUI(frame);
+							((SysexEvent)me).showEditorGUI(project);
 	                    }
 	                    break;
 	                case COLUMN_VELORVAL:

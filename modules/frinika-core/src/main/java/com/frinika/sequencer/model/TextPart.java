@@ -44,7 +44,7 @@ import com.frinika.global.FrinikaConfig;
 import com.frinika.gui.DefaultOptionsBinder;
 import com.frinika.gui.OptionsBinder;
 import com.frinika.gui.OptionsEditor;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.gui.partview.PartView;
 import com.frinika.sequencer.gui.partview.TextPartEditor;
 import java.lang.reflect.Field;

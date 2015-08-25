@@ -25,7 +25,7 @@
 package com.frinika.sequencer.gui.menu;
 
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.gui.AbstractDialogAction;
 import com.frinika.sequencer.gui.partview.PartView;
 import com.frinika.sequencer.gui.selection.SelectionFocusable;
@@ -35,6 +35,7 @@ import com.frinika.sequencer.model.MidiPartGhost;
 import com.frinika.sequencer.model.Lane;
 import com.frinika.sequencer.model.MultiEvent;
 import com.frinika.sequencer.model.Selectable;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import javax.swing.JComponent;
 import javax.swing.JMenuItem;
 
@@ -68,9 +69,9 @@ public class RepeatAction extends AbstractDialogAction {
 	boolean selectionSupportsGhosts;
 	protected Collection<Selectable> list;
 
-	public RepeatAction(ProjectFrame frame) {
-		super(frame, "sequencer.project.repeat");
-		repeatTicks = frame.getProjectContainer().getSequence().getResolution() * 4 * 4; // default: 4 bars
+	public RepeatAction(AbstractSequencerProjectContainer project) {
+		super(project, "sequencer.project.repeat");
+		repeatTicks = project.getSequence().getResolution() * 4 * 4; // default: 4 bars
 		
 	}
 	
@@ -81,11 +82,10 @@ public class RepeatAction extends AbstractDialogAction {
 	}	
 
 	protected JComponent createGUI() {
-		return new RepeatActionEditor(this, frame.getProjectContainer());
+		return new RepeatActionEditor(this, project);
 	}
 
 	protected void performPrepare() {
-		ProjectContainer project = frame.getProjectContainer();
 		SelectionFocusable focus = project.getSelectionFocus();
 		if (focus != null) {
 			list = focus.getObjects();

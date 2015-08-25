@@ -24,7 +24,7 @@
  */
 package com.frinika.renderer;
 
-import com.frinika.project.FrinikaAudioServer;
+import com.frinika.base.FrinikaAudioServer;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -36,7 +36,7 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
 import uk.org.toot.audio.server.NonRealTimeAudioServer;
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.global.FrinikaConfig;
 import com.frinika.project.ProjectContainer;
 import com.frinika.sequencer.FrinikaSequencer;

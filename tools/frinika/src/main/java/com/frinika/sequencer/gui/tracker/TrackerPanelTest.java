@@ -25,8 +25,7 @@ package com.frinika.sequencer.gui.tracker;
 
 import com.frinika.FrinikaMain;
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
-import com.frinika.sequencer.gui.tracker.TrackerPanel;
+import com.frinika.project.gui.FrinikaFrame;
 import com.frinika.sequencer.model.MidiPart;
 import com.frinika.sequencer.model.NoteEvent;
 import java.awt.Dimension;
@@ -49,7 +48,7 @@ public class TrackerPanelTest {
 	// Create a lane
 	com.frinika.sequencer.model.MidiLane lane = proj.createMidiLane();
 
-	ProjectFrame pf = new ProjectFrame(proj);
+	FrinikaFrame pf = new FrinikaFrame(proj);
 	pf.setVisible(false);
 	// Create a MidiPart
         MidiPart part = new MidiPart(lane);
@@ -61,7 +60,7 @@ public class TrackerPanelTest {
         part.add(new NoteEvent(part, 768,64, 100, 0, 128));
         part.setBoundsFromEvents();
 	
-	TrackerPanel tp = new TrackerPanel(proj.getSequence(),pf);
+	TrackerPanel tp = new TrackerPanel(proj.getSequence(), pf.getProjectContainer());
 	tp.setPart(part);
 	frame.add(tp);
 	frame.setVisible(true);

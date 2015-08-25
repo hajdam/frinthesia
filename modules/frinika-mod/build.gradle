@@ -3,24 +3,9 @@ apply plugin: 'java'
 sourceCompatibility = '1.7'
 version = '0.1.0-SNAPSHOT'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'com.frinika.FrinikaMain'
-    ext.appArgs = '-dev'
-}
-
-def configureExec(task) {
-    task.main = mainClass
-    task.classpath = sourceSets.main.runtimeClasspath
-    task.args appArgs
-}
-
-task run(type: JavaExec) {
-    task -> configureExec(task)
-}
-
-task debug(type: JavaExec) {
-    task -> configureExec(task)
-    debug = true
+    ext.mainClass = ''
 }
 
 tasks.withType(JavaCompile) {
@@ -29,6 +14,20 @@ tasks.withType(JavaCompile) {
         options.bootClasspath = "${System.properties['java.home']}/lib/rt.jar"
         options.bootClasspath += "$File.pathSeparator${System.properties['java.home']}/jre/lib/jsse.jar"
     }
+}
+
+task testJar(type: Jar, dependsOn: testClasses) {
+    baseName = "test-${project.archivesBaseName}"
+    from sourceSets.test.output
+    classifier "tests"
+}
+
+configurations {
+    tests
+}
+
+artifacts {
+    tests testJar
 }
 
 repositories {
@@ -45,13 +44,4 @@ dependencies {
     compile(project(':modules:frinika-core'))
     compile ':jmod_0_9k'
     testCompile group: 'junit', name: 'junit', version: '4.10'
-}
-
-jar {
-    manifest {
-        attributes(
-            'Main-Class': mainClass,
-            'Class-Path': configurations.runtime.collect {'../lib/' + it.getName() }.join(' ')
-        )
-    }
 }

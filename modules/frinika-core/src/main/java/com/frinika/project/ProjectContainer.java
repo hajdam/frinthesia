@@ -23,6 +23,10 @@
  */
 package com.frinika.project;
 
+import com.frinika.sequencer.project.SoundBankNameHolder;
+import com.frinika.sequencer.project.RecordingManager;
+import com.frinika.base.FrinikaAudioServer;
+import com.frinika.base.TootMixerSerializer;
 import com.frinika.tootX.midi.MidiDeviceRouter;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -70,18 +74,16 @@ import uk.org.toot.audio.mixer.MixerControlsIds;
 // import uk.org.toot.audio.mixer.MixerControlsDescriptor;
 import uk.org.toot.audio.mixer.MixerControlsFactory;
 import uk.org.toot.audio.server.AudioClient;
-import uk.org.toot.audio.server.AudioServer;
 
 import com.frinika.SplashDialog;
 import com.frinika.audio.toot.AudioInjector;
 
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.tootX.MidiHub;
 import com.frinika.global.ConfigListener;
 import com.frinika.global.FrinikaConfig;
 import com.frinika.midi.DrumMapper;
 import com.frinika.midi.MidiDebugDevice;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.project.scripting.FrinikaScriptingEngine;
 import com.frinika.project.settings.ProjectSettings;
 import com.frinika.renderer.FrinikaRenderer;
@@ -131,6 +133,11 @@ import com.frinika.tootX.midi.MidiRouterSerialization;
 import uk.org.toot.audio.core.Taps;
 import uk.org.toot.misc.Tempo;
 import static com.frinika.localization.CurrentLocale.getMessage;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
+import com.frinika.sequencer.project.MidiDeviceDescriptorIntf;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 /**
  * Use to load Frinika projects.
@@ -147,7 +154,7 @@ import static com.frinika.localization.CurrentLocale.getMessage;
  * 
  * @author Peter Johan Salomonsen
  */
-public class ProjectContainer implements EditHistoryRecorder<Lane>,MidiConsumer,
+public class ProjectContainer extends AbstractSequencerProjectContainer implements EditHistoryRecorder<Lane>,MidiConsumer,
         Serializable,DynamicMixer {
 
     /**
@@ -194,7 +201,7 @@ public class ProjectContainer implements EditHistoryRecorder<Lane>,MidiConsumer,
     /**
      * Information about the midi devices used in this project
      */
-    List<MidiDeviceDescriptor> midiDeviceDescriptors = new ArrayList<MidiDeviceDescriptor>();
+    List<MidiDeviceDescriptorIntf> midiDeviceDescriptors = new ArrayList<MidiDeviceDescriptorIntf>();
     /**
      * Used to map midiDevices when saving
      */
@@ -1452,7 +1459,7 @@ public class ProjectContainer implements EditHistoryRecorder<Lane>,MidiConsumer,
                 this.midiDeviceDescriptors.clear();
             } else // Or convert this into a new project version
             {
-                this.midiDeviceDescriptors = new ArrayList<MidiDeviceDescriptor>();
+                this.midiDeviceDescriptors = new ArrayList<MidiDeviceDescriptorIntf>();
             }
             this.midiDeviceDescriptorMap = new HashMap<MidiDevice, MidiDeviceDescriptor>();
 
@@ -1537,9 +1544,9 @@ public class ProjectContainer implements EditHistoryRecorder<Lane>,MidiConsumer,
      */
     public void installMidiDevices() {
         this.midiDeviceDescriptorMap = new HashMap<MidiDevice, MidiDeviceDescriptor>();
-        for (MidiDeviceDescriptor midiDeviceDescriptor : midiDeviceDescriptors) {
+        for (MidiDeviceDescriptorIntf midiDeviceDescriptor : midiDeviceDescriptors) {
             System.out.println("Installing Midi device: " + midiDeviceDescriptor.getMidiDeviceName() + " as " + midiDeviceDescriptor.getProjectName());
-            midiDeviceDescriptor.install(this);
+            ((MidiDeviceDescriptor) midiDeviceDescriptor).install(this);
         }
     }
 
@@ -1874,6 +1881,21 @@ public class ProjectContainer implements EditHistoryRecorder<Lane>,MidiConsumer,
 
     }
 
+    @Override
+    public void loadMidiOutDevice(MidiDeviceDescriptorIntf descriptor) throws MidiUnavailableException {
+
+        this.midiDeviceDescriptorMap.put(descriptor.getMidiDevice(), (MidiDeviceDescriptor) descriptor);
+        sequencer.addMidiOutDevice(descriptor.getMidiDevice());
+        midiOutList.add(descriptor.getMidiDevice()); // PJL keep note of open
+    // devices
+
+    }
+
+    @Override
+    public int getMidiDeviceDescriptorIndex(MidiDevice midiDevice) {
+        return getMidiDeviceDescriptors().indexOf(getMidiDeviceDescriptor(midiDevice));
+    }
+
     /**
      * 
      */
@@ -1906,7 +1928,7 @@ public class ProjectContainer implements EditHistoryRecorder<Lane>,MidiConsumer,
         sequencer.removeMidiOutDevice(midiDevice);
     }
 
-    public List<MidiDeviceDescriptor> getMidiDeviceDescriptors() {
+    public List<MidiDeviceDescriptorIntf> getMidiDeviceDescriptors() {
         return midiDeviceDescriptors;
     }
 
@@ -1926,12 +1948,137 @@ public class ProjectContainer implements EditHistoryRecorder<Lane>,MidiConsumer,
         return outputProcess;
     }
 
-    public void message(String string) {
-        ProjectFrame.staticMessage(this, string);
+    // NBP Added  from ProjectFrame
+    public String promptFile(String defaultFilename, String[][] suffices,
+                    boolean saveMode, boolean directoryMode) { // Jens
+            JFileChooser fc = new JFileChooser();
+            if (!directoryMode) {
+                    final boolean save = saveMode;
+                    // final String[][] suff = suffices;
+                    if (suffices != null) {
+                            for (int i = 0; i < suffices.length; i++) {
+                                    final String suffix = suffices[i][0];
+                                    final String description = suffices[i][1];
+                                    // if (suffix == null) suffix = "*";
+                                    // if (description == null) description = "";
+                                    FileFilter ff = new FileFilter() {
+                                            public boolean accept(File file) {
+                                                    if (file.isDirectory())
+                                                            return true;
+                                                    String name = file.getName();
+                                                    return suffix.equals("*")
+                                                                    || name.endsWith("." + suffix)
+                                                                    || (save && fileDoesntExistAndDoesntEndWithAnySuffix(file));
+                                            }
+
+                                            public String getDescription() {
+                                                    return "." + suffix + " - " + description;
+                                            }
+                                    };
+                                    fc.addChoosableFileFilter(ff);
+                            }
+                    }
+            } else { // directory mode
+                    fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            }
+
+            int r;
+            if (defaultFilename != null) {
+                    File file = new File(defaultFilename);
+                    fc.setSelectedFile(file);
+            }
+            if (saveMode) {
+                    r = fc.showSaveDialog(null);
+            } else {
+                    r = fc.showOpenDialog(null);
+            }
+
+            if (r == JFileChooser.APPROVE_OPTION) {
+                    File file = fc.getSelectedFile();
+                    String name = file.getName();
+                    String extraSuffix = "";
+                    if (name.indexOf('.') == -1) { // no suffix entered
+                            if (suffices != null && suffices.length > 0) {
+                                    extraSuffix = "." + suffices[0][0]; // use first one as
+                                    // default
+                            }
+                    }
+                    String filename = file.getAbsolutePath() + extraSuffix;
+                    if (saveMode) {
+                            File fl = new File(filename);
+                            if (fl.exists()) {
+                                    if (!confirm("File " + filename
+                                                    + " already exists. Overwrite?")) {
+                                            return null;
+                                    }
+                            }
+                    }
+                    return filename;
+            } else {
+                    return null;
+            }
+    }
+
+    public String promptFile(String defaultFilename, String[][] suffices,
+                    boolean saveMode) {
+            return promptFile(defaultFilename, suffices, saveMode, false);
+    }
+
+    public String promptFile(String defaultFilename, String[][] suffices) {
+            return promptFile(defaultFilename, suffices, false);
+    }
+
+    private static boolean fileDoesntExistAndDoesntEndWithAnySuffix(File file) {
+            if (file.exists())
+                    return false;
+            String name = file.getName();
+            return (name.indexOf('.') == -1);
+    }
+    
+    public boolean confirm(String msg) { // Jens
+            int result = JOptionPane.showConfirmDialog(null, msg,
+                            "Frinika Question", JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE); // NBP frame
+            return (result == JOptionPane.OK_OPTION);
+    }
+
+    public void message(String message) {
+        JOptionPane.showMessageDialog(null, message, "Frinika Message", JOptionPane.INFORMATION_MESSAGE);
+        // TODO ProjectFrame.staticMessage(this, string);
 
     }
 
+    public void error(String message) {
+        JOptionPane.showMessageDialog(null, message, "Frinika Error", JOptionPane.ERROR_MESSAGE);
+        // TODO ProjectFrame.staticMessage(this, string);
+
+    }
+
+    public void error(Throwable ex) {
+        JOptionPane.showMessageDialog(null, ex, "Frinika Error", JOptionPane.ERROR_MESSAGE);
+        // TODO ProjectFrame.staticMessage(this, string);
+
+    }
+
+    public String prompt(String msg, String initialValue) { // Jens
+            if (initialValue == null)
+                    initialValue = "";
+            String result = JOptionPane.showInputDialog(null, msg, initialValue); // NBP frame
+            return result;
+    }
+
+    public String prompt(String msg) { // Jens
+            return prompt(msg, null);
+    }
+
     public SynthLane createSynthLane(MidiDeviceDescriptor desc) {
+        SynthLane lane = new SynthLane(this, desc);
+        add(lane);
+        return lane;
+    }
+
+    @Override
+    public SynthLane createSynthLane(MidiDeviceDescriptorIntf desc) {
         SynthLane lane = new SynthLane(this, desc);
         add(lane);
         return lane;

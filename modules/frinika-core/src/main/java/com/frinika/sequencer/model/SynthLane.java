@@ -43,16 +43,16 @@ import uk.org.toot.audio.mixer.MixControls;
 import uk.org.toot.audio.server.AudioServer;
 
 
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.global.FrinikaConfig;
-import com.frinika.project.MidiDeviceDescriptor;
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.FrinikaSequence;
 import com.frinika.sequencer.FrinikaSequencer;
 import com.frinika.sequencer.gui.mixer.MidiDeviceIconProvider;
 import com.frinika.sequencer.gui.mixer.SynthWrapper;
 import com.frinika.audio.io.AudioWriter;
+import com.frinika.sequencer.project.MidiDeviceDescriptorIntf;
 
 public class SynthLane extends Lane implements RecordableLane {
 
@@ -61,7 +61,7 @@ public class SynthLane extends Lane implements RecordableLane {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	MidiDeviceDescriptor midiDeviceDescriptor = null;
+	MidiDeviceDescriptorIntf midiDeviceDescriptor = null;
 
 	private boolean isRendered = false;
 
@@ -87,7 +87,7 @@ public class SynthLane extends Lane implements RecordableLane {
 
 	}
 
-	public SynthLane(ProjectContainer project, MidiDeviceDescriptor desc) {
+	public SynthLane(ProjectContainer project, MidiDeviceDescriptorIntf desc) {
 		super(null, project);
 		install(desc);
 		channelLabel = new MetaInfo(getName());
@@ -149,23 +149,23 @@ public class SynthLane extends Lane implements RecordableLane {
 		if (name != null && midiDeviceDescriptor != null) // evasive null
 			// pointer if
 			midiDeviceDescriptor.setProjectName(name);
-
-		ProjectFrame frame = ProjectFrame.findFrame(project);
+                // TODO Frinthesia
+                /*
+		ProjectFrame frame = project.getfindFrame(project);
 		if (frame != null)
-			frame.getMidiDevicesPanel().updateDeviceTabs();
-
+			frame.getMidiDevicesPanel().updateDeviceTabs(); */
 		channelLabel = new MetaInfo(name);
-
 	}
 
 	public void removeFromModel() {
-
-		ProjectFrame frame = ProjectFrame.findFrame(project);
+            // TODO Frinthesia
+            /*
+		ProjectFrame frame = ProjectContainer.findFrame(project);
 		if (frame != null) {
 			frame.getMidiDevicesPanel().remove(
 					getMidiDescriptor().getMidiDevice());
 			frame.getMidiDevicesPanel().updateDeviceTabs();
-		}
+		} */
 
 		super.removeFromModel();
 	}
@@ -185,7 +185,7 @@ public class SynthLane extends Lane implements RecordableLane {
 
 	}
 
-	public boolean install(MidiDeviceDescriptor desc) {
+	public boolean install(MidiDeviceDescriptorIntf desc) {
 
 		if (midiDeviceDescriptor != null && midiDeviceDescriptor != desc) {
 			try {
@@ -479,7 +479,7 @@ public class SynthLane extends Lane implements RecordableLane {
 		}
 	}
 
-	public MidiDeviceDescriptor getMidiDescriptor() {
+	public MidiDeviceDescriptorIntf getMidiDescriptor() {
 
 		return midiDeviceDescriptor;
 	}

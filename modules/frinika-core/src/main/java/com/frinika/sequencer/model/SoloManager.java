@@ -31,6 +31,7 @@ import javax.sound.midi.MidiDevice;
 
 import com.frinika.project.MidiDeviceDescriptor;
 import com.frinika.project.ProjectContainer;
+import com.frinika.sequencer.project.MidiDeviceDescriptorIntf;
 
 public class SoloManager {
 
@@ -70,7 +71,7 @@ public class SoloManager {
 			if (!(l instanceof SynthLane))
 				continue;
 			SynthLane sl = (SynthLane) l;
-			MidiDeviceDescriptor md = sl.getMidiDescriptor();
+                        MidiDeviceDescriptorIntf md = sl.getMidiDescriptor();
 			if (md.getMidiDevice() == midi)
 				return sl;
 		}

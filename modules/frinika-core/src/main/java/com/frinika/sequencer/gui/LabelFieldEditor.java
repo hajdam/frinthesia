@@ -40,8 +40,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
 
-import com.frinika.project.ProjectContainer;
 import com.frinika.sequencer.model.util.TimeUtils;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 public class LabelFieldEditor extends JPanel {
 
@@ -61,7 +61,7 @@ public class LabelFieldEditor extends JPanel {
 	private TimeUtils timeUtil;
 	private String textBackup = null;
 	
-	public LabelFieldEditor(final MyAbstractTableModel model,final int column, ProjectContainer project) {
+	public LabelFieldEditor(final MyAbstractTableModel model,final int column, AbstractSequencerProjectContainer project) {
 		timeUtil = new TimeUtils(project);
 //System.out.println("COLUMN-CLASS: #"+column+" "+model.getColumnClass(column).getName());		
 		setLayout(new FlowLayout(FlowLayout.CENTER,2,0));
@@ -87,7 +87,7 @@ public class LabelFieldEditor extends JPanel {
 	
 	boolean isUpdateing = false;
 	
-	protected JComponent createEditor(final MyAbstractTableModel model, int columnIndex, ProjectContainer project) {
+	protected JComponent createEditor(final MyAbstractTableModel model, int columnIndex, AbstractSequencerProjectContainer project) {
 		// hard-code different types of editors by index-number... not too beautiful, but effective
 		switch (column) {
 			case 0: // start-tick

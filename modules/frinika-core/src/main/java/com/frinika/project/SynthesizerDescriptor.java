@@ -1,5 +1,6 @@
 package com.frinika.project;
 
+import com.frinika.sequencer.project.SoundBankNameHolder;
 import java.io.File;
 
 import javax.sound.midi.MidiSystem;
@@ -7,6 +8,7 @@ import javax.sound.midi.Soundbank;
 import javax.sound.midi.Synthesizer;
 
 import com.frinika.sequencer.gui.mixer.SynthWrapper;
+import com.frinika.sequencer.project.SynthesizerDescriptorIntf;
 /*
  * Created on Sep 19, 2006
  *
@@ -37,7 +39,7 @@ import com.frinika.sequencer.gui.mixer.SynthWrapper;
  * resources neccesary for re-opening the correct midi device.
  * @author Peter Johan Salomonsen
  */
-public class SynthesizerDescriptor extends MidiDeviceDescriptor implements SoundBankNameHolder {
+public class SynthesizerDescriptor extends MidiDeviceDescriptor implements SynthesizerDescriptorIntf, SoundBankNameHolder {
 	
 	private static final long serialVersionUID = 1L;
 

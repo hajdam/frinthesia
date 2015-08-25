@@ -24,8 +24,8 @@
 
 package com.frinika.sequencer.gui.menu.midi;
 
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.model.NoteEvent;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import javax.swing.JComponent;
 
 /**
@@ -39,8 +39,8 @@ public class MidiTimeStretchAction extends AbstractMidiAction {
 	boolean starts = true;
 	boolean durations = true;
 
-	public MidiTimeStretchAction(ProjectFrame frame) {
-		super(frame, "sequencer.midi.time_stretch");
+	public MidiTimeStretchAction(AbstractSequencerProjectContainer project) {
+		super(project, "sequencer.midi.time_stretch");
 	}
 
 	@Override

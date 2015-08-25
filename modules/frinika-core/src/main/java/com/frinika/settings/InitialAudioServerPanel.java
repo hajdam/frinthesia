@@ -42,7 +42,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import uk.org.toot.audio.server.ExtendedAudioServer;
 
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.global.FrinikaConfig;
 import com.frinika.toot.javasoundmultiplexed.MultiplexedJavaSoundAudioServer;
 

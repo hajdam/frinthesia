@@ -30,8 +30,6 @@ import static com.frinika.localization.CurrentLocale.getMessage;
 import com.frinika.gui.AbstractDialog;
 import com.frinika.gui.OptionsEditor;
 import com.frinika.tootX.midi.MidiInDeviceManager;
-import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.SongPositionListener;
 import com.frinika.sequencer.SwingSongPositionListenerWrapper;
 import com.frinika.sequencer.gui.TimeFormat;
@@ -40,6 +38,7 @@ import com.frinika.sequencer.gui.selection.SelectionContainer;
 import com.frinika.sequencer.gui.selection.SelectionListener;
 import com.frinika.sequencer.midi.MidiMessageListener;
 import com.frinika.sequencer.model.MidiLane;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -68,7 +67,7 @@ public class MidiStepRecordActionDialog extends AbstractDialog implements Option
     private final static Font BUFFER_TEXT_FIELD_FONT_ITALICS = new Font("DialogInput", Font.ITALIC, 12);
     
     private MidiStepRecordAction action;
-    private ProjectFrame frame;
+    private AbstractSequencerProjectContainer project;
     private TimeSelector positionTimeSelector;
     private TimeSelector stepTimeSelector;
     //private boolean autoRecord = false;
@@ -78,15 +77,14 @@ public class MidiStepRecordActionDialog extends AbstractDialog implements Option
     private AutoRecordThread autoRecordThread = null;
     
     /** Creates new form MidiStepRecordActionDialog */
-    public MidiStepRecordActionDialog(ProjectFrame frame, MidiStepRecordAction action) {
-        super(frame, getMessage("sequencer.midi.step_record"), false); // non-modal
-        this.frame = frame;
+    public MidiStepRecordActionDialog(AbstractDialog dialog, AbstractSequencerProjectContainer project, MidiStepRecordAction action) {
+        super(dialog, getMessage("sequencer.midi.step_record"), false); // non-modal
+        this.project = project;
         this.action = action;
         MidiInDeviceManager.open(FrinikaConfig.getMidiInDeviceList());
-        ProjectContainer project = frame.getProjectContainer();
         initComponents();
-        positionTimeSelector = new TimeSelector(frame.getProjectContainer(), TimeFormat.BAR_BEAT_TICK);
-        stepTimeSelector = new TimeSelector(frame.getProjectContainer(), TimeFormat.NOTE_LENGTH, true);
+        positionTimeSelector = new TimeSelector(project, TimeFormat.BAR_BEAT_TICK);
+        stepTimeSelector = new TimeSelector(project, TimeFormat.NOTE_LENGTH, true);
         stepTimeSelector.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
             	MidiStepRecordActionDialog.this.action.step = stepTimeSelector.getTicks();
@@ -123,7 +121,7 @@ public class MidiStepRecordActionDialog extends AbstractDialog implements Option
     }
 
     public void refresh() {
-        action.position = frame.getProjectContainer().getSequencer().getTickPosition();
+        action.position = project.getSequencer().getTickPosition();
         stepTimeSelector.setTicks(action.step);
         positionTimeSelector.setTicks(action.position);
         lengthDiffSpinner.setValue(action.lengthDiff);
@@ -140,7 +138,7 @@ public class MidiStepRecordActionDialog extends AbstractDialog implements Option
         if (monitoredLane != null) {
             monitoredLane.removeMidiMessageListener(this);
         }
-        action.part = frame.getProjectContainer().getMidiSelection().getMidiPart();
+        action.part = project.getMidiSelection().getMidiPart();
         if (action.part != null) {
             monitoredLane = (MidiLane)action.part.getLane();
             if (monitoredLane != null) {
@@ -184,7 +182,7 @@ public class MidiStepRecordActionDialog extends AbstractDialog implements Option
     }
     
     void undo() {
-        frame.getProjectContainer().getEditHistoryContainer().getUndoMenuItem().doClick();
+        project.getEditHistoryContainer().getUndoMenuItem().doClick();
     }
     
     void close() {

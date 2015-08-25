@@ -53,7 +53,7 @@ import uk.org.toot.audio.core.AudioProcess;
 import uk.org.toot.audio.server.AudioClient;
 import uk.org.toot.audio.server.IOAudioProcess;
 
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 
 @SuppressWarnings("serial")
 public class AudioAnalysisTimePanel extends JPanel implements Observer {

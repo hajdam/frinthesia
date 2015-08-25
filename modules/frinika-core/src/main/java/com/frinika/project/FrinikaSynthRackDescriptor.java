@@ -24,6 +24,7 @@ package com.frinika.project;
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+import com.frinika.sequencer.project.SoundBankNameHolder;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 

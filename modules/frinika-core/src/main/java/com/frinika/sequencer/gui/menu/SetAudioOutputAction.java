@@ -35,8 +35,8 @@ import uk.org.toot.audio.server.AudioServer;
 import uk.org.toot.audio.server.IOAudioProcess;
 
 
-import com.frinika.project.FrinikaAudioSystem;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.base.FrinikaAudioSystem;
+import com.frinika.sequencer.gui.ProjectFrame;
 
 public class SetAudioOutputAction extends AbstractAction {
 

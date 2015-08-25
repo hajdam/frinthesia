@@ -12,7 +12,7 @@ import java.awt.event.ComponentListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.gui.Layout;
 import com.frinika.sequencer.model.EditHistoryAction;
 import com.frinika.sequencer.model.EditHistoryRecordableAction;
@@ -21,6 +21,7 @@ import com.frinika.sequencer.model.EditHistoryRecordable;
 import com.frinika.sequencer.model.Lane;
 import com.frinika.sequencer.model.LaneTreeListener;
 import com.frinika.sequencer.model.ViewableLaneList;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 public class LaneHeaderPanel extends JPanel implements ComponentListener,
 		AdjustmentListener, EditHistoryListener, LaneTreeListener {
@@ -41,7 +42,7 @@ public class LaneHeaderPanel extends JPanel implements ComponentListener,
 
 	private Timer timer;
 
-	public LaneHeaderPanel(PartView partView, ProjectFrame project) {
+	public LaneHeaderPanel(PartView partView, AbstractSequencerProjectContainer project) {
 
 		this.partView = partView;
 
@@ -49,11 +50,11 @@ public class LaneHeaderPanel extends JPanel implements ComponentListener,
 		setPreferredSize(new Dimension(preferredWidth, 1000));
 		// this.setBackground(Color.PINK);
 		// validate();
-		visibleLanes = new ViewableLaneList(project.getProjectContainer());
+		visibleLanes = new ViewableLaneList(project);
 		rebuild();
 		rePositionItems();
 		addComponentListener(this);
-		project.getProjectContainer().getEditHistoryContainer()
+		project.getEditHistoryContainer()
 				.addEditHistoryListener(this);
 		timer = new Timer(50, new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -88,7 +89,7 @@ public class LaneHeaderPanel extends JPanel implements ComponentListener,
 		visibleLanes.rebuild();
 		int i = 0;
 		for (Lane lane : visibleLanes) {
-			Component c = new LaneHeaderItem(partView.getProjectFrame(),this, lane, i);
+			Component c = new LaneHeaderItem(partView.getProjectFrame().getProjectContainer(),this, lane, i);
 			c.setSize(new Dimension(getWidth(), lane.getHeight()
 					* Layout.getLaneHeightScale()));
 			add(c);

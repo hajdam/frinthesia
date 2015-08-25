@@ -28,7 +28,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.gui.partview.VoicePartViewSplitPane;
 
 public class ToggleShowVoiceViewAction extends AbstractAction {

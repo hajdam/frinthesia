@@ -32,7 +32,7 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 
 import static com.frinika.localization.CurrentLocale.getMessage;	
 /**

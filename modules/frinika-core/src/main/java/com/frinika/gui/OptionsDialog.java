@@ -24,7 +24,6 @@
 
 package com.frinika.gui;
 
-import com.frinika.project.gui.ProjectFrame;
 
 import javax.swing.JComponent;
 import java.awt.BorderLayout;
@@ -50,7 +49,7 @@ public class OptionsDialog extends AbstractDialog {
      *                refresh() is called every time the Dialog is shown, 
      *                update() every time the Dialog is hidden.
      */
-    public OptionsDialog(ProjectFrame parent, JComponent content, String title) {
+    public OptionsDialog(AbstractDialog parent, JComponent content, String title) {
         super(parent, title, true); // modal!
         initComponents();
         this.setContent(content);

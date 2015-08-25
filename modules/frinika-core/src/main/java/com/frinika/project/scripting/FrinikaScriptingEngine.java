@@ -28,7 +28,6 @@ import org.mozilla.javascript.*;
 
 import com.frinika.global.FrinikaConfig;
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.project.scripting.gui.ScriptingDialog;
 import com.frinika.project.scripting.javascript.JavascriptScope;
 import com.frinika.sequencer.model.MultiEvent;
@@ -80,12 +79,12 @@ public class FrinikaScriptingEngine implements ScriptContainer, Serializable {
 	transient static Properties global = null;
 	transient private static Collection<ScriptListener> scriptListeners = new HashSet<ScriptListener>(); 
 	
-	public static void executeScript(FrinikaScript script, ProjectFrame frame, ScriptingDialog dialog) {
-		ScriptThread thread = new ScriptThread(script, frame, dialog);
+	public static void executeScript(FrinikaScript script, ProjectContainer project, ScriptingDialog dialog) {
+		ScriptThread thread = new ScriptThread(script, project, dialog);
 		thread.start();
 	}
 	
-	static Object runScript(FrinikaScript script, ProjectFrame frame, ScriptingDialog dialog) { // called from SriptThread
+	static Object runScript(FrinikaScript script, ProjectContainer project, ScriptingDialog dialog) { // called from SriptThread
 		int language = script.getLanguage();
 		String name = script.getName();
 		
@@ -97,9 +96,9 @@ public class FrinikaScriptingEngine implements ScriptContainer, Serializable {
 		
                 System.out.println("Executing script '"+name+"'...");
 		String source = script.getSource();
-		frame.getProjectContainer().getEditHistoryContainer().mark("Script "+name);
+		project.getEditHistoryContainer().mark("Script "+name);
 		
-		Collection<MultiEvent> events = frame.getProjectContainer().getMidiSelection().getSelected();
+		Collection<MultiEvent> events = project.getMidiSelection().getSelected();
 		SortedSet<MultiEvent> clones = new TreeSet<MultiEvent>();
 		
 		// work on clones
@@ -118,10 +117,10 @@ public class FrinikaScriptingEngine implements ScriptContainer, Serializable {
                 Object result = null;
                 switch(script.getLanguage()) {
                     case FrinikaScript.LANGUAGE_JAVASCRIPT:
-                        result = executeJavascript(source, name, frame, clones, dialog);
+                        result = executeJavascript(source, name, project, clones, dialog);
                         break;
                     case FrinikaScript.LANGUAGE_GROOVY:
-                        result = executeGroovyScript(source, name, frame, clones, dialog);
+                        result = executeGroovyScript(source, name, project, clones, dialog);
                         break;
                 }
 		
@@ -138,7 +137,7 @@ public class FrinikaScriptingEngine implements ScriptContainer, Serializable {
 		if (result != null) {
 			System.out.println(result.toString());
 		}
-		frame.getProjectContainer().getEditHistoryContainer().notifyEditHistoryListeners();
+		project.getEditHistoryContainer().notifyEditHistoryListeners();
 		
 		return result;
 	}
@@ -150,19 +149,19 @@ public class FrinikaScriptingEngine implements ScriptContainer, Serializable {
 		}
 	}
 	
-	protected static Object executeJavascript(String source, String name, ProjectFrame frame, SortedSet<MultiEvent> events, ScriptingDialog dialog) {
+	protected static Object executeJavascript(String source, String name, ProjectContainer project, SortedSet<MultiEvent> events, ScriptingDialog dialog) {
         Context cx = Context.enter();
         try {
-        	JavascriptScope scope = new JavascriptScope(cx, frame, events, dialog);
+        	JavascriptScope scope = new JavascriptScope(cx, project, events, dialog);
             Object result;
             try {
             	result = cx.evaluateString(scope, source, name, 1, null);
             } catch (Throwable t) {
             	if (t instanceof ThreadDeath) {
-            		frame.message("Script execution has been aborted.");
+            		project.message("Script execution has been aborted.");
             		result = "";
             	} else {
-                	frame.error(t);
+                	project.error(t);
                 	result = null;
             	}
             }
@@ -179,7 +178,7 @@ public class FrinikaScriptingEngine implements ScriptContainer, Serializable {
 		
 	}
 	
-        protected static Object executeGroovyScript(String source, String name, ProjectFrame frame, SortedSet<MultiEvent> events, final ScriptingDialog dialog) {
+        protected static Object executeGroovyScript(String source, String name, ProjectContainer project, SortedSet<MultiEvent> events, final ScriptingDialog dialog) {
             ScriptEngineManager factory = new ScriptEngineManager();	                    
             ScriptEngine engine = factory.getEngineByName("groovy");
         
@@ -199,13 +198,13 @@ public class FrinikaScriptingEngine implements ScriptContainer, Serializable {
                 }
             };
             
-            engine.put("projectFrame", frame);        
+            engine.put("projectFrame", project);        
             engine.getContext().setWriter(writer);
             engine.getContext().setErrorWriter(writer);            
             try {                        
                 return engine.eval(source);
             } catch (ScriptException ex) {
-                frame.message("Script execution has been aborted.");
+                project.message("Script execution has been aborted.");
                 Logger.getLogger(FrinikaScriptingEngine.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }

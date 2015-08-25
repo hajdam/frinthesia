@@ -34,7 +34,7 @@ import uk.org.toot.audio.core.AudioBuffer;
 import uk.org.toot.audio.core.AudioProcess;
 import uk.org.toot.audio.server.AudioClient;
 
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.project.ProjectContainer;
 import com.frinika.sequencer.FrinikaSequencer;
 

@@ -40,11 +40,11 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
 import com.frinika.gui.ToolbarSeperator;
-import com.frinika.project.ProjectContainer;
 
 import static com.frinika.gui.util.ButtonFactory.makePressButton;
 import static com.frinika.gui.util.ButtonFactory.makeToggleButton;
 import static com.frinika.localization.CurrentLocale.getMessage;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 public class ItemRollToolBar extends JToolBar implements ActionListener {
 
@@ -64,13 +64,13 @@ public class ItemRollToolBar extends JToolBar implements ActionListener {
 	
 	Vector<ItemPanel> clients;
 
-	ProjectContainer project;
+	AbstractSequencerProjectContainer project;
 
 	private JButton quantizeSet;
 	JPanel tools;
 	ButtonGroup toolGroup;
 	
-	public ItemRollToolBar(Vector<ItemPanel> cli, ProjectContainer project) {
+	public ItemRollToolBar(Vector<ItemPanel> cli, AbstractSequencerProjectContainer project) {
 		this.setMargin(new Insets(0, 0, 0, 0));
 		this.project = project;
 		FlowLayout layout = new FlowLayout(FlowLayout.CENTER, 0, 0);

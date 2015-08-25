@@ -47,7 +47,7 @@ import javax.swing.JSplitPane;
 
 import com.frinika.gui.ToolbarSeperator;
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 
 import com.frinika.sequencer.gui.ItemPanel;
 import com.frinika.sequencer.gui.ItemRollToolBar;
@@ -57,6 +57,7 @@ import com.frinika.sequencer.model.Lane;
 import com.frinika.sequencer.model.Part;
 import com.frinika.sequencer.model.ProjectLane;
 import static com.frinika.localization.CurrentLocale.getMessage;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 /**
  * Top level panel for the piano roll.
  * 
@@ -75,25 +76,24 @@ public class PartViewEditor extends ItemScrollPane {
 	
 	public void showNewMenu(Component caller)
 	{
-		partView.getProjectFrame().newLaneMenu.show(caller, 0, 0);
+		partView.getProjectFrame().getNewLaneMenu().show(caller, 0, 0);
 	}
 
 	public PartViewEditor(final ProjectFrame frame) {
 
-		final ProjectContainer project=frame.getProjectContainer();
-		
-		partView = new PartView(frame, this);
+		final AbstractSequencerProjectContainer project=frame.getProjectContainer();
 				
+                partView = new PartView(frame, this);
 		Vector<ItemPanel> clients=new Vector<ItemPanel>();
 		clients.add(partView);
-		ItemRollToolBar toolBar = new ItemRollToolBar(clients,frame.getProjectContainer());
+		ItemRollToolBar toolBar = new ItemRollToolBar(clients,project);
 		JPanel new_panel = new JPanel();
 		new_panel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		new_panel.setBorder(BorderFactory.createEmptyBorder(4,4,4,4));
 		new_panel.setOpaque(false);
 		
 		Insets insets = new Insets(0, 0, 0, 0);
-		final JButton new_button = new JButton(ProjectFrame.getIconResource("new_track.gif"));
+		final JButton new_button = new JButton(ProjectContainer.getIconResource("new_track.gif"));
 		new_button.setText(getMessage("new_track")) ;
 		new_button.setMargin(insets);
 		new_button.addActionListener(new ActionListener()
@@ -109,7 +109,7 @@ public class PartViewEditor extends ItemScrollPane {
 		sep.setMinimumSize(new Dimension(5,5));
 		new_panel.add(sep);
 		
-		final JButton up_button = new JButton(ProjectFrame.getIconResource("uparrow.gif"));
+		final JButton up_button = new JButton(ProjectContainer.getIconResource("uparrow.gif"));
 		up_button.setMargin(insets);
 		up_button.addActionListener(new ActionListener()
 				{
@@ -132,7 +132,7 @@ public class PartViewEditor extends ItemScrollPane {
 				});
 		new_panel.add(up_button);
 		
-		final JButton down_button = new JButton(ProjectFrame.getIconResource("downarrow.gif"));
+		final JButton down_button = new JButton(ProjectContainer.getIconResource("downarrow.gif"));
 		down_button.setMargin(insets);
 		down_button.addActionListener(new ActionListener()
 				{
@@ -169,7 +169,7 @@ public class PartViewEditor extends ItemScrollPane {
 		
 	//	toolBar.add(new ToolbarSeperator());
 
-		JButton palette = new JButton(ProjectFrame
+		JButton palette = new JButton(ProjectContainer
 				.getIconResource("pallete.png"));
 		palette.setMargin(insets);
 		palette.setToolTipText(getMessage("sequencer.partview.colour_palette_tip"));
@@ -184,7 +184,7 @@ public class PartViewEditor extends ItemScrollPane {
 					colorChooser = new JColorChooser();
 				colorChooser.setPreviewPanel(new JPanel());
 
-				JDialog dialog = JColorChooser.createDialog(frame,
+				JDialog dialog = JColorChooser.createDialog(partView.getProjectFrame().getFrame(),
 						"Part Colour", true, colorChooser,
 						(ActionListener) null, (ActionListener) null);
 
@@ -220,7 +220,7 @@ public class PartViewEditor extends ItemScrollPane {
 		
 		
 		
-		laneHeaderPanel = new LaneHeaderPanel(partView,frame);
+		laneHeaderPanel = new LaneHeaderPanel(partView,project);
 		split.setLeftComponent(laneHeaderPanel);
 		vertScroll.addAdjustmentListener(laneHeaderPanel);
 

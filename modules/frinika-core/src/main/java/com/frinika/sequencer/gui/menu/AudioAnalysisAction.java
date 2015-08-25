@@ -30,7 +30,7 @@ import javax.swing.JFrame;
 
 import com.frinika.audio.analysis.gui.AudioAnalysisFrame;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.model.AudioPart;
 import com.frinika.sequencer.model.Part;
 

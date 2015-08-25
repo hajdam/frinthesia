@@ -63,8 +63,6 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.FrinikaSequence;
 import com.frinika.sequencer.SongPositionListener;
 import com.frinika.sequencer.SwingSongPositionListenerWrapper;
@@ -91,6 +89,7 @@ import com.frinika.sequencer.gui.virtualkeyboard.VirtualKeyboard;
 import java.awt.Toolkit;
 import java.awt.event.ItemListener;
 import static com.frinika.localization.CurrentLocale.getMessage;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import java.util.EventObject;
 import javax.swing.table.TableCellEditor;
 
@@ -118,8 +117,7 @@ public class TrackerPanel extends JPanel implements SelectionListener<Part>,Song
 	 */
 	private static final long serialVersionUID = 1L;
 
-	ProjectFrame frame;
-    ProjectContainer project;
+    AbstractSequencerProjectContainer project;
 	MidiPart part;
     int playingRow = 0;
     
@@ -148,9 +146,8 @@ public class TrackerPanel extends JPanel implements SelectionListener<Part>,Song
         });
     }
     
-	public TrackerPanel(FrinikaSequence sequence,ProjectFrame frame) {
-		this.frame = frame;
-		this.project = frame.getProjectContainer();
+	public TrackerPanel(FrinikaSequence sequence,AbstractSequencerProjectContainer project) {
+		this.project = project;
 		this.multiEventSelectionContainer=project.getMultiEventSelection();
 		initComponents();
         project.getSequencer().addSongPositionListener(new SwingSongPositionListenerWrapper(this));
@@ -243,7 +240,7 @@ public class TrackerPanel extends JPanel implements SelectionListener<Part>,Song
 	void initComponents() {
 		setLayout(new BorderLayout());
 
-		tableModel = new TrackerTableModel(frame);
+		tableModel = new TrackerTableModel(project);
 		table = new JTable(tableModel) {
 			private static final long serialVersionUID = 1L;
 

@@ -13,7 +13,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.patchname.MyPatch;
 import com.frinika.sequencer.patchname.Node;
 import com.frinika.sequencer.patchname.PatchNameMap;

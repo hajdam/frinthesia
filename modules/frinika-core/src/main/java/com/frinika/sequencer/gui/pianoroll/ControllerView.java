@@ -40,8 +40,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
 
-import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.FrinikaSequence;
 import com.frinika.sequencer.SwingSongPositionListenerWrapper;
 import com.frinika.sequencer.gui.ColorScheme;
@@ -55,7 +53,6 @@ import com.frinika.sequencer.gui.MyCursors;
 import com.frinika.sequencer.gui.RectZoomTool;
 import com.frinika.sequencer.gui.SelectTool;
 import com.frinika.sequencer.gui.WriteTool;
-import com.frinika.sequencer.gui.pianoroll.ControllerHandle;
 import com.frinika.sequencer.model.EditHistoryAction;
 import com.frinika.sequencer.model.EditHistoryContainer;
 import com.frinika.sequencer.model.MidiLane;
@@ -63,6 +60,7 @@ import com.frinika.sequencer.model.MidiPart;
 import com.frinika.sequencer.model.MultiEvent;
 import com.frinika.sequencer.model.Part;
 import com.frinika.sequencer.model.util.EventsInPartsIterator;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 public class ControllerView extends PianoRollPanelAdapter  implements AdjustmentListener {
 
@@ -121,9 +119,8 @@ public class ControllerView extends PianoRollPanelAdapter  implements Adjustment
 	 * @param scroller
 	 *            controls the view onto the virtualScreen.
 	 */
-	public ControllerView(final ProjectFrame frame, ItemScrollPane scroller) {
-		super(frame.getProjectContainer(), scroller,false,false);
-		final ProjectContainer project = frame.getProjectContainer();
+	public ControllerView(final AbstractSequencerProjectContainer project, ItemScrollPane scroller) {
+		super(project, scroller,false,false);
 		this.sequencer = project.getSequencer();
 
 		multiEventListener = new ItemPanelMultiEventListener(this);

@@ -1,0 +1,9 @@
+rootProject.name = 'frinika-codeexamples'
+include ":modules:frinika-core"
+include ":modules:frinika-frame"
+
+if (rootProject.path == ':') {
+    def rootProjectDir = rootProject.projectDir.path + "/../.."
+    project(':modules:frinika-core').projectDir = new File(rootProjectDir + "/modules/frinika-core")
+    project(':modules:frinika-frame').projectDir = new File(rootProjectDir + "/modules/frinika-frame")
+}

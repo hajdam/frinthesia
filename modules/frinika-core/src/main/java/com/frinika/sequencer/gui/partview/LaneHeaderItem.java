@@ -3,7 +3,6 @@ package com.frinika.sequencer.gui.partview;
 import com.frinika.audio.gui.MeterPanel;
 import java.awt.Color;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -26,7 +25,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.event.MouseInputAdapter;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.model.AudioLane;
 import com.frinika.sequencer.model.Lane;
 import com.frinika.sequencer.model.MenuPlugable;
@@ -41,6 +39,7 @@ import com.frinika.sequencer.model.TextLane;
 
 import java.util.Vector;
 import static com.frinika.localization.CurrentLocale.getMessage;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 /**
  * left of each lane has a laneheaderitem.
@@ -76,19 +75,18 @@ public class LaneHeaderItem extends JPanel implements Observer, MenuPlugable {
 
     // private int dy=-1;
 
-    // ProjectContainer project;
-    ProjectFrame frame; // Jens
+    AbstractSequencerProjectContainer project;
     Color voice_selected_background;
     Color voice_unselected_background;
     JLabel midiLaneLabel;
     SoloManager soloManager;
     LaneHeaderPanel parent;
 
-    public LaneHeaderItem(final ProjectFrame frame,
+    public LaneHeaderItem(final AbstractSequencerProjectContainer project,
             final LaneHeaderPanel parent, final Lane lane, int index) {
         this.lane = lane;
         this.parent = parent;
-        soloManager = frame.getProjectContainer().getSoloManager();
+        soloManager = project.getSoloManager();
         if (lane instanceof SynthLane) {
             float[] rgb = getBackground().getRGBColorComponents(new float[3]);
             rgb[0] *= 0.95;
@@ -100,10 +98,9 @@ public class LaneHeaderItem extends JPanel implements Observer, MenuPlugable {
         this.defaultColor = getBackground();
         this.selectedColor = Color.PINK;
 
-        // this.project=project;
-        this.frame = frame; // Jens
+        this.project=project;
         if (lane instanceof MidiLane) {
-            voiceView = new MidiVoiceView((MidiLane) lane, frame);
+            voiceView = new MidiVoiceView((MidiLane) lane, project);
         } else if (lane instanceof AudioLane) {
             voiceView = new AudioLaneView((AudioLane) lane);
             AudioLane al = ((AudioLane) lane);
@@ -111,9 +108,9 @@ public class LaneHeaderItem extends JPanel implements Observer, MenuPlugable {
             al.getMixerControls().getMuteControl().addObserver(this);
 
         } else if (lane instanceof TextLane) { // Jens
-            voiceView = new TextLaneView((TextLane) lane, frame);
+            voiceView = new TextLaneView((TextLane) lane, project);
         } else if (lane instanceof ProjectLane) {
-            voiceView = new ProjectView((ProjectLane) frame.getProjectContainer().getProjectLane());
+            voiceView = new ProjectView((ProjectLane) project.getProjectLane());
         } else if (lane instanceof SynthLane) {
             voiceView = new SynthLaneView(lane);
             SynthLane al = ((SynthLane) lane);
@@ -235,9 +232,9 @@ public class LaneHeaderItem extends JPanel implements Observer, MenuPlugable {
                     return;
                 }
 
-                frame.getProjectContainer().getLaneSelection().clearSelection();
-                frame.getProjectContainer().getLaneSelection().addSelected(lane);
-                frame.getProjectContainer().getLaneSelection().notifyListeners();
+                project.getLaneSelection().clearSelection();
+                project.getLaneSelection().addSelected(lane);
+                project.getLaneSelection().notifyListeners();
                 grabFocus();
             }
         });
@@ -272,7 +269,7 @@ public class LaneHeaderItem extends JPanel implements Observer, MenuPlugable {
                         lane.getProject().getLaneSelection().setSelected(lane);
                         lane.getProject().getLaneSelection().notifyListeners();
                     }
-                    frame.repaintViews();
+                    project.repaintViews();
                     setState();
                 }
             });
@@ -292,7 +289,7 @@ public class LaneHeaderItem extends JPanel implements Observer, MenuPlugable {
                         lane.getProject().getLaneSelection().setSelected(lane);
                         lane.getProject().getLaneSelection().notifyListeners();
                     }
-                    frame.repaintViews();
+                    project.repaintViews();
                     setState();
                 }
             });

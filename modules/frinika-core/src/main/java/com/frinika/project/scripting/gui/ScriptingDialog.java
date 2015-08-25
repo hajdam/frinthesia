@@ -27,7 +27,8 @@ package com.frinika.project.scripting.gui;
 import static com.frinika.localization.CurrentLocale.getMessage;
 
 import com.frinika.gui.AbstractDialog;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.project.ProjectContainer;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.project.scripting.DefaultFrinikaScript;
 import com.frinika.project.scripting.FrinikaScript;
 import com.frinika.project.scripting.FrinikaScriptingEngine;
@@ -75,15 +76,15 @@ public class ScriptingDialog extends JDialog implements InternalFrameListener, S
     ScriptEditorInternalFrame activeEditor;
     JMenu scriptingMenu;
     Point addNewPosition = new Point(20, 20);
-    ProjectFrame frame;
+    ProjectContainer project;
     FrinikaScriptingEngine engine;
     private Map<String, FrinikaScript> presets;
     
     
     /** Creates new form ScriptingDialog */
-    public ScriptingDialog(ProjectFrame frame, JMenu scriptingMenu) {
-        super(frame, "Frinika " + getMessage(ScriptingAction.actionId), false);
-        this.frame = frame;
+    public ScriptingDialog(AbstractDialog dialog, ProjectContainer project, JMenu scriptingMenu) {
+        super(dialog, "Frinika " + getMessage(ScriptingAction.actionId), false);
+        this.project = project;
         this.scriptingMenu = scriptingMenu;
         initComponents();
         consoleTextArea.setEditable(false);
@@ -91,7 +92,7 @@ public class ScriptingDialog extends JDialog implements InternalFrameListener, S
             "Script files (Javascript and Groovy)", "js", "groovy");
         fileChooser.setFileFilter(ff);
 
-        engine = frame.getProjectContainer().getScriptingEngine();
+        engine = project.getScriptingEngine();
         setSize(1000, 800);
         // open all available scripts as iconified editors
         Collection<FrinikaScript> scripts = engine.getScripts();
@@ -134,10 +135,10 @@ public class ScriptingDialog extends JDialog implements InternalFrameListener, S
         scriptingMenu.removeAll();
         scriptingMenu.add(selfItem);
         
-        Collection<FrinikaScript> scripts = frame.getProjectContainer().getScriptingEngine().getScripts();
+        Collection<FrinikaScript> scripts = project.getScriptingEngine().getScripts();
         if ( ! scripts.isEmpty() ) {
             for (FrinikaScript script : scripts) {
-                JMenuItem item = new JMenuItem(new ScriptingAction(frame, script));
+                JMenuItem item = new JMenuItem(new ScriptingAction(project, script));
                 if (script.getSource().equals(INITIAL_JAVASCRIPT)) continue;
                 int l = scriptingMenu.getMenuComponentCount(); 
                 if (l == 1) {
@@ -199,7 +200,7 @@ public class ScriptingDialog extends JDialog implements InternalFrameListener, S
     }
     
     void executeScript(FrinikaScript script) {
-        engine.executeScript(script, frame, this);
+        engine.executeScript(script, project, this);
     }
     
     void stopScript(FrinikaScript script) {
@@ -316,7 +317,7 @@ public class ScriptingDialog extends JDialog implements InternalFrameListener, S
     public void internalFrameClosing(InternalFrameEvent e) {
     	ScriptEditorInternalFrame f = (ScriptEditorInternalFrame)e.getInternalFrame();
     	if ( f.hasBeenModifiedWithoutSaving() ) {
-    		if ( ! frame.confirm("Script has been modified without saving. Close?") ) {
+    		if ( ! project.confirm("Script has been modified without saving. Close?") ) {
     			return;
     		}
     	}
@@ -536,11 +537,11 @@ public class ScriptingDialog extends JDialog implements InternalFrameListener, S
     }//GEN-LAST:event_clearButtonActionPerformed
 
     private void undoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoMenuItemActionPerformed
-        frame.getProjectContainer().getEditHistoryContainer().getUndoMenuItem().doClick();
+        project.getEditHistoryContainer().getUndoMenuItem().doClick();
     }//GEN-LAST:event_undoMenuItemActionPerformed
 
     private void redoMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoMenuItemActionPerformed
-        frame.getProjectContainer().getEditHistoryContainer().getRedoMenuItem().doClick();
+        project.getEditHistoryContainer().getRedoMenuItem().doClick();
     }//GEN-LAST:event_redoMenuItemActionPerformed
 
     private void fileNewMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileNewMenuItemActionPerformed
@@ -562,7 +563,7 @@ public class ScriptingDialog extends JDialog implements InternalFrameListener, S
         			editor.toFront();
         		}
         	} catch (IOException ioe) {
-        		frame.error(ioe);
+        		project.error(ioe);
         	}
     	}
     }//GEN-LAST:event_fileOpenMenuItemActionPerformed
@@ -579,7 +580,7 @@ public class ScriptingDialog extends JDialog implements InternalFrameListener, S
                         editor.lastSaveTimestamp = file.lastModified();
     			editor.setDirty(false);
     		} catch (IOException ioe) {
-    			frame.error(ioe);
+    			project.error(ioe);
     			fileSaveAsMenuItemActionPerformed(evt);
     		}
     	} else {
@@ -594,14 +595,14 @@ public class ScriptingDialog extends JDialog implements InternalFrameListener, S
     	File file = requester(true);
     	if (file != null) {
         	try {
-        		if ( (! file.exists()) || frame.confirm("File " + file.getCanonicalPath() + " already exists. Overwrite?") ) {
+        		if ( (! file.exists()) || project.confirm("File " + file.getCanonicalPath() + " already exists. Overwrite?") ) {
             		engine.saveScript(script, file);
             		editor.updateTitle();
                         editor.lastSaveTimestamp = file.lastModified();
             		editor.setDirty(false);
         		}
         	} catch (IOException ioe) {
-        		frame.error(ioe);
+        		project.error(ioe);
         	}
     	}
     }//GEN-LAST:event_fileSaveAsMenuItemActionPerformed

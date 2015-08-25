@@ -21,6 +21,7 @@
  */
 package com.frinika.sequencer.model;
 
+import com.frinika.gui.AbstractDialog;
 import static com.frinika.localization.CurrentLocale.getMessage;
 
 import java.awt.Color;
@@ -32,7 +33,6 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.PrintStream;
@@ -50,13 +50,13 @@ import javax.swing.event.ChangeListener;
 
 import com.frinika.gui.OptionsDialog;
 import com.frinika.gui.OptionsEditor;
-import com.frinika.project.MultiPart;
-import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.project.MultiPart;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.gui.Item;
 import com.frinika.sequencer.gui.TimeFormat;
 import com.frinika.sequencer.gui.TimeSelector;
 import com.frinika.sequencer.gui.partview.PartView;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import java.util.Vector;
 
 /**
@@ -474,7 +474,7 @@ public abstract class Part implements Item, Selectable, EditHistoryRecordable, S
         final OptionsEditor contentEditor = createPropertiesPanel(frame);
         final OptionsEditor backup = createPropertiesPanel(frame); // a second one which keeps initial values (and will not be displayed)
         backup.refresh();
-        OptionsDialog dialog = new OptionsDialog(frame, (JComponent) contentEditor, "Part Properties") {
+        OptionsDialog dialog = new OptionsDialog(new AbstractDialog(frame), (JComponent) contentEditor, "Part Properties") {
 
             /**
              * Called when Ok is chosen.
@@ -482,7 +482,7 @@ public abstract class Part implements Item, Selectable, EditHistoryRecordable, S
             public void ok() {
                 super.ok();
                 // commit as undoable action
-                ProjectContainer project = frame.getProjectContainer();
+                AbstractSequencerProjectContainer project = frame.getProjectContainer();
                 project.getEditHistoryContainer().mark(getMessage("project.menu.edit_properties"));
                 EditHistoryAction action = new EditHistoryAction() {
 

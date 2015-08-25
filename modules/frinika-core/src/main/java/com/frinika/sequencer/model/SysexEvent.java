@@ -33,8 +33,8 @@ import javax.sound.midi.SysexMessage;
 import javax.swing.JOptionPane;
 
 import com.frinika.global.Toolbox;
-import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -117,19 +117,18 @@ public class SysexEvent extends MultiEvent {
 		return me;
 	}
 	
-	public void showEditorGUI(ProjectFrame frame) {
+	public void showEditorGUI(AbstractSequencerProjectContainer project) {
 		final String oldMacroString = this.macro;
 		boolean err;
 		do {
-			err = false;
-			final String s = JOptionPane.showInputDialog(frame, getMessage("sequencer.sysex.edit_sysex") + ":", oldMacroString);
+			err = false; // TODO frame?
+			final String s = JOptionPane.showInputDialog(null, getMessage("sequencer.sysex.edit_sysex") + ":", oldMacroString);
 			if (s != null) {
 				if ( ! s.equals(oldMacroString) ) {
 					try {
 						final MidiEvent[] events = parseMacro(s);
 						final MidiEvent[] oldEvents = this.midiEvents;
 
-						ProjectContainer project = frame.getProjectContainer();
 						project.getEditHistoryContainer().mark(getMessage("sequencer.sysex.edit_sysex"));
 						EditHistoryAction action = new EditHistoryAction() {
 							public void redo() {
@@ -150,7 +149,7 @@ public class SysexEvent extends MultiEvent {
 						project.getEditHistoryContainer().push(action);
 						project.getEditHistoryContainer().notifyEditHistoryListeners();
 					} catch (InvalidMidiDataException imde) {
-						frame.error(imde.getMessage());
+						project.error(imde.getMessage());
 						err = true;
 					}
 				}

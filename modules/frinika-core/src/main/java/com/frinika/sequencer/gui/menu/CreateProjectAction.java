@@ -34,7 +34,7 @@ import javax.swing.JFileChooser;
 
 import com.frinika.global.FrinikaConfig;
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.tracker.ProjectFileFilter;
 
 @SuppressWarnings("serial")
@@ -43,10 +43,9 @@ public class CreateProjectAction extends  AbstractAction {
 
 	ProjectFrame frame;
 		public void actionPerformed(ActionEvent e) {
-
-	
+                    throw new UnsupportedOperationException("Not supported yet.");
+	/* TODO
 			try {
-				
 				frame=new ProjectFrame(new ProjectContainer());
 			} catch (Exception e3) {
 				// TODO Auto-generated catch block
@@ -105,6 +104,7 @@ public class CreateProjectAction extends  AbstractAction {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+                */
 		}
 
 	

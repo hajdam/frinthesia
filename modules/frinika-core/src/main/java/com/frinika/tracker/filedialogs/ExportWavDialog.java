@@ -24,8 +24,8 @@
 package com.frinika.tracker.filedialogs;
 
 import com.frinika.global.FrinikaConfig;
-import com.frinika.project.FrinikaAudioServer;
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioServer;
+import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.project.ProjectContainer;
 import com.frinika.sequencer.FrinikaSequencer;
 import com.frinika.tools.MyMidiRenderer;

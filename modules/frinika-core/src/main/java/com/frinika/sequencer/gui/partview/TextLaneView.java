@@ -28,9 +28,10 @@ import static com.frinika.localization.CurrentLocale.getMessage;
 
 import com.frinika.global.Toolbox;
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.model.EditHistoryAction;
 import com.frinika.sequencer.model.TextLane;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import java.awt.BorderLayout;
@@ -50,13 +51,13 @@ public class TextLaneView extends LaneView implements ChangeListener {
 	public final static String DELIMITER = "\n\n---\n\n"; 
 	
 	private JEditorPane editor;
-	private ProjectFrame frame;
+	private AbstractSequencerProjectContainer project;
 	private String textBackup = null;
 	private boolean initialRefresh = true;
 	
-	public TextLaneView(TextLane lane, ProjectFrame frame) {
+	public TextLaneView(TextLane lane, AbstractSequencerProjectContainer project) {
 		super(lane);
-		this.frame = frame;
+		this.project = project;
 		init();
 		refreshFromTrack(); // with initialRefresh==true
 		lane.addChangeListener(this);
@@ -79,7 +80,6 @@ public class TextLaneView extends LaneView implements ChangeListener {
 				if (!text.equals(textBackup)) {
 					final String localTextBackup = textBackup; 
 					textBackup = text;
-					ProjectContainer project = frame.getProjectContainer();
 					project.getEditHistoryContainer().mark(getMessage("sequencer.project.edit_text_lane"));
 					EditHistoryAction action = new EditHistoryAction() { // undo editing the whole text in textlaneview
 						public void redo() {
@@ -112,7 +112,6 @@ public class TextLaneView extends LaneView implements ChangeListener {
 		} else {
 			final String oldtext = editor.getText().trim();
 			if (!oldtext.equals(text.trim())) {
-				ProjectContainer project = frame.getProjectContainer();
 				project.getEditHistoryContainer().mark(getMessage("sequencer.project.edit_text_lane"));
 				EditHistoryAction action = new EditHistoryAction() { // undo editing an individual TextPart
 					public void redo() {
@@ -135,7 +134,7 @@ public class TextLaneView extends LaneView implements ChangeListener {
 	public void updateToTrack() {
 		String text = editor.getText();
 		((TextLane)lane).setAllText(text, DELIMITER);
-		frame.repaintPartView();
+		project.repaintPartView();
 	}
 	
 	protected String getTextNormalized() {

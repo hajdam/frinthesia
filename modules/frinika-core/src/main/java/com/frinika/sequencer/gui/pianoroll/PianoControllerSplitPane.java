@@ -40,7 +40,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JToggleButton;
 
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.gui.ItemPanel;
 import com.frinika.sequencer.gui.ItemRollToolBar;
 import com.frinika.sequencer.gui.ItemScrollPane;
@@ -58,6 +57,7 @@ import com.frinika.sequencer.model.Part;
 import static com.frinika.gui.util.ButtonFactory.makePressButton;
 import static com.frinika.gui.util.ButtonFactory.makeToggleButton;
 import static com.frinika.localization.CurrentLocale.getMessage;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 public class PianoControllerSplitPane extends ItemScrollPane implements
 		ComponentListener, SelectionListener<Lane> {
@@ -81,26 +81,25 @@ public class PianoControllerSplitPane extends ItemScrollPane implements
 
 	PopupSelectorButton cntrlBut;
 
-	ProjectFrame frame;
+	AbstractSequencerProjectContainer project;
 
 	PadPanel pianoHeader;
 
 	@SuppressWarnings("serial")
-	public PianoControllerSplitPane(ProjectFrame frame) {
+	public PianoControllerSplitPane(final AbstractSequencerProjectContainer project) {
 
-		this.frame = frame;
+		this.project = project;
 
 		// Create the main piano and contrller views using this as the
 		// scrollController
-		cntrlView = new ControllerView(frame, this);
-		pianoRoll = new PianoRoll(frame, this);
+		cntrlView = new ControllerView(project, this);
+		pianoRoll = new PianoRoll(project, this);
 
 		// Create a toll bar and set the clients
 		Vector<ItemPanel> clients = new Vector<ItemPanel>();
 		clients.add(pianoRoll);
 		clients.add(cntrlView);
 		
-		final ProjectContainer project = frame.getProjectContainer();
 		ItemRollToolBar toolBar = new ItemRollToolBar(clients, project);
 
 		noteEditPanel = new MultiEventEditPanel(project);
@@ -269,11 +268,11 @@ public class PianoControllerSplitPane extends ItemScrollPane implements
 	public void dispose() {
 		pianoRoll.removeComponentListener(this);
 		bot.removeComponentListener(this);
-		frame.getProjectContainer().getLaneSelection().removeSelectionListener(this);
-		frame.getProjectContainer().getDragList().removeFeedbackItemListener(noteEditPanel);
-		frame.getProjectContainer().getEditHistoryContainer().removeEditHistoryListener(
+		project.getLaneSelection().removeSelectionListener(this);
+		project.getDragList().removeFeedbackItemListener(noteEditPanel);
+		project.getEditHistoryContainer().removeEditHistoryListener(
 				noteEditPanel);
-		frame.getProjectContainer().getMultiEventSelection().removeSelectionListener(noteEditPanel);
+		project.getMultiEventSelection().removeSelectionListener(noteEditPanel);
 
 	}
 

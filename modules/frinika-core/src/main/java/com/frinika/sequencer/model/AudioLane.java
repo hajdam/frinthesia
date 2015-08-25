@@ -40,7 +40,7 @@ import uk.org.toot.audio.server.AudioServer;
 import uk.org.toot.audio.server.IOAudioProcess;
 
 
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.global.FrinikaConfig;
 import com.frinika.project.ProjectContainer;
 import com.frinika.sequencer.FrinikaSequencer;

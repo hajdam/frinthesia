@@ -29,14 +29,14 @@ import java.lang.reflect.Method;
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.sampled.Mixer;
 import javax.swing.Icon;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.gui.mixer.MidiDeviceIconProvider;
 import com.frinika.sequencer.gui.mixer.SynthWrapper;
 import com.frinika.sequencer.model.Lane;
 import com.frinika.sequencer.model.SynthLane;
+import com.frinika.sequencer.project.MidiDeviceDescriptorIntf;
 import com.frinika.synth.SynthRack;
 
 /**
@@ -45,7 +45,7 @@ import com.frinika.synth.SynthRack;
  * 
  * @author Peter Johan Salomonsen
  */
-public class MidiDeviceDescriptor implements Serializable, MidiDeviceIconProvider {
+public class MidiDeviceDescriptor implements MidiDeviceDescriptorIntf, Serializable, MidiDeviceIconProvider {
 	private static final long serialVersionUID = 1L;
 
 	String midiDeviceName;
@@ -256,11 +256,15 @@ public class MidiDeviceDescriptor implements Serializable, MidiDeviceIconProvide
 	}
 
 	public Icon getIcon() {
-		return ProjectFrame.getMidiDeviceIcon(midiDevice);
+		return ProjectContainer.getMidiDeviceIcon(midiDevice);
 	}
 	
 	public Icon getLargeIcon() {
-		return ProjectFrame.getMidiDeviceLargeIcon(midiDevice);
+		return ProjectContainer.getMidiDeviceLargeIcon(midiDevice);
 	}
 	
+    @Override
+    public void setMidiDevice(MidiDevice midiDevice) {
+        this.midiDeviceName = midiDeviceName;
+    }
 }

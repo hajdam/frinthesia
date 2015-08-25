@@ -24,9 +24,9 @@
 
 package com.frinika.sequencer.gui.menu.midi;
 
-import com.frinika.project.ProjectContainer;
 import com.frinika.sequencer.gui.TimeFormat;
 import com.frinika.sequencer.gui.TimeSelector;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -44,7 +44,7 @@ abstract class AbstractTimeSelectorMidiActionEditor<T extends AbstractMidiAction
 	
 	protected T action;
 
-	AbstractTimeSelectorMidiActionEditor(ProjectContainer project, T action) {
+	AbstractTimeSelectorMidiActionEditor(AbstractSequencerProjectContainer project, T action) {
 		this.action = action;
 		this.setLayout(new GridBagLayout());
 		final TimeSelector ts = new TimeSelector(getLabel(), getTicks(), true, project, TimeFormat.BEAT_TICK);

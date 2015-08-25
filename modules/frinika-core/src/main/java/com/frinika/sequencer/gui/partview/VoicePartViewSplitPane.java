@@ -7,7 +7,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.gui.selection.SelectionContainer;
 import com.frinika.sequencer.gui.selection.SelectionListener;
 import com.frinika.sequencer.model.Lane;
@@ -42,12 +42,12 @@ SelectionListener<Lane>  {
 	
 	boolean dockmode;
 	
-	public VoicePartViewSplitPane(ProjectFrame project, boolean dockmode) {
-		this.project=project;
+	public VoicePartViewSplitPane(ProjectFrame projectFrame, boolean dockmode) {
+		this.project=projectFrame;
 		this.dockmode = dockmode;
 		setLayout(new BorderLayout());
-		partViewEditor = new PartViewEditor(project);
-		Lane lane=project.getProjectContainer().getProjectLane();
+		partViewEditor = new PartViewEditor(projectFrame);
+		Lane lane=projectFrame.getProjectContainer().getProjectLane();
 		laneView = new LaneView(lane);
 		laneView.setEnabled(false);
 		
@@ -62,7 +62,7 @@ SelectionListener<Lane>  {
 			splitPane.setResizeWeight(0.0);
 			splitPane.add(laneView, JSplitPane.LEFT);
 		}
-		project.getProjectContainer().getLaneSelection().addSelectionListener(this);
+		projectFrame.getProjectContainer().getLaneSelection().addSelectionListener(this);
 	//	toggleVoiceView();
 	}
 	

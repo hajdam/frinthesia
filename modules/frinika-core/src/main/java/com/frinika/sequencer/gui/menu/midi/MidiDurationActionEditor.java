@@ -24,9 +24,10 @@
 
 package com.frinika.sequencer.gui.menu.midi;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.gui.TimeFormat;
 import com.frinika.sequencer.gui.TimeSelector;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -44,18 +45,18 @@ public class MidiDurationActionEditor extends JPanel {
     private MidiDurationAction action;
     
     /** Creates new form MidiDurationActionEditor */
-    public MidiDurationActionEditor(MidiDurationAction action, ProjectFrame frame) {
+    public MidiDurationActionEditor(MidiDurationAction action, AbstractSequencerProjectContainer project) {
         super();
         this.action = action;
         initComponents();
-        final TimeSelector setTimeSelector = new TimeSelector(action.setTicks, frame.getProjectContainer(), TimeFormat.BEAT_TICK);
+        final TimeSelector setTimeSelector = new TimeSelector(action.setTicks, project, TimeFormat.BEAT_TICK);
         setTimeSelector.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 MidiDurationActionEditor.this.action.setTicks = setTimeSelector.getTicks();
             }
         });
         setTimeSelectorPanel.add(setTimeSelector);
-        final TimeSelector changeTimeSelector = new TimeSelector(action.changeTicks, true, frame.getProjectContainer(), TimeFormat.BEAT_TICK);
+        final TimeSelector changeTimeSelector = new TimeSelector(action.changeTicks, true, project, TimeFormat.BEAT_TICK);
         changeTimeSelector.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 MidiDurationActionEditor.this.action.changeTicks = changeTimeSelector.getTicks();

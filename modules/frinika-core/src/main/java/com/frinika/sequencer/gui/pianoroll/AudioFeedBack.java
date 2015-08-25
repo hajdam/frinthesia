@@ -8,10 +8,10 @@ import javax.sound.midi.Receiver;
 import javax.sound.midi.ShortMessage;
 import javax.swing.Timer;
 
-import com.frinika.project.ProjectContainer;
 import com.frinika.sequencer.model.MidiLane;
 import com.frinika.sequencer.model.MidiPart;
 import com.frinika.sequencer.model.NoteEvent;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 public class AudioFeedBack implements ActionListener {
 	
@@ -21,9 +21,9 @@ public class AudioFeedBack implements ActionListener {
 	private int chan;
 	private int pitch;
 	Timer timer;
-	ProjectContainer project;
+	AbstractSequencerProjectContainer project;
 	
-	public AudioFeedBack(ProjectContainer project) {
+	public AudioFeedBack(AbstractSequencerProjectContainer project) {
 		this.project=project;
 		timer=new Timer(0,this);
 		timer.setRepeats(false);

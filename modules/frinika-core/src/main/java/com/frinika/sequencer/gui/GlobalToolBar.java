@@ -43,7 +43,6 @@ import com.frinika.voiceserver.JavaSoundVoiceServer;
 import com.frinika.voiceserver.VoiceServer;
 import com.frinika.gui.ToolbarSeperator;
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.FrinikaSequencer;
 import com.frinika.sequencer.Metronome;
 import com.frinika.sequencer.SwingSongPositionListenerWrapper;
@@ -67,12 +66,11 @@ public class GlobalToolBar extends JToolBar {
 
 	// ProjectFrame projectFrame;
 
-	public GlobalToolBar(final ProjectFrame projectFrame) {
-		final ProjectContainer project = projectFrame.getProjectContainer();
+	public GlobalToolBar(final ProjectContainer project) {
 		Insets insets = new Insets(0, 0, 0, 0);
 		setMargin(insets);
 
-		JPanel panel = new TransportPanel(projectFrame);
+		JPanel panel = new TransportPanel(project);
 		panel.setOpaque(false);
 		// panel.setMargin(insets);
 		// panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),"transport"));
@@ -115,7 +113,7 @@ public class GlobalToolBar extends JToolBar {
 		 */
 
 		// TODO should be a float
-		int bpm = (int) projectFrame.getProjectContainer().getSequencer()
+		int bpm = (int) project.getSequencer()
 				.getTempoInBPM();
 		final JSpinner tempoSpinner = new JSpinnerDraggable(
 				new SpinnerNumberModel((double) bpm, 0d, 999d, 1d));
@@ -134,7 +132,7 @@ public class GlobalToolBar extends JToolBar {
 			}
 		});
 
-		projectFrame.getProjectContainer().getSequencer()
+		project.getSequencer()
 				.addTempoChangeListener(new TempoChangeListener() {
 
 					public void notifyTempoChange(float bpm) {

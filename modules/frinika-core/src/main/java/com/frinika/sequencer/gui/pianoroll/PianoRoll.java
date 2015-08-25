@@ -40,8 +40,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.FrinikaSequence;
 import com.frinika.sequencer.SwingSongPositionListenerWrapper;
 import com.frinika.sequencer.gui.ColorScheme;
@@ -65,6 +63,7 @@ import com.frinika.sequencer.model.Part;
 import com.frinika.sequencer.model.timesignature.TimeSignatureList.QStepIterator;
 import com.frinika.sequencer.model.util.EventsInPartsIterator;
 import static com.frinika.localization.CurrentLocale.getMessage;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 /**
  * Implementation of a pianoRoll view and editor.
@@ -123,10 +122,9 @@ public class PianoRoll extends PianoRollPanelAdapter {
 	 * @param scroller
 	 *            controls the view onto the virtualScreen.
 	 */
-	public PianoRoll(final ProjectFrame frame, ItemScrollPane scroller) {
-		super(frame.getProjectContainer(), scroller, true, true);
+	public PianoRoll(final AbstractSequencerProjectContainer project, ItemScrollPane scroller) {
+		super(project, scroller, true, true);
 
-		final ProjectContainer project = frame.getProjectContainer();
 		notesOnScreen = new Iterable<MultiEvent>() {
 			public Iterator<MultiEvent> iterator() {
 				return new EventsInPartsIterator(project.getPartSelection()

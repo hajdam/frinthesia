@@ -36,7 +36,7 @@ import java.awt.BasicStroke;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.FrinikaSequence;
 import com.frinika.sequencer.SwingSongPositionListenerWrapper;
 import com.frinika.sequencer.gui.ColorScheme;
@@ -80,6 +80,7 @@ import com.frinika.sequencer.model.timesignature.TimeSignatureList;
 import com.frinika.sequencer.model.timesignature.TimeSignatureList.QStepIterator;
 import com.frinika.sequencer.model.timesignature.TimeSignatureList.TimeSignatureEvent;
 import com.frinika.sequencer.model.util.TimeUtils;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 /**
  * 
@@ -113,7 +114,7 @@ public class PartView extends ItemPanel implements SelectionListener<Part>,
        project.getPartSelection().addSelectionListener(
                 this);
         this.frame = frame;
-        this.tempoList = frame.getProjectContainer().getTempoList();
+        this.tempoList = project.getTempoList();
 
         tempoList.addTempoListListener(new TempoListListener() {
 
@@ -125,16 +126,16 @@ public class PartView extends ItemPanel implements SelectionListener<Part>,
             }
         });
 
-        this.editHistory = frame.getProjectContainer().getEditHistoryContainer();
+        this.editHistory = project.getEditHistoryContainer();
         this.editHistory.addEditHistoryListener(this);
-        this.sequencer = frame.getProjectContainer().getSequencer();
+        this.sequencer = project.getSequencer();
         this.sequencer.addSongPositionListener(new SwingSongPositionListenerWrapper(
                 this));
         FrinikaSequence seq = (FrinikaSequence) this.sequencer.getSequence();
         this.ticksPerBeat = seq.getResolution();
 
-        if (frame.getProjectContainer().getPartViewSnapQuantization() == 0) {
-            frame.getProjectContainer().setPartViewSnapQuantization(-1);
+        if (project.getPartViewSnapQuantization() == 0) {
+            project.setPartViewSnapQuantization(-1);
         // this.ticksPerBeat*4);
         // HACK PJL * frame.getProjectContainer().beatsPerBar);
         }
@@ -167,7 +168,7 @@ public class PartView extends ItemPanel implements SelectionListener<Part>,
     }
 
     void dispose() {
-        this.project.getPartSelection().removeSelectionListener(this);
+        project.getPartSelection().removeSelectionListener(this);
         this.editHistory.removeEditHistoryListener(this);
         removeComponentListener(this);
     }

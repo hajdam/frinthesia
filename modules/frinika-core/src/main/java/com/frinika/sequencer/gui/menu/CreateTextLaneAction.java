@@ -25,7 +25,7 @@ package com.frinika.sequencer.gui.menu;
 
 import static com.frinika.localization.CurrentLocale.getMessage;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.model.TextLane;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;

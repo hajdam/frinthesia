@@ -44,7 +44,7 @@ import javax.swing.JPanel;
 import static com.frinika.localization.CurrentLocale.getMessage;
 
 import com.frinika.project.SynthesizerDescriptor;
-import com.frinika.project.mididevices.gui.MidiDevicesPanel;
+import com.frinika.sequencer.project.mididevices.gui.MidiDevicesPanel;
 import com.frinika.synth.importers.soundfont.SoundFontFileFilter;
 
 /**

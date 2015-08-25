@@ -24,7 +24,7 @@
 
 package com.frinika.project.scripting;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.project.ProjectContainer;
 import com.frinika.project.scripting.gui.ScriptingDialog;
 
 /**
@@ -36,13 +36,13 @@ import com.frinika.project.scripting.gui.ScriptingDialog;
 class ScriptThread extends Thread {
 	
 	private FrinikaScript script;
-	private ProjectFrame frame;
+	private ProjectContainer project;
 	private ScriptingDialog dialog;
 
-	ScriptThread(FrinikaScript script, ProjectFrame frame, ScriptingDialog dialog) {
+	ScriptThread(FrinikaScript script, ProjectContainer project, ScriptingDialog dialog) {
 		super();
 		this.script = script;
-		this.frame = frame;
+		this.project = project;
 		this.dialog = dialog;
 	}
 		
@@ -50,7 +50,7 @@ class ScriptThread extends Thread {
 		FrinikaScriptingEngine.runningScripts.put(script, this);
 		FrinikaScriptingEngine.notifyScriptListeners(script, script);
 		
-		Object result = FrinikaScriptingEngine.runScript(script, frame, dialog);
+		Object result = FrinikaScriptingEngine.runScript(script, project, dialog);
 		
 		FrinikaScriptingEngine.notifyScriptListeners(script, result);
 		FrinikaScriptingEngine.runningScripts.remove(script);

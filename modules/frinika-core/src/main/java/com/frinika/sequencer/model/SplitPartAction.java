@@ -28,6 +28,7 @@ import java.util.Vector;
 
 import com.frinika.project.ProjectContainer;
 import com.frinika.sequencer.gui.ItemPanel;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 /**
  * Action to split selected parts at a given tick.
@@ -37,7 +38,7 @@ import com.frinika.sequencer.gui.ItemPanel;
  */
 public class SplitPartAction implements EditHistoryAction {
 
-	ProjectContainer project;
+	AbstractSequencerProjectContainer project;
 
 	ItemPanel panel;
 
@@ -47,7 +48,7 @@ public class SplitPartAction implements EditHistoryAction {
 
 	long splitTick;
 
-	public SplitPartAction(ProjectContainer project, long tick) {
+	public SplitPartAction(AbstractSequencerProjectContainer project, long tick) {
 
                 // victims are the existing parts to be split
 		victims = new Vector<Part>();

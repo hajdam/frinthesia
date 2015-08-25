@@ -47,7 +47,7 @@ import javax.sound.midi.SysexMessage;
 import javax.sound.midi.Track;
 import javax.sound.midi.Transmitter;
 
-import com.frinika.project.FrinikaAudioSystem;
+import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.sequencer.gui.RecordingDialog;
 import com.frinika.sequencer.midi.MidiMessageListener;
 import com.frinika.sequencer.midi.MonitorReceiver;

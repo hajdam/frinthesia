@@ -25,10 +25,10 @@
 package com.frinika.sequencer.gui.menu.midi;
 
 import javax.swing.JComponent;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.model.MultiEvent;
 import com.frinika.sequencer.model.NoteEvent;
 import com.frinika.sequencer.model.ControllerEvent;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import java.util.*;
 
 /**
@@ -47,8 +47,8 @@ public class MidiReverseAction extends AbstractMidiAction {
 	int note = 36; // C3
 	boolean mirrorQuarter = false;
 
-	public MidiReverseAction(ProjectFrame frame) {
-		super(frame, "sequencer.midi.reverse");
+	public MidiReverseAction(AbstractSequencerProjectContainer project) {
+		super(project, "sequencer.midi.reverse");
 	}
 	
 	@Override

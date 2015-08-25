@@ -47,7 +47,7 @@ import javax.swing.filechooser.FileFilter;
 import rasmus.midi.provider.RasmusSynthesizer;
 
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.gui.mixer.SynthWrapper;
 import com.frinika.sequencer.midi.message.TempoMessage;
 import com.frinika.sequencer.model.ControllerEvent;
@@ -108,7 +108,8 @@ public class MODImporter {
 				
 				ProjectContainer project = new ProjectContainer();
 				load(newFile, project);
-				ProjectFrame frame = new ProjectFrame(project);
+				// TODO MOD ProjectFrame frame = new ProjectFrame(project);
+                                // TODO MOD ProjectFrame frame = ProjectContainer.createFrinikaFrame(project);
 			}
 			;
 		} catch (Exception ex) {

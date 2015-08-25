@@ -63,9 +63,10 @@ import uk.org.toot.audio.core.AudioBuffer;
 import uk.org.toot.audio.core.AudioProcess;
 
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.renderer.MidiRender;
 import com.frinika.renderer.MidiRenderFactory;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import com.frinika.soundbank.JARSoundbankLoader;
 import com.sun.media.sound.AudioSynthesizer;
 import java.lang.reflect.Field;
@@ -85,7 +86,7 @@ public class SynthWrapper implements Synthesizer, MidiRenderFactory,MidiDeviceIc
     MidiDeviceMixerPanel gui;
     AudioProcess synthVoice = null;
     public String soundBankFile;  // Hack (for simphoney to propagate to the mididevicedescriptor ).
-    ProjectContainer project;
+    AbstractSequencerProjectContainer project;
 
     MidiChannel[] midiChannels = new MidiChannel[16];
     {
@@ -351,7 +352,7 @@ public class SynthWrapper implements Synthesizer, MidiRenderFactory,MidiDeviceIc
      * @param midiDevice
      * @throws MidiUnavailableException 
      */
-    public SynthWrapper(ProjectContainer project,final MidiDevice midiDevice)
+    public SynthWrapper(AbstractSequencerProjectContainer project,final MidiDevice midiDevice)
     {
         this.midiDevice = midiDevice;
         this.project = project;
@@ -865,7 +866,7 @@ public class SynthWrapper implements Synthesizer, MidiRenderFactory,MidiDeviceIc
 	public Icon getIcon()
 	{		
 		if(icon != null) return icon;
-		icon = ProjectFrame.getMidiDeviceIcon(midiDevice);
+		icon = ProjectContainer.getMidiDeviceIcon(midiDevice);
 		return icon;
 	}
 	

@@ -40,7 +40,6 @@ import javax.swing.DefaultBoundedRangeModel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.FrinikaSequencer;
 import com.frinika.sequencer.SongPositionListener;
 import com.frinika.sequencer.model.tempo.TempoList;
@@ -49,6 +48,7 @@ import com.frinika.sequencer.model.timesignature.TimeSignatureList.QStepIterator
 import com.frinika.sequencer.model.timesignature.TimeSignatureList.TimeSignatureEvent;
 import com.frinika.sequencer.model.util.TimeUtils;
 import static com.frinika.localization.CurrentLocale.getMessage;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 /**
  * Basis for PianoRoll and PartView
@@ -134,7 +134,7 @@ abstract public class ItemPanel extends JPanel implements SongPositionListener,
     protected boolean dragArmed; // about to be dragged? but not started yet.
     private boolean dirty;
     protected int dragMode;
-    protected ProjectContainer project;
+    protected AbstractSequencerProjectContainer project;
     boolean hasTimeLine;
     private int timePanelHeight;
     private boolean canScrollY;
@@ -173,7 +173,7 @@ abstract public class ItemPanel extends JPanel implements SongPositionListener,
     //protected ProjectFrame frame;
     private int previousCursor;
 
-    protected ItemPanel(ProjectContainer project, ItemScrollPane scroller,
+    protected ItemPanel(AbstractSequencerProjectContainer project, ItemScrollPane scroller,
             boolean hasTimeLine, boolean canScrollY, double ticksToScreen,
             boolean sampleBased) {
         super(false);
@@ -1200,7 +1200,7 @@ abstract public class ItemPanel extends JPanel implements SongPositionListener,
         setCursor(cursors[mode]);
     }
 
-    public ProjectContainer getProjectContainer() {
+    public AbstractSequencerProjectContainer getProjectContainer() {
         return project;
     }
 

@@ -24,10 +24,10 @@
 
 package com.frinika.sequencer.gui.menu.midi;
 
+import com.frinika.gui.AbstractDialog;
 import static com.frinika.localization.CurrentLocale.getMessage;
 
 import com.frinika.gui.OptionsDialog;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.model.ControllerEvent;
 import com.frinika.sequencer.model.PitchBendEvent;
 import com.frinika.sequencer.model.NoteEvent;
@@ -35,6 +35,7 @@ import com.frinika.sequencer.model.MultiEvent;
 import com.frinika.sequencer.model.MidiPart;
 import com.frinika.sequencer.gui.TimeFormat;
 import com.frinika.sequencer.gui.TimeSelector;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -66,8 +67,8 @@ public class MidiInsertControllersAction extends AbstractMidiAction {
 	long resolution = 16;
 	ControllerFunction function;
 	
-	public MidiInsertControllersAction(ProjectFrame frame) {
-		super(frame, "sequencer.midi.insert_controllers");
+	public MidiInsertControllersAction(AbstractSequencerProjectContainer project) {
+		super(project, "sequencer.midi.insert_controllers");
 		initControllerFunctions();
 		function = availableFunctions.iterator().next(); // first one by default
 	}
@@ -156,12 +157,12 @@ public class MidiInsertControllersAction extends AbstractMidiAction {
 
 	@Override
 	protected JComponent createGUI() {
-		return new MidiInsertControllersActionEditor(frame, this);
+		return new MidiInsertControllersActionEditor(project, this);
 	}
 	
 	@Override
 	protected OptionsDialog createDialog() {
-		OptionsDialog d = new OptionsDialog(frame, createGUI(), getMessage(actionId)) {
+		OptionsDialog d = new OptionsDialog(new AbstractDialog(), createGUI(), getMessage(actionId)) {
 			@Override
 			public void repack() {
 				// nop
@@ -287,7 +288,7 @@ public class MidiInsertControllersAction extends AbstractMidiAction {
 		protected void createGUIExtra(JPanel panel) {
 			panel.add(new JPanel()); // spacer
 			panel.add(new JLabel("Interval"));
-			final TimeSelector phaseTimeSelector = new TimeSelector(phase, frame.getProjectContainer(), TimeFormat.BAR_BEAT_TICK);
+			final TimeSelector phaseTimeSelector = new TimeSelector(phase, project, TimeFormat.BAR_BEAT_TICK);
 			phaseTimeSelector.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					phase = phaseTimeSelector.getTicks();
@@ -295,7 +296,7 @@ public class MidiInsertControllersAction extends AbstractMidiAction {
 			});
 			panel.add(phaseTimeSelector);
 			panel.add(new JLabel("Shift"));
-			final TimeSelector shiftTimeSelector = new TimeSelector(shift, frame.getProjectContainer(), TimeFormat.BAR_BEAT_TICK);
+			final TimeSelector shiftTimeSelector = new TimeSelector(shift, project, TimeFormat.BAR_BEAT_TICK);
 			phaseTimeSelector.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					shift = shiftTimeSelector.getTicks();

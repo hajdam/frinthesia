@@ -17,11 +17,12 @@ import com.frinika.sequencer.gui.PopupClient;
 import com.frinika.sequencer.gui.PopupSelectorButton;
 import com.frinika.sequencer.gui.pianoroll.VirtualPianoVert;
 import com.frinika.sequencer.model.MidiLane;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
-public class DrumMapperGUI  extends JPanel  {
+public class DrumMapperGUI extends JPanel  {
 
 	DrumMapper dm;
-	ProjectContainer proj;
+	AbstractSequencerProjectContainer proj;
 	
 	VirtualPianoVert inPiano;
 	VirtualPianoVert outPiano;
@@ -31,7 +32,7 @@ public class DrumMapperGUI  extends JPanel  {
 	MidiLane lane;
 	
 	
-	DrumMapperGUI(final DrumMapper dm,ProjectContainer proj,MidiLane lane) {
+	DrumMapperGUI(final DrumMapper dm,AbstractSequencerProjectContainer proj,MidiLane lane) {
 		this.dm=dm;
 		this.lane=lane;
 		this.proj=proj;

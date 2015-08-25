@@ -37,7 +37,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 import com.frinika.gui.OptionsEditor;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.FrinikaTrackWrapper;
 import com.frinika.sequencer.gui.menu.RepeatAction;
 import com.frinika.sequencer.gui.menu.SplitSelectedPartsAction;
@@ -694,7 +694,7 @@ public class MidiPart extends Part implements EditHistoryRecorder<MultiEvent> {
 	@Override
 	protected void initContextMenu(final ProjectFrame frame, JPopupMenu popup) {
 		
-		JMenuItem item = new JMenuItem(new RepeatAction(frame));
+		JMenuItem item = new JMenuItem(new RepeatAction(frame.getProjectContainer()));
 		//item.setText(item.getText()+"..."); // hack
 		item.setMnemonic(KeyEvent.VK_R);
 		item.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0));		

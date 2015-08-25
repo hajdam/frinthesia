@@ -24,9 +24,9 @@
 
 package com.frinika.sequencer.gui.menu.midi;
 
+import com.frinika.gui.AbstractDialog;
 import static com.frinika.localization.CurrentLocale.getMessage;
 import com.frinika.gui.OptionsDialog;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.project.ProjectContainer;
 import com.frinika.sequencer.gui.partview.PartView;
 import com.frinika.sequencer.gui.virtualkeyboard.VirtualKeyboard;
@@ -34,6 +34,7 @@ import com.frinika.sequencer.model.MidiPart;
 import com.frinika.sequencer.model.MidiLane;
 import com.frinika.sequencer.model.NoteEvent;
 import com.frinika.sequencer.model.EditHistoryAction;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
@@ -56,13 +57,13 @@ public class MidiStepRecordAction extends AbstractAction {
 	int lengthDiff = -4;
 	int velocity = 100;
 	boolean autoRecord = true;
-	private ProjectFrame frame;
+	private AbstractSequencerProjectContainer project;
 	private MidiStepRecordActionDialog dialog;
 	MidiPart part;
 	
-	public MidiStepRecordAction(ProjectFrame frame) {
+	public MidiStepRecordAction(AbstractSequencerProjectContainer project) {
 		super(getMessage(actionId));
-		this.frame = frame;
+		this.project = project;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -70,12 +71,11 @@ public class MidiStepRecordAction extends AbstractAction {
 		if(!(java.awt.EventQueue.getCurrentEvent().getSource() instanceof JMenuItem))
 			if(!(KeyboardFocusManager.getCurrentKeyboardFocusManager().getPermanentFocusOwner() instanceof PartView)) return;
 		
-		ProjectContainer project = frame.getProjectContainer();
 		position = project.getSequencer().getTickPosition();		
 		part = project.getMidiSelection().getMidiPart();
 		
 		if (dialog == null) {
-			dialog = new MidiStepRecordActionDialog(frame, this);
+			dialog = new MidiStepRecordActionDialog(new AbstractDialog(), project, this);
 			OptionsDialog.centerOnScreen(dialog);
 		}
 		dialog.show();
@@ -85,10 +85,9 @@ public class MidiStepRecordAction extends AbstractAction {
 	 * Called back from dialog, when "record" is clicked, or triggered by auto-record. 
 	 */
 	int[] stepRecord(int[] notes) {
-		MidiPart part = frame.getProjectContainer().getMidiSelection().getMidiPart(); 
+		MidiPart part = project.getMidiSelection().getMidiPart(); 
 		
 		if (part != null) {
-			ProjectContainer project = frame.getProjectContainer();
 			SortedSet<Integer> inserted = new TreeSet<Integer>();
 			
 			project.getEditHistoryContainer().mark(getMessage(actionId));
@@ -105,13 +104,13 @@ public class MidiStepRecordAction extends AbstractAction {
 			final long oldPosition = position;
 			position += step;
 			final long newPosition = position;
-			frame.getProjectContainer().getSequencer().setTickPosition(position);
+			project.getSequencer().setTickPosition(position);
 			project.getEditHistoryContainer().push(new EditHistoryAction() {
 				public void undo() {
-					frame.getProjectContainer().getSequencer().setTickPosition(oldPosition);
+					project.getSequencer().setTickPosition(oldPosition);
 				}
 				public void redo() {
-					frame.getProjectContainer().getSequencer().setTickPosition(newPosition);
+					project.getSequencer().setTickPosition(newPosition);
 				}
 			});
 			
@@ -124,7 +123,7 @@ public class MidiStepRecordAction extends AbstractAction {
 			}
 			return result;
 		} else {
-			frame.message("Please select a part to record into.");
+			project.message("Please select a part to record into.");
 			return null;
 		}
 		

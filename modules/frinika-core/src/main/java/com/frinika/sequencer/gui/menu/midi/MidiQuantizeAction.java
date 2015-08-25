@@ -27,10 +27,9 @@ package com.frinika.sequencer.gui.menu.midi;
 import java.awt.Dimension;
 
 import com.frinika.gui.OptionsDialog;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.model.NoteEvent;
 import com.frinika.sequencer.model.Quantization;
-import com.frinika.sequencer.gui.menu.midi.MidiQuantizeActionEditor;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import javax.swing.JComponent;
 
 /**
@@ -42,8 +41,8 @@ public class MidiQuantizeAction extends AbstractMidiAction {
 	
 	public Quantization q = new Quantization();
 	
-	public MidiQuantizeAction(ProjectFrame frame) {
-		super(frame, "sequencer.midi.quantize");
+	public MidiQuantizeAction(AbstractSequencerProjectContainer project) {
+		super(project, "sequencer.midi.quantize");
 	}
 	
 	@Override

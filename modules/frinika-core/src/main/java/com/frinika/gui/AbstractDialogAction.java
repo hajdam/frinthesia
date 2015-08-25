@@ -30,8 +30,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 
-import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 /**
  * Abstract superclass for menu-actions that will pop-up a dialog (usually to
@@ -50,14 +50,14 @@ import com.frinika.project.gui.ProjectFrame;
  */
 public abstract class AbstractDialogAction extends AbstractAction {
 	
-	protected ProjectFrame frame;
+	protected AbstractSequencerProjectContainer project;
 	protected String actionId;
 	protected OptionsDialog dialog;
 	protected boolean canceled;
 
-	public AbstractDialogAction(ProjectFrame frame, String actionId) {
+	public AbstractDialogAction(AbstractSequencerProjectContainer project, String actionId) {
 		super(getMessage(actionId)+"...");
-		this.frame = frame;		
+		this.project = project;
 		this.actionId = actionId;
 	}
 	
@@ -105,7 +105,6 @@ public abstract class AbstractDialogAction extends AbstractAction {
 		
 	protected void performUndoable() {
 		// usually not overwritten by subclasses
-		ProjectContainer project = frame.getProjectContainer();
 		project.getEditHistoryContainer().mark(getMessage(actionId));
 		performAction();
 		project.getEditHistoryContainer().notifyEditHistoryListeners();
@@ -132,15 +131,15 @@ public abstract class AbstractDialogAction extends AbstractAction {
 	protected OptionsDialog createDialog() {
 		JComponent content = createGUI();
 		if (content != null) {
-			OptionsDialog d = new OptionsDialog(frame, content, getMessage(actionId));
+			OptionsDialog d = new OptionsDialog(new AbstractDialog(), content, getMessage(actionId));
 			return d;
 		} else {
 			return null;
 		}
 	}
 	
-	public ProjectFrame getProjectFrame() {
-		return frame;
+	public AbstractSequencerProjectContainer getProjectFrame() {
+		return project;
 	}
 		
 	/**

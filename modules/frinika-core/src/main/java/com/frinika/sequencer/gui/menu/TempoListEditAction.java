@@ -23,25 +23,22 @@
 package com.frinika.sequencer.gui.menu;
 
 import static com.frinika.localization.CurrentLocale.getMessage;
+import com.frinika.project.ProjectContainer;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.util.EventObject;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractCellEditor;
-import javax.swing.CellEditor;
-import javax.swing.DefaultCellEditor;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-import javax.swing.event.CellEditorListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableModel;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.gui.TimeSelector;
 import com.frinika.sequencer.model.tempo.TempoList;
 import com.frinika.sequencer.model.tempo.TempoListListener;
@@ -62,7 +59,7 @@ public class TempoListEditAction extends AbstractAction {
 	private TimeUtils timeUtil;
 
 	public TempoListEditAction(ProjectFrame project) {
-		super(getMessage("sequencer.project.edit_tempolist"), ProjectFrame
+		super(getMessage("sequencer.project.edit_tempolist"), ProjectContainer
 				.getIconResource("tempolist.png"));
 		this.project = project;
 		this.list = project.getProjectContainer().getTempoList();

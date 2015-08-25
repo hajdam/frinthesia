@@ -81,7 +81,7 @@ class MidiQuantizeActionEditor extends JPanel implements OptionsEditor {
         // TODO react on mnemonics for sliders (currently only displayed via labels)
     	ticks = new int[TimeSelector.NOTE_LENGTH_FACTORS.length];
         for (int i = 0; i < TimeSelector.NOTE_LENGTH_FACTORS.length; i++) {
-            ticks[i] = (int)Math.round(action.getProjectFrame().getProjectContainer().getSequence().getResolution() * 4 * TimeSelector.NOTE_LENGTH_FACTORS[i]);
+            ticks[i] = (int)Math.round(action.getProjectFrame().getSequence().getResolution() * 4 * TimeSelector.NOTE_LENGTH_FACTORS[i]);
         }
         resolutionList.setListData(TimeSelector.NOTE_LENGTH_NAMES);
     }
@@ -161,8 +161,10 @@ class MidiQuantizeActionEditor extends JPanel implements OptionsEditor {
     }
     
     private void openGroovePatternManagerDialog() {
-    	GroovePatternManagerDialog.showDialog(action.getProjectFrame());
-    	refreshGroovePatternComboBox();
+        throw new UnsupportedOperationException("Not supported yet.");
+        // TODO
+    	/* GroovePatternManagerDialog.showDialog(action.getProjectFrame());
+    	refreshGroovePatternComboBox(); */
     }
     
     /** This method is called from within the constructor to

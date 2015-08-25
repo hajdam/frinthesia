@@ -43,7 +43,8 @@ import javax.swing.JPopupMenu;
 import static com.frinika.localization.CurrentLocale.getMessage;
 
 import com.frinika.global.FrinikaConfig;
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.project.ProjectContainer;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.FrinikaSequencer;
 import com.frinika.sequencer.SongPositionListener;
 import com.frinika.sequencer.SwingSongPositionListenerWrapper;
@@ -61,7 +62,7 @@ public class TransportPanel extends JPanel {
 
 	FrinikaSequencer sequencer;
 
-	ProjectFrame projectFrame;
+	ProjectContainer project;
 
 	StartStopAction startStopAction;
 
@@ -79,16 +80,16 @@ public class TransportPanel extends JPanel {
 
 	private TimeUtils timeUtils;
 
-	public TransportPanel(ProjectFrame projectFrame) {
-		timeUtils= new TimeUtils(projectFrame.getProjectContainer());
-		this.projectFrame = projectFrame;
-		this.sequencer = projectFrame.getProjectContainer().getSequencer();
-		startStopAction = new StartStopAction(projectFrame);
-		rewindAction = new RewindAction(projectFrame);
-		recordAction = new RecordAction(projectFrame);
+	public TransportPanel(ProjectContainer project) {
+		timeUtils= new TimeUtils(project);
+		this.project = project;
+		this.sequencer = project.getSequencer();
+		startStopAction = new StartStopAction(project);
+		rewindAction = new RewindAction(project);
+		recordAction = new RecordAction(project);
 		initComponents();
 
-		projectFrame.getProjectContainer().getSequencer()
+		project.getSequencer()
 				.addSongPositionListener(new SwingSongPositionListenerWrapper(new SongPositionListener() {
 
 					public void notifyTickPosition(long tick) {

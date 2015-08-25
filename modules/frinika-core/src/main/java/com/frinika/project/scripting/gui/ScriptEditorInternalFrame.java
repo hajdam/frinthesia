@@ -169,7 +169,7 @@ class ScriptEditorInternalFrame extends JInternalFrame implements ScriptListener
             lastSaveTimestamp = file.lastModified();
             setDirty(false);
         } catch (IOException ioe) {
-            dialog.frame.error(ioe);
+            dialog.project.error(ioe);
         }
     }
     
@@ -229,8 +229,8 @@ class ScriptEditorInternalFrame extends JInternalFrame implements ScriptListener
 //System. out.println("starting watchdog thread for " + filename);
         while ( ! this.isClosed() ) {
             if ( hasBeenModifiedByExternalApplication() ) {
-                if ( dialog.frame.confirm("Script " + filename + " has been modified by an external application. Reload?") ) {
-                    if ( ( ! hasBeenModifiedWithoutSaving() ) || dialog.frame.confirm( "This will DESTROY local changes. Reload anyway?" ) ) {
+                if ( dialog.project.confirm("Script " + filename + " has been modified by an external application. Reload?") ) {
+                    if ( ( ! hasBeenModifiedWithoutSaving() ) || dialog.project.confirm( "This will DESTROY local changes. Reload anyway?" ) ) {
                         reload();
                     }
                 } else { // don't reload, leave external changes for now

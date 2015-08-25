@@ -1,5 +1,6 @@
 package com.frinika.project.gui;
 
+import com.frinika.sequencer.gui.ProjectFrame;
 import java.awt.event.KeyEvent;
 
 
@@ -16,19 +17,19 @@ public class SelectAllAction  {
 	}
 	
 	public boolean selectAll(KeyEvent e) {
-		if (project.trackerPanel.getTable().hasFocus())
+		if (project.getTrackerPanel().getTable().hasFocus())
 		{
-			project.trackerPanel.getTable().selectAll();
+			project.getTrackerPanel().getTable().selectAll();
 		}
 		else
-		if (project.partViewEditor.getPartview().getMousePosition() != null) {
-			project.partViewEditor.getPartview().selectAll();
+		if (project.getPartViewEditor().getPartview().getMousePosition() != null) {
+			project.getPartViewEditor().getPartview().selectAll();
 			
-		} else if (project.pianoControllerPane.getPianoRoll().getMousePosition() != null) { 
+		} else if (project.getPianoControllerPane().getPianoRoll().getMousePosition() != null) { 
 			
-			project.pianoControllerPane.getPianoRoll().selectAll();
-		} else if (project.pianoControllerPane.getControllerView().getMousePosition() != null) { 
-			project.pianoControllerPane.getControllerView().selectAll();
+			project.getPianoControllerPane().getPianoRoll().selectAll();
+		} else if (project.getPianoControllerPane().getControllerView().getMousePosition() != null) { 
+			project.getPianoControllerPane().getControllerView().selectAll();
 		} else {
 			return true;
 		}

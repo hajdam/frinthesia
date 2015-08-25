@@ -35,6 +35,7 @@ import com.frinika.sequencer.gui.selection.SelectionListener;
 import com.frinika.sequencer.model.EditHistoryAction;
 import com.frinika.sequencer.model.EditHistoryListener;
 import com.frinika.sequencer.model.MultiEvent;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 public class MultiEventEditPanel extends JPanel implements FeedbackEventListener,
 		EditHistoryListener, SelectionListener<MultiEvent> {
@@ -48,11 +49,11 @@ public class MultiEventEditPanel extends JPanel implements FeedbackEventListener
 
 	MultiEventTableModel model;
 
-	ProjectContainer project;
+	AbstractSequencerProjectContainer project;
 
 	MultiEvent event = null;
 
-	public MultiEventEditPanel(ProjectContainer project) {
+	public MultiEventEditPanel(AbstractSequencerProjectContainer project) {
 		this.project = project;
 		setOpaque(false);
 		int ticksPerBeat = project.getSequencer().getSequence().getResolution();

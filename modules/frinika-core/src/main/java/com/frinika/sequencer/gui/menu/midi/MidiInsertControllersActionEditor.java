@@ -26,13 +26,12 @@ package com.frinika.sequencer.gui.menu.midi;
 
 import com.frinika.gui.OptionsDialog;
 import com.frinika.gui.OptionsEditor;
-import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
 import com.frinika.sequencer.gui.ControllerSelector;
 import com.frinika.sequencer.gui.TimeFormat;
 import com.frinika.sequencer.gui.TimeSelector;
 import com.frinika.sequencer.model.MidiLane;
 import com.frinika.sequencer.model.MultiEvent;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -61,7 +60,7 @@ import javax.swing.event.ChangeListener;
 public class MidiInsertControllersActionEditor extends JPanel implements OptionsEditor {
     
     private MidiInsertControllersAction action;
-    private ProjectFrame frame;
+    private AbstractSequencerProjectContainer project;
     private TimeSelector startTimeSelector;
     private TimeSelector lengthTimeSelector;
     private TimeSelector resolutionTimeSelector;
@@ -70,12 +69,11 @@ public class MidiInsertControllersActionEditor extends JPanel implements Options
     private Map<MidiInsertControllersAction.ControllerFunction, JComponent> functions;
     
     /** Creates new form MidiInsertControllersActionEditor */
-    public MidiInsertControllersActionEditor(ProjectFrame frame, MidiInsertControllersAction action) {
+    public MidiInsertControllersActionEditor(AbstractSequencerProjectContainer project, MidiInsertControllersAction action) {
         super();
-        this.frame = frame;
+        this.project = project;
         this.action = action;
         initComponents();
-        ProjectContainer project = frame.getProjectContainer();
         startTimeSelector = new TimeSelector(project, TimeFormat.BAR_BEAT_TICK);
         startTimeSelectorPanel.add(startTimeSelector);
         lengthTimeSelector = new TimeSelector(project, TimeFormat.BEAT_TICK);
@@ -141,7 +139,7 @@ public class MidiInsertControllersActionEditor extends JPanel implements Options
     }
     
     public void refresh() {
-    	long start = frame.getProjectContainer().getSequencer().getTickPosition();
+    	long start = project.getSequencer().getTickPosition();
         startTimeSelector.setTicks(start);
         lengthTimeSelector.setTicks(action.length);
         resolutionTimeSelector.setTicks(action.resolution);

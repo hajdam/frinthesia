@@ -24,7 +24,7 @@
 
 package com.frinika.gui;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
@@ -59,7 +59,7 @@ public class AbstractDialog extends JDialog {
 	}
 
 	public AbstractDialog(ProjectFrame owner) throws HeadlessException {
-		super(owner);
+		super(owner.getFrame());
 		init(owner);
 	}
 
@@ -69,12 +69,12 @@ public class AbstractDialog extends JDialog {
 	}
 
 	public AbstractDialog(ProjectFrame owner, boolean modal) throws HeadlessException {
-		super(owner, modal);
+		super(owner.getFrame(), modal);
 		init(owner);
 	}
 
 	public AbstractDialog(ProjectFrame owner, String title) throws HeadlessException {
-		super(owner, title);
+		super(owner.getFrame(), title);
 		init(owner);
 	}
 
@@ -89,7 +89,7 @@ public class AbstractDialog extends JDialog {
 	}
 
 	public AbstractDialog(ProjectFrame owner, String title, boolean modal) throws HeadlessException {
-		super(owner, title, modal);
+		super(owner.getFrame(), title, modal);
 		init(owner);
 	}
 
@@ -99,7 +99,7 @@ public class AbstractDialog extends JDialog {
 	}
 
 	public AbstractDialog(ProjectFrame owner, String title, boolean modal, GraphicsConfiguration gc) {
-		super(owner, title, modal, gc);
+		super(owner.getFrame(), title, modal, gc);
 		init(owner);
 	}
 

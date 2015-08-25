@@ -62,8 +62,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import com.frinika.midi.DrumMapper;
 import com.frinika.project.MidiDeviceDescriptor;
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.ProjectFrame;
-import com.frinika.project.gui.ProjectNewFileFilter;
+import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.MidiResource;
 import com.frinika.sequencer.gui.JSpinnerDraggable;
 import com.frinika.sequencer.gui.ListProvider;
@@ -81,23 +80,24 @@ import com.frinika.sequencer.model.util.TimeUtils;
 import com.frinika.sequencer.patchname.MyPatch;
 import com.frinika.sequencer.patchname.Node;
 import com.frinika.sequencer.patchname.PatchNameMap;
+import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 public class MidiVoiceView extends LaneView {
 
     final MidiResource midiResource;
     MidiDevice midiDev = null;
     int channel;
-    ProjectFrame frame;
+    AbstractSequencerProjectContainer project;
     boolean drumMapView = false;
     DrumMapper mapper = null;
     TimeUtils timeUtil;
     static HashMap<Lane, MidiQuantizeAction> quantizeDialogCache = new HashMap<Lane, MidiQuantizeAction>();
 
-    public MidiVoiceView(MidiLane lane, ProjectFrame frame) {
+    public MidiVoiceView(MidiLane lane, AbstractSequencerProjectContainer project) {
         super(lane);
-        this.frame = frame;
-        timeUtil = frame.getProjectContainer().getTimeUtils(); // Jens
-        frame.getProjectContainer().getSequencer().setPlayOptions(lane.getTrack(), lane.getPlayOptions());
+        this.project = project;
+        timeUtil = project.getTimeUtils(); // Jens
+        project.getSequencer().setPlayOptions(lane.getTrack(), lane.getPlayOptions());
         midiResource = lane.getProject().getMidiResource();
         midiDev = ((MidiLane) lane).getMidiDevice();
         if (midiDev instanceof SynthWrapper) {
@@ -185,7 +185,7 @@ public class MidiVoiceView extends LaneView {
                 gc.gridx = 0;
                 gc.gridy++;
                 gc.gridwidth = GridBagConstraints.REMAINDER;
-                JPanel panel = ((DrumMapper) dev).getGUIPanel(frame, (MidiLane) lane);
+                JPanel panel = ((DrumMapper) dev).getGUIPanel(project, (MidiLane) lane);
                 gc.fill = GridBagConstraints.BOTH;
                 gc.weighty = 1.0;
                 gc.weightx = 1.0;
@@ -225,12 +225,12 @@ public class MidiVoiceView extends LaneView {
 
         // loop-time
         JLabel loopedLabel = new JLabel("Looped");
-        final TimeSelector loopedTimeSelector = new TimeSelector(opt.loopedTicks, true, frame.getProjectContainer(), TimeFormat.BEAT_TICK);
+        final TimeSelector loopedTimeSelector = new TimeSelector(opt.loopedTicks, true, project, TimeFormat.BEAT_TICK);
         /*ActionListener a = new ActionListener() {
         public void actionPerformed(ActionEvent e) {
         ((MidiLane)lane).getPlayOptions().loopedTicks = loopedTimeSelector.getTicks();
         try {
-        frame.partViewEditor.partViewEditor.partView.repaintItems(); // little bit dirty, would be better via listener
+        project.partViewEditor.partViewEditor.partView.repaintItems(); // little bit dirty, would be better via listener
         } catch (NullPointerException npe) {
         //nop (allow missing references during init)
         }
@@ -244,7 +244,7 @@ public class MidiVoiceView extends LaneView {
                 ((MidiLane) lane).getPlayOptions().loopedTicks = loopedTimeSelector.getTicks();
                 try {
                     //frame.partViewEditor.partViewEditor.partView.repaintItems(); // TODO little bit dirty, would be better via listener
-                    frame.repaintViews();
+                    // TODO project.repaintViews();
                 } catch (NullPointerException npe) {
                     //nop (allow missing references during init)
                 }
@@ -351,7 +351,7 @@ public class MidiVoiceView extends LaneView {
         add(new JPanel(), gc); // filler
 
         //JLabel quantizeLabel = new JLabel("Quantize");
-        final TimeSelector quantizeIntervalTimeSelector = new TimeSelector(frame.getProjectContainer(), TimeFormat.NOTE_LENGTH, false);
+        final TimeSelector quantizeIntervalTimeSelector = new TimeSelector(project, TimeFormat.NOTE_LENGTH, false);
         quantizeIntervalTimeSelector.setTicks(opt.quantization.interval);
         quantizeIntervalTimeSelector.addChangeListener(new ChangeListener() {
 
@@ -401,7 +401,7 @@ public class MidiVoiceView extends LaneView {
             public void actionPerformed(ActionEvent e) {
                 MidiQuantizeAction action = quantizeDialogCache.get(lane);
                 if (action == null) {
-                    action = new MidiQuantizeAction(frame); // dummy action for showing a dialog
+                    action = new MidiQuantizeAction(project); // dummy action for showing a dialog
                     quantizeDialogCache.put(lane, action);
                 }
                 action.q = opt.quantization; // directly modify 'our' QuantizeOptions
@@ -619,7 +619,7 @@ public class MidiVoiceView extends LaneView {
         };
 
         PopupSelectorButton popsel = new PopupSelectorButton(resource, client, chanStr);
-        popsel.setIcon(ProjectFrame.getIconResource("jack_connector.png"));
+        popsel.setIcon(ProjectContainer.getIconResource("jack_connector.png"));
         return popsel;
 
     }
@@ -728,7 +728,7 @@ public class MidiVoiceView extends LaneView {
         if (icon != null) {
             popsel.setIcon(icon);
         } else {
-            popsel.setIcon(ProjectFrame.getIconResource("midi.png"));
+            popsel.setIcon(ProjectContainer.getIconResource("midi.png"));
         }
         return popsel;
 

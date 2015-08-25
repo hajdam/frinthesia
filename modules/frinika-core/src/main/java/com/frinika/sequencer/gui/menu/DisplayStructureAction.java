@@ -27,7 +27,7 @@ import static com.frinika.localization.CurrentLocale.getMessage;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
-import com.frinika.project.gui.ProjectFrame;
+import com.frinika.sequencer.gui.ProjectFrame;
 
 public class DisplayStructureAction extends AbstractAction {
 
