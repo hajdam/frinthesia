@@ -29,7 +29,7 @@ import com.frinika.sequencer.gui.mixer.SynthWrapper;
 import com.frinika.sequencer.model.Lane;
 import com.frinika.sequencer.model.MidiLane;
 import com.frinika.base.FrinikaAudioSystem;
-import com.frinika.project.gui.FrinikaFrame;
+import com.frinika.frame.FrinikaFrame;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;

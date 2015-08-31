@@ -25,7 +25,7 @@ package com.frinika.sequencer.gui.tracker;
 
 import com.frinika.FrinikaMain;
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.FrinikaFrame;
+import com.frinika.frame.FrinikaFrame;
 import com.frinika.sequencer.model.MidiPart;
 import com.frinika.sequencer.model.NoteEvent;
 import java.awt.Dimension;

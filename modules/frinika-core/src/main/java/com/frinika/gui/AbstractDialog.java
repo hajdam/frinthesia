@@ -24,8 +24,7 @@
 
 package com.frinika.gui;
 
-import com.frinika.sequencer.gui.ProjectFrame;
-
+import com.frinika.global.ProjectFrameIntf;
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
@@ -44,13 +43,13 @@ import javax.swing.KeyStroke;
  * A simple extension to JDialog, as base class for other dialogs.
  * Additionally to JDialog, instances of this class keep a type-safe reference to the current
  * ProjectFrame, and provide a cancel() method that can either be called programmatically, or
- * will ce called when the user pressed the esc-key.
+ * will be called when the user pressed the esc-key.
  *  
  * @author Jens Gulden
  */
 public class AbstractDialog extends JDialog {
 	
-	protected ProjectFrame frame;
+    protected ProjectFrameIntf frame;
     protected boolean canceled;
 
 	public AbstractDialog() throws HeadlessException {
@@ -58,7 +57,7 @@ public class AbstractDialog extends JDialog {
 		init(null);
 	}
 
-	public AbstractDialog(ProjectFrame owner) throws HeadlessException {
+	public AbstractDialog(ProjectFrameIntf owner) throws HeadlessException {
 		super(owner.getFrame());
 		init(owner);
 	}
@@ -68,12 +67,12 @@ public class AbstractDialog extends JDialog {
 		init(owner.getProjectFrame());
 	}
 
-	public AbstractDialog(ProjectFrame owner, boolean modal) throws HeadlessException {
+	public AbstractDialog(ProjectFrameIntf owner, boolean modal) throws HeadlessException {
 		super(owner.getFrame(), modal);
 		init(owner);
 	}
 
-	public AbstractDialog(ProjectFrame owner, String title) throws HeadlessException {
+	public AbstractDialog(ProjectFrameIntf owner, String title) throws HeadlessException {
 		super(owner.getFrame(), title);
 		init(owner);
 	}
@@ -88,7 +87,7 @@ public class AbstractDialog extends JDialog {
 		init(owner.getProjectFrame());
 	}
 
-	public AbstractDialog(ProjectFrame owner, String title, boolean modal) throws HeadlessException {
+	public AbstractDialog(ProjectFrameIntf owner, String title, boolean modal) throws HeadlessException {
 		super(owner.getFrame(), title, modal);
 		init(owner);
 	}
@@ -98,7 +97,7 @@ public class AbstractDialog extends JDialog {
 		init(owner.getProjectFrame());
 	}
 
-	public AbstractDialog(ProjectFrame owner, String title, boolean modal, GraphicsConfiguration gc) {
+	public AbstractDialog(ProjectFrameIntf owner, String title, boolean modal, GraphicsConfiguration gc) {
 		super(owner.getFrame(), title, modal, gc);
 		init(owner);
 	}
@@ -108,7 +107,7 @@ public class AbstractDialog extends JDialog {
 		init(owner.getProjectFrame());
 	}
 
-	private void init(ProjectFrame frame) {
+	private void init(ProjectFrameIntf frame) {
 		this.frame = frame;
         // close on esc:
         final String ESC_CANCEL = "esc-cancel";
@@ -145,7 +144,7 @@ public class AbstractDialog extends JDialog {
 		this.hide();
 	}
 	
-	public ProjectFrame getProjectFrame() {
+	public ProjectFrameIntf getProjectFrame() {
 		return frame;
 	}
 

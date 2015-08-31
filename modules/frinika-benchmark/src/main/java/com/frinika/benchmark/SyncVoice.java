@@ -25,7 +25,7 @@
 package com.frinika.benchmark;
 
 import com.frinika.voiceserver.Voice;
-import com.frinika.global.FrinikaConfig;
+import com.frinika.project.gui.FrinikaConfig;
 import com.frinika.sequencer.FrinikaSequencer;
 
 public abstract class SyncVoice extends Voice{

@@ -1,12 +1,20 @@
 rootProject.name = 'frinthesia-project'
 
 include ":modules:frinika-core"
+include ":modules:frinika-audio"
 include ":modules:frinika-frame"
 include ":modules:frinika-mod"
 include ":modules:frinika-radio"
 include ":modules:frinika-notation"
 include ":modules:frinika-codeexamples"
 include ":modules:frinika-simphoney"
+include ":modules:frinika-synth"
+include ":modules:frinika-tracker"
+include ":modules:frinika-sequencer"
+include ":modules:frinika-project"
+include ":modules:frinika-frame"
+include ":modules:frinika-frogdisco"
+include ":modules:sevenzip"
 
 include ":tools:frinthesia"
 include ":tools:frinika"

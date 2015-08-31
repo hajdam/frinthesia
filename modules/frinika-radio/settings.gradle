@@ -1,7 +1,19 @@
 rootProject.name = 'frinika-radio'
 include ":modules:frinika-core"
+include ":modules:frinika-audio"
+include ":modules:frinika-synth"
+include ":modules:frinika-tracker"
+include ":modules:frinika-sequencer"
+include ":modules:frinika-project"
+include ":modules:sevenzip"
 
 if (rootProject.path == ':') {
     def rootProjectDir = rootProject.projectDir.path + "/../.."
     project(':modules:frinika-core').projectDir = new File(rootProjectDir + "/modules/frinika-core")
+    project(':modules:frinika-audio').projectDir = new File(rootProjectDir + "/modules/frinika-audio")
+    project(':modules:frinika-synth').projectDir = new File(rootProjectDir + "/modules/frinika-synth")
+    project(':modules:frinika-tracker').projectDir = new File(rootProjectDir + "/modules/frinika-tracker")
+    project(':modules:frinika-sequencer').projectDir = new File(rootProjectDir + "/modules/frinika-sequencer")
+    project(':modules:frinika-project').projectDir = new File(rootProjectDir + "/modules/frinika-project")
+    project(':modules:sevenzip').projectDir = new File(rootProjectDir + "/modules/sevenzip")
 }

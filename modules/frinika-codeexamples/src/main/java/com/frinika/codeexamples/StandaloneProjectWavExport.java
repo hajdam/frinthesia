@@ -28,7 +28,7 @@ import com.frinika.project.ProjectContainer;
  * along with Frinika; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-import com.frinika.tools.MyMidiRenderer;
+import com.frinika.sequencer.tools.MyMidiRenderer;
 import com.frinika.base.FrinikaAudioSystem;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;

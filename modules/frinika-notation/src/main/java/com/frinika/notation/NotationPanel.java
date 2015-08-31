@@ -32,12 +32,11 @@ import java.util.Collection;
 import java.util.Vector;
 
 import javax.swing.JPanel;
-import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.gui.ItemPanel;
 import com.frinika.sequencer.gui.ItemRollToolBar;
 import com.frinika.sequencer.gui.ItemScrollPane;
 import com.frinika.sequencer.gui.Layout;
-import com.frinika.sequencer.gui.ListProvider;
+import com.frinika.audio.gui.ListProvider;
 import com.frinika.sequencer.gui.pianoroll.MultiEventEditPanel;
 import com.frinika.sequencer.gui.selection.SelectionContainer;
 import com.frinika.sequencer.gui.selection.SelectionListener;

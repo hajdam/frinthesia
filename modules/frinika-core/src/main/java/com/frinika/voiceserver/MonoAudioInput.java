@@ -23,11 +23,9 @@
  */
 package com.frinika.voiceserver;
 
-
+import com.frinika.global.FrinikaConfig;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.TargetDataLine;
-
-import com.frinika.global.FrinikaConfig;
 
 /**
  * @author peter

@@ -27,7 +27,7 @@ package com.frinika.tootX;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.ShortMessage;
 
-import com.frinika.sequencer.midi.MidiMessageListener;
+import com.frinika.midi.MidiMessageListener;
 
 /**
  * A simple MidiMessageMonitor that looks for the peak value.

@@ -25,7 +25,7 @@
 package com.frinika.notation.model;
 
 import com.frinika.notation.NotationGraphics;
-import com.frinika.sequencer.model.EditHistoryRecordable;
+import com.frinika.model.EditHistoryRecordable;
 import com.frinika.sequencer.model.MidiPart;
 import com.frinika.sequencer.model.NotationEvent;
 

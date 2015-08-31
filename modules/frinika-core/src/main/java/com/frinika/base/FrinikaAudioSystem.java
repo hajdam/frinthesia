@@ -30,7 +30,7 @@
 
 package com.frinika.base;
 
-import com.frinika.audio.frogdisco.FrogDiscoAudioServer;
+import com.frinika.global.FrinikaConfig;
 import java.util.List;
 import java.util.Observer;
 import java.util.Observable;
@@ -41,7 +41,6 @@ import javax.swing.JComponent;
 
 import uk.org.toot.swingui.audioui.serverui.*;
 
-import com.frinika.global.FrinikaConfig;
 import com.frinika.toot.javasoundmultiplexed.*; // !!!
 import com.frinika.tootX.LatencyTesterPanel;
 import uk.org.toot.audio.server.AbstractAudioServer;

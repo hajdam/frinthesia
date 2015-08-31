@@ -26,7 +26,7 @@ package com.frinika.benchmark.audio;
 import javax.sound.sampled.TargetDataLine;
 
 import com.frinika.benchmark.SyncVoice;
-import com.frinika.global.FrinikaConfig;
+import com.frinika.project.gui.FrinikaConfig;
 import com.frinika.sequencer.FrinikaSequencer;
 import com.frinika.sequencer.gui.AudioDeviceHandle;
 

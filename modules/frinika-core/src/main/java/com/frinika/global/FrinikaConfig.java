@@ -23,7 +23,6 @@
  */
 package com.frinika.global;
 
-import java.awt.BorderLayout;
 import java.awt.Font;
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,10 +55,9 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 
 import com.frinika.base.FrinikaAudioSystem;
-import com.frinika.gui.DefaultOptionsBinder;
 import com.frinika.gui.util.FontChooser;
-import com.frinika.gui.util.PresentationPanel;
-import com.frinika.sequencer.gui.ProjectFrame;
+import java.awt.Component;
+import java.awt.Frame;
 
 
 /**
@@ -176,7 +174,7 @@ public class FrinikaConfig {
 	 * @param d
 	 * @return
 	 */
-	private static Map<Meta, Object> bindMap(ConfigDialogPanel d) {
+	public static Map<Meta, Object> bindMap(ConfigDialogPanel d) {
 		Map<Meta, Object> m =  new HashMap<Meta, Object>();
 		m.put( _AUDIO_BUFFER_LENGTH, 					d.spinnerBufferSize );
 		m.put( _DIRECT_MONITORING, 						d.checkboxUseDirectMonitoring );
@@ -327,39 +325,7 @@ public class FrinikaConfig {
 			throw new ConfigError("there are fields which are not bound to gui elements (or to null), see above");
 		}
 	}
-	
-	public static void showDialog(ProjectFrame frame) {
-		if (showingDialog != null) { // already showing (or initialized and hidden)?
-			if (showingDialogFrame == frame) { // for same frame?
-				showingDialog.show();
-				showingDialog.toFront(); // then just put to front
-				return;
-			} else { // showing for different frame: close old one first
-				showingDialog.dispose();
-			}
-		}
-		showingDialogFrame = frame.getFrame();
-		showingDialog = createDialog(frame);
-		showingDialog.show();
-	}
-	
-	protected static JDialog createDialog(ProjectFrame frame) {
-		ConfigDialogPanel configDialogPanel = new ConfigDialogPanel(frame);
-		Map<Meta, Object> m = bindMap(configDialogPanel);
-		Map<Field, Object> map = convertMap(m);
-		/*Object[][] m2 = dynamicBindMap(configDialogPanel);
-		Map<String, Object> map2 = new HashMap<String, Object>();
-		for (int i = 0; i < m2.length; i++) {
-			map2.put((String)m2[i][0], m2[i][1]);
-		}*/
-		//DefaultOptionsBinder optionsBinder = new DefaultOptionsBinder(map, map2, properties);
-		DefaultOptionsBinder optionsBinder = new DefaultOptionsBinder(map, properties);
-		ConfigDialog d = new ConfigDialog(frame, optionsBinder);
-		PresentationPanel presentationPanel = new PresentationPanel(configDialogPanel.tabbedPane);
-		d.getContentPane().add(presentationPanel, BorderLayout.CENTER);
-		return d;
-	}
-	
+        
 	public static Properties getProperties() {
 		return properties;
 	}
@@ -502,7 +468,7 @@ public class FrinikaConfig {
 		return m;
 	}
 	
-	private static Map<Field, Object> convertMap(Map<Meta, Object> map) {
+	public static Map<Field, Object> convertMap(Map<Meta, Object> map) {
 		Map<Field, Object> m = new HashMap<Field, Object>();
 		for (Map.Entry<Meta, Object> e : map.entrySet()) {
 			Field field = e.getKey().getField();
@@ -648,22 +614,22 @@ public class FrinikaConfig {
 		return s;
 	}
 	
-	public static void pickDirectory(ProjectFrame frame, JTextField boundTextField) {
+	public static void pickDirectory(Component frame, JTextField boundTextField) {
 		pickFile(frame, boundTextField, true);
 	}
 	
-	public static void pickFile(ProjectFrame frame, JTextField boundTextField) {
+	public static void pickFile(Component frame, JTextField boundTextField) {
 		pickFile(frame, boundTextField, false);
 	}
 	
-	public static void pickFile(ProjectFrame frame, JTextField boundTextField, boolean directory) {
+	public static void pickFile(Component frame, JTextField boundTextField, boolean directory) {
 		String s = boundTextField.getText();
 		File file = new File(s);
 		JFileChooser fc = new JFileChooser(file);
 		if (directory) {
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		}
-		fc.showDialog(frame.getFrame(), "Choose");
+		fc.showDialog(frame, "Choose");
 		file = fc.getSelectedFile();
 		if (file != null) {
 			s = fileToString(file);
@@ -671,10 +637,10 @@ public class FrinikaConfig {
 		}
 	}
 	
-	public static void pickFont(ProjectFrame frame, JTextField boundTextField) {
+	public static void pickFont(Frame frame, JTextField boundTextField) {
 		String s = boundTextField.getText();
 		Font font = stringToFont(s);
-		font = FontChooser.showDialog(frame.getFrame(), "Pick Font...", font);
+		font = FontChooser.showDialog(frame, "Pick Font...", font);
 		if (font != null) {
 			s = fontToString(font);
 			boundTextField.setText(s);

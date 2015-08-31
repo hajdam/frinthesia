@@ -1,0 +1,5 @@
+rootProject.name = 'frinika-toot'
+
+if (rootProject.path == ':') {
+    def rootProjectDir = rootProject.projectDir.path + "/../.."
+}

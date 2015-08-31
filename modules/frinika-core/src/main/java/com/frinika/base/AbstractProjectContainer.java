@@ -23,6 +23,7 @@
  */
 package com.frinika.base;
 
+import com.frinika.model.EditHistoryContainer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,23 +31,23 @@ import uk.org.toot.audio.mixer.MixerControls;
 
 /**
  * Use to load Frinika projects.
- * 
+ *
  * This class links together all components of a Frinika project, and provides
  * all operations and features - including a Frinika sequencer instance.
- * 
+ *
  * Information about Midi Devices - naming and how to reopen them is contained
  * using the MidiDeviceDescriptors.
- * 
+ *
  * Audio files are stored in a folder named audio which is created in the same
  * folder as where the project is. Thus a good convention is to have one folder
  * per project.
- * 
+ *
  * @author Peter Johan Salomonsen
  */
 public abstract class AbstractProjectContainer {
 
-    // NBP Added change listener as hack for new/load/save events
-    private static List<FrinikaProjectChangeListener> changeListeners = new ArrayList<FrinikaProjectChangeListener>();
+    // Modified listener for new/load/save events
+    private static List<FrinikaProjectChangeListener> changeListeners = new ArrayList<>();
     private static AbstractProjectContainer mainProject;
 
     /**
@@ -79,8 +80,11 @@ public abstract class AbstractProjectContainer {
         return false;
     }
 
-    /** Listener for project changes */
+    /**
+     * Listener for project changes.
+     */
     public interface FrinikaProjectChangeListener {
+
         public void newProject(AbstractProjectContainer project);
     }
 
@@ -91,4 +95,5 @@ public abstract class AbstractProjectContainer {
         }
     }
 
+    public abstract EditHistoryContainer getEditHistoryContainer();
 }

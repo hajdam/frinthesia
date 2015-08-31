@@ -3,7 +3,7 @@ package com.frinika.codeexamples;
 
 import com.frinika.voiceserver.VoiceServer;
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.FrinikaFrame;
+import com.frinika.frame.FrinikaFrame;
 
 import com.frinika.sequencer.gui.mixer.SynthWrapper;
 import com.frinika.sequencer.model.MidiPart;

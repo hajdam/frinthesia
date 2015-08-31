@@ -5,6 +5,9 @@ include ":modules:frinika-mod"
 include ":modules:frinika-radio"
 include ":modules:frinika-notation"
 include ":modules:frinika-simphoney"
+include ":modules:frinika-sequencer"
+include ":modules:frinika-project"
+include ":modules:frinika-frogdisco"
 
 if (rootProject.path == ':') {
     def rootProjectDir = rootProject.projectDir.path + "/../.."
@@ -14,4 +17,7 @@ if (rootProject.path == ':') {
     project(':modules:frinika-radio').projectDir = new File(rootProjectDir + "/modules/frinika-radio")
     project(':modules:frinika-notation').projectDir = new File(rootProjectDir + "/modules/frinika-notation")
     project(':modules:frinika-simphoney').projectDir = new File(rootProjectDir + "/modules/frinika-simphoney")
+    project(':modules:frinika-sequencer').projectDir = new File(rootProjectDir + "/modules/frinika-sequencer")
+    project(':modules:frinika-project').projectDir = new File(rootProjectDir + "/modules/frinika-project")
+    project(':modules:frinika-frogdisco').projectDir = new File(rootProjectDir + "/modules/frinika-frogdisco")
 }

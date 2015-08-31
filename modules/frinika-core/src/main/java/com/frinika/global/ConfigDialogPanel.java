@@ -25,17 +25,18 @@
 package com.frinika.global;
 
 import com.frinika.base.FrinikaAudioSystem;
+import com.frinika.gui.DefaultOptionsBinder;
 import com.frinika.gui.util.PropertiesEditor;
+import java.awt.Frame;
 import java.util.Collection;
 import java.util.Vector;
-
-import com.frinika.sequencer.gui.ProjectFrame;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 /**
@@ -61,7 +62,7 @@ import javax.swing.JTextField;
  */
 public class ConfigDialogPanel extends JPanel {
     
-    private ProjectFrame frame;
+    private Frame frame;
     private PropertiesEditor audioPropertiesEditor;
 	private JLabel jLabelAudioDirectory;
 	JTextField textfieldAudioDirectory;
@@ -80,7 +81,7 @@ public class ConfigDialogPanel extends JPanel {
 	private JButton buttonPickDefaultSoundFont;
     
     /** Creates new form ConfigDialogPanel */
-    public ConfigDialogPanel(ProjectFrame frame) {
+    public ConfigDialogPanel(Frame frame) {
         this.frame = frame;
         initComponents();
         audioPropertiesEditor = new PropertiesEditor(FrinikaConfig.getProperties());
@@ -911,5 +912,8 @@ public class ConfigDialogPanel extends JPanel {
     javax.swing.JTextField textfieldScriptsDirectory;
     private javax.swing.JPanel userInterfacePanel;
     // End of variables declaration//GEN-END:variables
-    
+
+    public JTabbedPane getTabbedPane() {
+        return tabbedPane;
+    }    
 }

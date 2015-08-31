@@ -45,5 +45,6 @@ dependencies {
     compile(project(':modules:frinika-mod'))
     compile(project(':modules:frinika-radio'))
     compile(project(':modules:frinika-notation'))
+    compile(project(':modules:frinika-project'))
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }

@@ -37,10 +37,10 @@ import org.flexdock.view.Viewport;
 
 
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.FrinikaFrame;
+import com.frinika.frame.FrinikaFrame;
+import com.frinika.midi.MidiMessageListener;
 import com.frinika.sequencer.project.RecordingManager;
 import com.frinika.sequencer.gui.ProjectFrame;
-import com.frinika.sequencer.midi.MidiMessageListener;
 import com.frinika.tootX.midi.MidiRouterSerialization;
 import uk.org.toot.control.BooleanControl;
 import uk.org.toot.swingui.controlui.BooleanControlPanel;

@@ -8,7 +8,7 @@ import java.io.RandomAccessFile;
 import com.frinika.voiceserver.AudioContext;
 import com.frinika.voiceserver.VoiceServer;
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.FrinikaFrame;
+import com.frinika.frame.FrinikaFrame;
 import com.frinika.sequencer.model.audio.DAudioReader;
 
 /*

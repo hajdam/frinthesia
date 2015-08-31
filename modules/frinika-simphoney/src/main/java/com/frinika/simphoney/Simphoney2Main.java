@@ -36,9 +36,6 @@ import java.io.IOException;
 import javax.swing.UIManager;
 import net.roydesign.app.Application;
 
-import com.frinika.About;
-import com.frinika.SplashDialog;
-import com.frinika.WelcomeDialog;
 import com.frinika.base.FrinikaAudioSystem;
 import com.frinika.global.FrinikaConfig;
 import com.frinika.global.Toolbox;
@@ -46,13 +43,16 @@ import com.frinika.tootX.midi.MidiInDeviceManager;
 import com.frinika.project.ProjectContainer;
 import com.frinika.project.gui.ProjectFocusListener;
 import com.frinika.sequencer.gui.ProjectFrame;
-import com.frinika.sequencer.gui.menu.CreateProjectAction;
-import com.frinika.project.gui.menu.OpenProjectAction;
 import com.frinika.settings.SetupDialog;
 //import com.frinika.toot.SwitchedAudioClient;
 
 import static com.frinika.localization.CurrentLocale.getMessage;
-import com.frinika.project.gui.FrinikaFrame;
+import com.frinika.frame.FrinikaFrame;
+import com.frinika.frame.WelcomeDialog;
+import com.frinika.frame.action.CreateProjectAction;
+import com.frinika.frame.action.OpenProjectAction;
+import com.frinika.project.dialog.About;
+import com.frinika.project.dialog.SplashDialog;
 
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;

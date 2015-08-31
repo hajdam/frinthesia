@@ -46,8 +46,6 @@ import javax.swing.filechooser.FileFilter;
 
 import rasmus.midi.provider.RasmusSynthesizer;
 
-import com.frinika.project.ProjectContainer;
-import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.sequencer.gui.mixer.SynthWrapper;
 import com.frinika.sequencer.midi.message.TempoMessage;
 import com.frinika.sequencer.model.ControllerEvent;
@@ -69,10 +67,9 @@ import com.vwp.sound.mod.modplay.player.Mixer;
 import com.vwp.sound.mod.modplay.player.ModuleState;
 import com.vwp.sound.mod.modplay.player.PlayerException;
 import com.vwp.sound.mod.modplay.player.TrackState;
+import com.frinika.project.ProjectContainer;
 
 import static com.frinika.localization.CurrentLocale.getMessage;
-
-
 
 public class MODImporter {
 

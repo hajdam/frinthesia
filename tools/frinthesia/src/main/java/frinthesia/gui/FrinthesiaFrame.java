@@ -6,7 +6,7 @@
 package frinthesia.gui;
 
 import com.frinika.project.ProjectContainer;
-import com.frinika.project.gui.FrinikaFrame;
+import com.frinika.frame.FrinikaFrame;
 import com.sun.media.sound.SoftSynthesizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;

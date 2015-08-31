@@ -22,7 +22,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package com.frinika.voiceserver;
-import com.frinika.voiceserver.CPUMeter;
+import com.frinika.global.FrinikaConfig;
 import javax.sound.sampled.*;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -33,9 +33,6 @@ import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import com.frinika.global.FrinikaConfig;
-
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -24,14 +24,12 @@
 
 package com.frinika.gui;
 
+import com.frinika.base.AbstractProjectContainer;
 import static com.frinika.localization.CurrentLocale.getMessage;
 
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
-
-import com.frinika.sequencer.gui.ProjectFrame;
-import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 
 /**
  * Abstract superclass for menu-actions that will pop-up a dialog (usually to
@@ -50,12 +48,12 @@ import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
  */
 public abstract class AbstractDialogAction extends AbstractAction {
 	
-	protected AbstractSequencerProjectContainer project;
+	protected AbstractProjectContainer project;
 	protected String actionId;
 	protected OptionsDialog dialog;
 	protected boolean canceled;
 
-	public AbstractDialogAction(AbstractSequencerProjectContainer project, String actionId) {
+	public AbstractDialogAction(AbstractProjectContainer project, String actionId) {
 		super(getMessage(actionId)+"...");
 		this.project = project;
 		this.actionId = actionId;
@@ -131,14 +129,14 @@ public abstract class AbstractDialogAction extends AbstractAction {
 	protected OptionsDialog createDialog() {
 		JComponent content = createGUI();
 		if (content != null) {
-			OptionsDialog d = new OptionsDialog(new AbstractDialog(), content, getMessage(actionId));
+			OptionsDialog d = new OptionsDialog(null, content, getMessage(actionId));
 			return d;
 		} else {
 			return null;
 		}
 	}
 	
-	public AbstractSequencerProjectContainer getProjectFrame() {
+	public AbstractProjectContainer getProjectFrame() {
 		return project;
 	}
 		

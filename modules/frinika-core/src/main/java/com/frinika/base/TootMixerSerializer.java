@@ -24,7 +24,6 @@
 
 package com.frinika.base;
 
-import com.frinika.project.ProjectContainer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -32,10 +31,6 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.Sequence;
-
-import uk.org.toot.audio.mixer.MixerControls;
 
 import com.frinika.tootX.MixerControlsMidiStreamSnapshotAutomation;
 

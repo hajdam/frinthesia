@@ -28,10 +28,10 @@ import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
 
 import com.frinika.project.ProjectContainer;
+import com.frinika.project.dialog.ExportWavDialog;
 import javax.sound.sampled.AudioFileFormat.Type;
 import com.frinika.tootX.midi.MidiInDeviceManager;
 import com.frinika.sequencer.gui.mixer.SynthWrapper;
-import com.frinika.tracker.filedialogs.ExportWavDialog;
 import javax.sound.midi.Instrument;
 import javax.sound.midi.Patch;
 import javax.sound.midi.Soundbank;
