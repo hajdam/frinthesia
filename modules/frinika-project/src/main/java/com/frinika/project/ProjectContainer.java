@@ -163,9 +163,7 @@ public class ProjectContainer extends AbstractSequencerProjectContainer implemen
     private static final long serialVersionUID = 1L;
     TootMixerSerializer mixerSerializer;
     ProjectLane projectLane;
-    transient MidiResource midiResource;
     transient SoloManager soloManager;
-    transient FrinikaSequencer sequencer;
     transient FrinikaRenderer renderer;
     transient FrinikaSequence sequence = null;
     transient EditHistoryContainer editHistoryContainer;
@@ -216,7 +214,6 @@ public class ProjectContainer extends AbstractSequencerProjectContainer implemen
      * a different resolution - and when saving to a project - the sequence
      * created when reloading will have the resolution stored here.
      */
-    int ticksPerQuarterNote = FrinikaConfig.TICKS_PER_QUARTER;
     private TempoList tempoList;
     private double pianoRollSnapQuantization = 0;
     private double partViewSnapQuantization = 0;
@@ -1574,24 +1571,6 @@ public class ProjectContainer extends AbstractSequencerProjectContainer implemen
         return myClipboard;
     }
 
-    public void rebuildGUI() {
-        ViewableLaneList list = new ViewableLaneList(this);
-        list.rebuild();
-        /*
-         * for (Lane lane : list) {
-         * 
-         * if (lane.getParts() != null) { for (Part p : lane.getParts()) {
-         * System.out.println(p); } } }
-         */
-
-        // projectLane.setHidden(true);
-        // projectLane.getChildren().get(0).setHidden(true);
-        // TODO should this part of the loadProject ?
-        // Myabe not. Resources vary from machine to machine.
-        // Need to discuss this ?
-        midiResource = new MidiResource(sequencer);
-    }
-
     /**
      * 
      * @return piano roll quantization in ticks
@@ -2159,130 +2138,6 @@ public class ProjectContainer extends AbstractSequencerProjectContainer implemen
 
         add(lane);
         return lane;
-    }
-
-    public void createMidiLanesFromSequence(Sequence seq, MidiDevice midiDevice) {
-
-        // Vector<MidiLane> lanesToLoad = new Vector<MidiLane>();
-
-        // FrinikaSequence fSeq = sequence;
-
-        if (seq.getDivisionType() == Sequence.PPQ) {
-            int ticksPerQuarterNote1 = seq.getResolution();
-            System.out.println(" Project PPQ = " + ticksPerQuarterNote);
-            System.out.println(" Midi    PPQ = " + ticksPerQuarterNote1);
-        } else {
-            System.out.println("WARNING: The resolution type of the imported Sequence is not supported by Frinika");
-        }
-
-        // Vector<FrinikaTrackWrapper> origTracks = new
-        // Vector<FrinikaTrackWrapper>(
-        // sequence.getFrinikaTrackWrappers());
-        //
-        // Vector<FrinikaTrackWrapper> midiTracks = sequence
-        // .addSequence(
-
-        Sequence splitSeq = MidiSequenceConverter.splitChannelsToMultiTrack(seq);
-
-
-
-        int nTrack = splitSeq.getTracks().length;
-        System.out.println(" Adding " + (nTrack) + " tracks ");
-
-        // sequencer.setSequence(sequence);
-
-        // create a copy
-
-        // we are going to rebuild this
-        // origTracks.removeAllElements();
-
-        getEditHistoryContainer().mark(
-                getMessage("sequencer.project.add_midi_lane"));
-
-        for (int iTrack = 0; iTrack < nTrack; iTrack++) {
-
-            int chan = 0;
-            Track track = splitSeq.getTracks()[iTrack];
-            // if (origTracks.contains(ftw)) continue;
-            // Use the first MidiEvent in ftw to detect the channel used
-            // Detect by first ShortMessage find (FIX by KH)
-            for (int i = 0; i < track.size(); i++) {
-                MidiMessage msg = track.get(i).getMessage();
-                if (msg instanceof ShortMessage) {
-                    chan = ((ShortMessage) msg).getChannel();
-                    break;
-                }
-            }
-
-            // PJS: The resolving of channel and device has to be done before
-            // the ftw is attached to a lane (cause the following uperation can
-            // change the first midi event)
-            // FrinikaTrackWrapper ftw=sequence.createFrinikaTrack();
-            MidiLane lane = createMidiLane(); // new MidiLane(ftw, this);
-
-            // lanesToLoad.add(lane);
-
-            lane.setMidiChannel(chan);
-
-            MidiPart part = new MidiPart(lane);
-            long startTick = 0;
-            long endTick = Long.MAX_VALUE;
-            part.importFromMidiTrack(track, startTick, endTick);
-
-            // Find name of the track from the sequence file
-            for (int i = 0; i < track.size(); i++) {
-                MidiEvent event = track.get(i);
-                if (event.getTick() > 0) {
-                    break;
-                }
-                MidiMessage msg = event.getMessage();
-                if (msg instanceof MetaMessage) {
-                    MetaMessage meta = (MetaMessage) msg;
-                    if (meta.getType() == 3) // Track text
-                    {
-                        if (meta.getLength() > 0) {
-                            try {
-                                String txt = new String(meta.getData());
-                                lane.setName(txt);
-                            } catch (Throwable t) {
-                                t.printStackTrace();
-                            }
-                        }
-                    }
-                }
-            }
-            part.commitEventsAdd();
-        // seq.(ftw);
-        // add(lane);
-        // part.onLoad();
-        }
-
-        rebuildGUI();
-
-        if (midiDevice != null) {
-            try {
-                // midiDevice.open();
-                midiDevice = new SynthWrapper(this, midiDevice);
-
-                addMidiOutDevice(midiDevice);
-
-            } catch (Exception e2) {
-                e2.printStackTrace();
-                midiDevice = null;
-            }
-        }
-
-        // for (FrinikaTrackWrapper ftw : midiTracks) {
-        // // if (origTracks.contains(ftw)) continue;
-        // if (midiDevice != null)
-        // ftw.setMidiDevice(midiDevice);
-        // }
-
-        // for (MidiLane lane : lanesToLoad) {
-        // add(lane);
-        // }
-
-        getEditHistoryContainer().notifyEditHistoryListeners();
     }
 
     public DragList getDragList() {

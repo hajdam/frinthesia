@@ -23,8 +23,6 @@
  */
 package com.frinika.voiceserver;
 
-import com.frinika.audio.*;
-
 /**
  * An audio context is the glue between a Frinika Voice server and the audio interfaces of the
  * operating system. By creating an instance of audio context, you'll automatically get a voice

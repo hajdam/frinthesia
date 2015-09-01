@@ -42,5 +42,6 @@ check.dependsOn.remove(test)
 
 dependencies {
     compile(project(':modules:frinika-core'))
+    compile(project(':modules:frinika-audio'))
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }

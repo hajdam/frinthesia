@@ -23,7 +23,6 @@
  */
 package com.frinika.voiceserver;
 
-import com.frinika.audio.*;
 import java.awt.Color;
 import java.awt.GridLayout;
 

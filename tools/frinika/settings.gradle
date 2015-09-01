@@ -11,6 +11,8 @@ include ":modules:frinika-tracker"
 include ":modules:frinika-sequencer"
 include ":modules:frinika-project"
 include ":modules:frinika-frogdisco"
+include ":modules:frinika-rasmusdsp"
+include ":modules:frinika-mystudio"
 include ":modules:sevenzip"
 
 if (rootProject.path == ':') {
@@ -27,5 +29,7 @@ if (rootProject.path == ':') {
     project(':modules:frinika-sequencer').projectDir = new File(rootProjectDir + "/modules/frinika-sequencer")
     project(':modules:frinika-project').projectDir = new File(rootProjectDir + "/modules/frinika-project")
     project(':modules:frinika-frogdisco').projectDir = new File(rootProjectDir + "/modules/frinika-frogdisco")
+    project(':modules:frinika-rasmusdsp').projectDir = new File(rootProjectDir + "/modules/frinika-rasmusdsp")
+    project(':modules:frinika-mystudio').projectDir = new File(rootProjectDir + "/modules/frinika-mystudio")
     project(':modules:sevenzip').projectDir = new File(rootProjectDir + "/modules/sevenzip")
 }

@@ -29,6 +29,8 @@ import com.frinika.audio.io.BufferedRandomAccessFileManager;
 import com.frinika.audio.toot.AudioInjector;
 import com.frinika.base.AbstractProjectContainer;
 import com.frinika.base.FrinikaAudioServer;
+import com.frinika.global.FrinikaConfig;
+import static com.frinika.localization.CurrentLocale.getMessage;
 import com.frinika.sequencer.FrinikaSequence;
 import com.frinika.sequencer.FrinikaSequencer;
 import com.frinika.sequencer.FrinikaTrackWrapper;
@@ -44,12 +46,15 @@ import com.frinika.sequencer.gui.selection.SelectionFocusable;
 import com.frinika.sequencer.model.AudioLane;
 import com.frinika.model.EditHistoryContainer;
 import com.frinika.model.EditHistoryRecorder;
+import com.frinika.sequencer.converter.MidiSequenceConverter;
 import com.frinika.sequencer.model.Lane;
 import com.frinika.sequencer.model.MidiLane;
+import com.frinika.sequencer.model.MidiPart;
 import com.frinika.sequencer.model.ProjectLane;
 import com.frinika.sequencer.model.SoloManager;
 import com.frinika.sequencer.model.SynthLane;
 import com.frinika.sequencer.model.TextLane;
+import com.frinika.sequencer.model.ViewableLaneList;
 import com.frinika.sequencer.model.tempo.TempoList;
 import com.frinika.sequencer.model.timesignature.TimeSignatureList;
 import com.frinika.sequencer.model.util.TimeUtils;
@@ -66,10 +71,16 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiEvent;
+import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Synthesizer;
+import javax.sound.midi.Track;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -83,6 +94,10 @@ import uk.org.toot.audio.mixer.AudioMixer;
 public abstract class AbstractSequencerProjectContainer extends AbstractProjectContainer implements EditHistoryRecorder<Lane>,MidiConsumer,
         Serializable,DynamicMixer {
 
+    protected int ticksPerQuarterNote = FrinikaConfig.TICKS_PER_QUARTER;
+    protected transient MidiResource midiResource;
+    protected transient FrinikaSequencer sequencer;
+    
     public abstract File getFile();
 
     public abstract FrinikaSequencer getSequencer();
@@ -366,5 +381,147 @@ public abstract class AbstractSequencerProjectContainer extends AbstractProjectC
                 
                 midiDevicesPanel.updateDeviceTabs();
         }
+    }
+
+    public void createMidiLanesFromSequence(Sequence seq, MidiDevice midiDevice) {
+
+        // Vector<MidiLane> lanesToLoad = new Vector<MidiLane>();
+
+        // FrinikaSequence fSeq = sequence;
+
+        if (seq.getDivisionType() == Sequence.PPQ) {
+            int ticksPerQuarterNote1 = seq.getResolution();
+            System.out.println(" Project PPQ = " + ticksPerQuarterNote);
+            System.out.println(" Midi    PPQ = " + ticksPerQuarterNote1);
+        } else {
+            System.out.println("WARNING: The resolution type of the imported Sequence is not supported by Frinika");
+        }
+
+        // Vector<FrinikaTrackWrapper> origTracks = new
+        // Vector<FrinikaTrackWrapper>(
+        // sequence.getFrinikaTrackWrappers());
+        //
+        // Vector<FrinikaTrackWrapper> midiTracks = sequence
+        // .addSequence(
+
+        Sequence splitSeq = MidiSequenceConverter.splitChannelsToMultiTrack(seq);
+
+
+
+        int nTrack = splitSeq.getTracks().length;
+        System.out.println(" Adding " + (nTrack) + " tracks ");
+
+        // sequencer.setSequence(sequence);
+
+        // create a copy
+
+        // we are going to rebuild this
+        // origTracks.removeAllElements();
+
+        getEditHistoryContainer().mark(
+                getMessage("sequencer.project.add_midi_lane"));
+
+        for (int iTrack = 0; iTrack < nTrack; iTrack++) {
+
+            int chan = 0;
+            Track track = splitSeq.getTracks()[iTrack];
+            // if (origTracks.contains(ftw)) continue;
+            // Use the first MidiEvent in ftw to detect the channel used
+            // Detect by first ShortMessage find (FIX by KH)
+            for (int i = 0; i < track.size(); i++) {
+                MidiMessage msg = track.get(i).getMessage();
+                if (msg instanceof ShortMessage) {
+                    chan = ((ShortMessage) msg).getChannel();
+                    break;
+                }
+            }
+
+            // PJS: The resolving of channel and device has to be done before
+            // the ftw is attached to a lane (cause the following uperation can
+            // change the first midi event)
+            // FrinikaTrackWrapper ftw=sequence.createFrinikaTrack();
+            MidiLane lane = createMidiLane(); // new MidiLane(ftw, this);
+
+            // lanesToLoad.add(lane);
+
+            lane.setMidiChannel(chan);
+
+            MidiPart part = new MidiPart(lane);
+            long startTick = 0;
+            long endTick = Long.MAX_VALUE;
+            part.importFromMidiTrack(track, startTick, endTick);
+
+            // Find name of the track from the sequence file
+            for (int i = 0; i < track.size(); i++) {
+                MidiEvent event = track.get(i);
+                if (event.getTick() > 0) {
+                    break;
+                }
+                MidiMessage msg = event.getMessage();
+                if (msg instanceof MetaMessage) {
+                    MetaMessage meta = (MetaMessage) msg;
+                    if (meta.getType() == 3) // Track text
+                    {
+                        if (meta.getLength() > 0) {
+                            try {
+                                String txt = new String(meta.getData());
+                                lane.setName(txt);
+                            } catch (Throwable t) {
+                                t.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
+            part.commitEventsAdd();
+        // seq.(ftw);
+        // add(lane);
+        // part.onLoad();
+        }
+
+        rebuildGUI();
+
+        if (midiDevice != null) {
+            try {
+                // midiDevice.open();
+                midiDevice = new SynthWrapper(this, midiDevice);
+
+                addMidiOutDevice(midiDevice);
+
+            } catch (Exception e2) {
+                e2.printStackTrace();
+                midiDevice = null;
+            }
+        }
+
+        // for (FrinikaTrackWrapper ftw : midiTracks) {
+        // // if (origTracks.contains(ftw)) continue;
+        // if (midiDevice != null)
+        // ftw.setMidiDevice(midiDevice);
+        // }
+
+        // for (MidiLane lane : lanesToLoad) {
+        // add(lane);
+        // }
+
+        getEditHistoryContainer().notifyEditHistoryListeners();
+    }
+
+    public void rebuildGUI() {
+        ViewableLaneList list = new ViewableLaneList(this);
+        list.rebuild();
+        /*
+         * for (Lane lane : list) {
+         * 
+         * if (lane.getParts() != null) { for (Part p : lane.getParts()) {
+         * System.out.println(p); } } }
+         */
+
+        // projectLane.setHidden(true);
+        // projectLane.getChildren().get(0).setHidden(true);
+        // TODO should this part of the loadProject ?
+        // Myabe not. Resources vary from machine to machine.
+        // Need to discuss this ?
+        midiResource = new MidiResource(sequencer);
     }
 }

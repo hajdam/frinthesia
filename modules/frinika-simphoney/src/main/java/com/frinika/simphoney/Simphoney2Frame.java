@@ -34,8 +34,6 @@ import javax.swing.JPanel;
 
 import org.flexdock.view.Viewport;
 
-
-
 import com.frinika.project.ProjectContainer;
 import com.frinika.frame.FrinikaFrame;
 import com.frinika.midi.MidiMessageListener;

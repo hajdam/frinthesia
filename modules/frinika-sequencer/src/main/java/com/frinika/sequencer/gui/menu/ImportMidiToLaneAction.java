@@ -34,6 +34,7 @@ import javax.swing.JFileChooser;
 
 import com.frinika.sequencer.gui.ProjectFrame;
 import com.frinika.tracker.MidiFileFilter;
+import javax.sound.midi.MidiSystem;
 
 public class ImportMidiToLaneAction extends AbstractAction {
 
@@ -62,11 +63,9 @@ public class ImportMidiToLaneAction extends AbstractAction {
 				
 				MidiDevice mididdevice = project.selectMidiDevice();
 
-                                throw new UnsupportedOperationException("Not supported yet.");
-                                /* TODO
 				project.getProjectContainer().createMidiLanesFromSequence(MidiSystem.getSequence(newMidiFile), mididdevice);
 				
-				midiFile = newMidiFile; */
+				midiFile = newMidiFile;
 			}
 			;
 		} catch (Exception ex) {

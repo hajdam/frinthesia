@@ -1,7 +1,9 @@
 rootProject.name = 'frinika-rasmusdsp'
 include ":modules:frinika-core"
+include ":modules:frinika-audio"
 
 if (rootProject.path == ':') {
     def rootProjectDir = rootProject.projectDir.path + "/../.."
     project(':modules:frinika-core').projectDir = new File(rootProjectDir + "/modules/frinika-core")
+    project(':modules:frinika-audio').projectDir = new File(rootProjectDir + "/modules/frinika-audio")
 }

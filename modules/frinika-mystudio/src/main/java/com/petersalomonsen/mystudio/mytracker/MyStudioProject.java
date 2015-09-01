@@ -25,7 +25,7 @@ package com.petersalomonsen.mystudio.mytracker;
 
 import java.io.Serializable;
 
-import com.frinika.project.settings.ProjectSettings;
+import com.frinika.sequencer.project.ProjectSettings;
 import com.frinika.synth.settings.SynthSettings;
 import com.petersalomonsen.mystudio.mysynth.SynthSetup;
 
