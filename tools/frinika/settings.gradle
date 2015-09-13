@@ -15,21 +15,14 @@ include ":modules:frinika-rasmusdsp"
 include ":modules:frinika-mystudio"
 include ":modules:sevenzip"
 
+def modifyPath(project) {
+    def rootProjectDir = rootProject.projectDir.parentFile.parent
+    project.children.each { p ->
+        p.projectDir = new File(rootProjectDir + p.projectDir.path.substring(rootProject.projectDir.path.length(), p.projectDir.path.length()))
+        modifyPath(p)
+    }
+}
+
 if (rootProject.path == ':') {
-    def rootProjectDir = rootProject.projectDir.path + "/../.."
-    project(':modules:frinika-core').projectDir = new File(rootProjectDir + "/modules/frinika-core")
-    project(':modules:frinika-audio').projectDir = new File(rootProjectDir + "/modules/frinika-audio")
-    project(':modules:frinika-frame').projectDir = new File(rootProjectDir + "/modules/frinika-frame")
-    project(':modules:frinika-mod').projectDir = new File(rootProjectDir + "/modules/frinika-mod")
-    project(':modules:frinika-radio').projectDir = new File(rootProjectDir + "/modules/frinika-radio")
-    project(':modules:frinika-notation').projectDir = new File(rootProjectDir + "/modules/frinika-notation")
-    project(':modules:frinika-simphoney').projectDir = new File(rootProjectDir + "/modules/frinika-simphoney")
-    project(':modules:frinika-synth').projectDir = new File(rootProjectDir + "/modules/frinika-synth")
-    project(':modules:frinika-tracker').projectDir = new File(rootProjectDir + "/modules/frinika-tracker")
-    project(':modules:frinika-sequencer').projectDir = new File(rootProjectDir + "/modules/frinika-sequencer")
-    project(':modules:frinika-project').projectDir = new File(rootProjectDir + "/modules/frinika-project")
-    project(':modules:frinika-frogdisco').projectDir = new File(rootProjectDir + "/modules/frinika-frogdisco")
-    project(':modules:frinika-rasmusdsp').projectDir = new File(rootProjectDir + "/modules/frinika-rasmusdsp")
-    project(':modules:frinika-mystudio').projectDir = new File(rootProjectDir + "/modules/frinika-mystudio")
-    project(':modules:sevenzip').projectDir = new File(rootProjectDir + "/modules/sevenzip")
+    modifyPath(rootProject)
 }
