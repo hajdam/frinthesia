@@ -80,12 +80,12 @@ public class FrinthesiaAnimatedLogo extends javax.swing.JPanel {
     public void animate() {
         cloud1Position.x--;
         if (cloud1Position.x < -cloudWidth) {
-            cloud1Position.x = 2 * cloudWidth;
+            cloud1Position.x = cloudWidth;
         }
 
         cloud2Position.x--;
         if (cloud2Position.x < -cloudWidth) {
-            cloud2Position.x = 2 * cloudWidth;
+            cloud2Position.x = cloudWidth;
         }
 
         lightPosition.x += 3;
