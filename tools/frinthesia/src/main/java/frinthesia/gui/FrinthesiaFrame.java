@@ -8,24 +8,38 @@ package frinthesia.gui;
 import com.frinika.project.ProjectContainer;
 import com.frinika.frame.FrinikaFrame;
 import com.sun.media.sound.SoftSynthesizer;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
+import javax.swing.JLayeredPane;
 
 /**
  *
- * @author hajdam
+ * @author Frinthesia Project
  */
 public class FrinthesiaFrame extends javax.swing.JFrame {
 
     private FrinikaFrame project;
+    private JLayeredPane contentPane;
 
     /**
      * Creates new form FrinthesiaFrame
      */
     public FrinthesiaFrame() {
         initComponents();
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (isVisible()) {
+                    frinthesiaAnimatedLogo.animate();
+                }
+            }
+        }, 0, 70);
     }
 
     /**
@@ -39,6 +53,7 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        frinthesiaAnimatedLogo = new frinthesia.gui.FrinthesiaAnimatedLogo();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Frinthesia - ALPHA 0.1.0");
@@ -56,7 +71,7 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -64,24 +79,37 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton1)
-                .addContainerGap(226, Short.MAX_VALUE))
+                .addContainerGap(272, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout frinthesiaAnimatedLogoLayout = new javax.swing.GroupLayout(frinthesiaAnimatedLogo);
+        frinthesiaAnimatedLogo.setLayout(frinthesiaAnimatedLogoLayout);
+        frinthesiaAnimatedLogoLayout.setHorizontalGroup(
+            frinthesiaAnimatedLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        frinthesiaAnimatedLogoLayout.setVerticalGroup(
+            frinthesiaAnimatedLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 113, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(frinthesiaAnimatedLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(131, 131, 131)
+                .addGap(119, 119, 119)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(91, 91, 91)
+                .addComponent(frinthesiaAnimatedLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addGap(24, 24, 24))
         );
 
         pack();
@@ -94,8 +122,10 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
             mididdevice.open();
             project.setProject(new ProjectContainer(MidiSystem.getSequence(getClass().getResource("/frinthesia/fuga_g-moll.mid")), mididdevice));
             project.setVisible(true);
+
         } catch (Exception ex) {
-            Logger.getLogger(FrinthesiaFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrinthesiaFrame.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -113,13 +143,15 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrinthesiaFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrinthesiaFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */
@@ -132,6 +164,7 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private frinthesia.gui.FrinthesiaAnimatedLogo frinthesiaAnimatedLogo;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
