@@ -5,25 +5,22 @@
  */
 package frinthesia.gui;
 
-import com.frinika.project.ProjectContainer;
 import com.frinika.frame.FrinikaFrame;
+import com.frinika.project.ProjectContainer;
 import com.sun.media.sound.SoftSynthesizer;
+import frinthesia.gui.dialog.PlayDialog;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
-import javax.swing.JLayeredPane;
 
 /**
  *
  * @author Frinthesia Project
  */
 public class FrinthesiaFrame extends javax.swing.JFrame {
-
-    private FrinikaFrame project;
-    private JLayeredPane contentPane;
 
     /**
      * Creates new form FrinthesiaFrame
@@ -52,16 +49,24 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        playMidiButton = new javax.swing.JButton();
+        openEditorButton = new javax.swing.JButton();
         frinthesiaAnimatedLogo = new frinthesia.gui.FrinthesiaAnimatedLogo();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Frinthesia - ALPHA 0.1.0");
 
-        jButton1.setText("PLAY MIDI");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        playMidiButton.setText("PLAY MIDI");
+        playMidiButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                playMidiButtonActionPerformed(evt);
+            }
+        });
+
+        openEditorButton.setText("OPEN EDITOR");
+        openEditorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openEditorButtonActionPerformed(evt);
             }
         });
 
@@ -71,22 +76,26 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(playMidiButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(openEditorButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
-                .addContainerGap(272, Short.MAX_VALUE))
+                .addComponent(playMidiButton)
+                .addGap(18, 18, 18)
+                .addComponent(openEditorButton)
+                .addContainerGap(284, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout frinthesiaAnimatedLogoLayout = new javax.swing.GroupLayout(frinthesiaAnimatedLogo);
         frinthesiaAnimatedLogo.setLayout(frinthesiaAnimatedLogoLayout);
         frinthesiaAnimatedLogoLayout.setHorizontalGroup(
             frinthesiaAnimatedLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 616, Short.MAX_VALUE)
         );
         frinthesiaAnimatedLogoLayout.setVerticalGroup(
             frinthesiaAnimatedLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,36 +107,37 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(frinthesiaAnimatedLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(119, 119, 119)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(149, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(frinthesiaAnimatedLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void playMidiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playMidiButtonActionPerformed
+        PlayDialog playDialog = new PlayDialog(this, true);
+        playDialog.setVisible(true);
+    }//GEN-LAST:event_playMidiButtonActionPerformed
+
+    private void openEditorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openEditorButtonActionPerformed
         try {
-            project = new FrinikaFrame();
+            FrinikaFrame project = new FrinikaFrame();
             MidiDevice mididdevice = new SoftSynthesizer();
             mididdevice.open();
             project.setProject(new ProjectContainer(MidiSystem.getSequence(getClass().getResource("/frinthesia/fuga_g-moll.mid")), mididdevice));
             project.setVisible(true);
-
         } catch (Exception ex) {
             Logger.getLogger(FrinthesiaFrame.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_openEditorButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,8 +175,9 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private frinthesia.gui.FrinthesiaAnimatedLogo frinthesiaAnimatedLogo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton openEditorButton;
+    private javax.swing.JButton playMidiButton;
     // End of variables declaration//GEN-END:variables
 
 }
