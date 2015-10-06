@@ -5,9 +5,12 @@
  */
 package frinthesia.gui;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import javax.swing.ImageIcon;
 
@@ -24,6 +27,13 @@ public class FrinthesiaAnimatedLogo extends javax.swing.JPanel {
     private final Point cloud1Position;
     private final Point cloud2Position;
     private final Point lightPosition;
+    private BufferedImage animationBuffer;
+    private final ImageObserver observer = new ImageObserver() {
+        @Override
+        public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+            return true;
+        }
+    };
 
     // Cached values
     private int cloudWidth = 0;
@@ -58,23 +68,40 @@ public class FrinthesiaAnimatedLogo extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void invalidate() {
+        animationBuffer = null;
+        updateBuffer();
+        super.invalidate();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+        if (animationBuffer != null) {
+            g.drawImage(animationBuffer, 0, 0, this);
+        }
+    }
 
-        ImageObserver observer = new ImageObserver() {
-            @Override
-            public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-                return true;
+    protected void updateBuffer() {
+        int width = getWidth();
+        int height = getHeight();
+        if (width > 0 && height > 0) {
+            if (animationBuffer == null) {
+                animationBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+                Graphics2D g = animationBuffer.createGraphics();
+
+                int panelWidth = width;
+                int startPoint = (panelWidth - labelWidth) / 2;
+                g.setColor(Color.WHITE);
+                g.fillRect(0, 0, width, height);
+                g.drawImage(labelImage.getImage(), startPoint, 0, observer);
+                g.drawImage(cloudImage.getImage(), startPoint + cloud1Position.x, cloud1Position.y, observer);
+                g.drawImage(cloudImage.getImage(), startPoint + cloud2Position.x, cloud2Position.y, observer);
+                g.drawImage(lightImage.getImage(), startPoint + lightPosition.x, lightPosition.y, observer);
+                g.dispose();
             }
-        };
-
-        int panelWidth = getWidth();
-        int startPoint = (panelWidth - labelWidth) / 2;
-        g.drawImage(labelImage.getImage(), startPoint, 0, observer);
-        g.drawImage(cloudImage.getImage(), startPoint + cloud1Position.x, cloud1Position.y, observer);
-        g.drawImage(cloudImage.getImage(), startPoint + cloud2Position.x, cloud2Position.y, observer);
-        g.drawImage(lightImage.getImage(), startPoint + lightPosition.x, lightPosition.y, observer);
+        }
     }
 
     public void animate() {
@@ -93,6 +120,7 @@ public class FrinthesiaAnimatedLogo extends javax.swing.JPanel {
             lightPosition.x = -lightWidth;
         }
 
+        invalidate();
         repaint();
     }
 }
