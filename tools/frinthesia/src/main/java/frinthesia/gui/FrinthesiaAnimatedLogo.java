@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 
 /**
  *
+ * @version 0.1.0 2015/11/28
  * @author Frinthesia Project
  */
 public class FrinthesiaAnimatedLogo extends javax.swing.JPanel {

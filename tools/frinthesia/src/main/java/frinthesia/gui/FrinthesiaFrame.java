@@ -9,22 +9,33 @@ import com.frinika.frame.FrinikaFrame;
 import com.frinika.project.ProjectContainer;
 import com.sun.media.sound.SoftSynthesizer;
 import frinthesia.gui.dialog.PlayDialog;
+import frinthesia.gui.panel.FrinthesiaPanel;
+import frinthesia.gui.panel.FrinthesiaPanelRecord;
+import frinthesia.gui.panel.MidiBrowserPanel;
+import java.awt.CardLayout;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
+import javax.swing.JPanel;
 
 /**
+ * Main Frinthesia Game frame.
  *
+ * @version 0.1.0 2015/11/28
  * @author Frinthesia Project
  */
 public class FrinthesiaFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrinthesiaFrame
-     */
+    private static final String BROWSER_PANEL_NAME = "browser";
+
+    private List<FrinthesiaPanelRecord> panels = new ArrayList<>();
+    private final MidiBrowserPanel midiBrowserPanel;
+
     public FrinthesiaFrame() {
         initComponents();
 
@@ -37,6 +48,10 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
                 }
             }
         }, 0, 70);
+
+        midiBrowserPanel = new MidiBrowserPanel();
+        mainPanel.add(midiBrowserPanel, BROWSER_PANEL_NAME);
+        panels.add(new FrinthesiaPanelRecord(startPanel, "start", false));
     }
 
     /**
@@ -48,13 +63,34 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel();
+        startPanel = new javax.swing.JPanel();
+        browseMidiButton = new javax.swing.JButton();
         playMidiButton = new javax.swing.JButton();
         openEditorButton = new javax.swing.JButton();
         frinthesiaAnimatedLogo = new frinthesia.gui.FrinthesiaAnimatedLogo();
+        bottomPanel = new javax.swing.JPanel();
+        aboutPanel = new javax.swing.JPanel();
+        aboutApplicationButton = new javax.swing.JButton();
+        backPanel = new javax.swing.JPanel();
+        backOnlyButton = new javax.swing.JButton();
+        backNextPanel = new javax.swing.JPanel();
+        backPartPanel = new javax.swing.JPanel();
+        backButton = new javax.swing.JButton();
+        nextPartPanel = new javax.swing.JPanel();
+        nextButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Frinthesia - ALPHA 0.1.0");
+
+        mainPanel.setLayout(new java.awt.CardLayout());
+
+        browseMidiButton.setText("BROWSE FILES");
+        browseMidiButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseMidiButtonActionPerformed(evt);
+            }
+        });
 
         playMidiButton.setText("PLAY MIDI");
         playMidiButton.addActionListener(new java.awt.event.ActionListener() {
@@ -70,26 +106,33 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout startPanelLayout = new javax.swing.GroupLayout(startPanel);
+        startPanel.setLayout(startPanelLayout);
+        startPanelLayout.setHorizontalGroup(
+            startPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, startPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(startPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(playMidiButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(openEditorButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(openEditorButton, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
+                    .addComponent(browseMidiButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        startPanelLayout.setVerticalGroup(
+            startPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(startPanelLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(browseMidiButton)
+                .addGap(18, 18, 18)
                 .addComponent(playMidiButton)
                 .addGap(18, 18, 18)
                 .addComponent(openEditorButton)
-                .addContainerGap(284, Short.MAX_VALUE))
+                .addContainerGap(222, Short.MAX_VALUE))
         );
+
+        mainPanel.add(startPanel, "start");
+
+        getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout frinthesiaAnimatedLogoLayout = new javax.swing.GroupLayout(frinthesiaAnimatedLogo);
         frinthesiaAnimatedLogo.setLayout(frinthesiaAnimatedLogoLayout);
@@ -102,23 +145,122 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
             .addGap(0, 124, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(frinthesiaAnimatedLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        getContentPane().add(frinthesiaAnimatedLogo, java.awt.BorderLayout.PAGE_START);
+
+        bottomPanel.setLayout(new java.awt.CardLayout());
+
+        aboutApplicationButton.setText("About...");
+        aboutApplicationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutApplicationButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout aboutPanelLayout = new javax.swing.GroupLayout(aboutPanel);
+        aboutPanel.setLayout(aboutPanelLayout);
+        aboutPanelLayout.setHorizontalGroup(
+            aboutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, aboutPanelLayout.createSequentialGroup()
+                .addContainerGap(513, Short.MAX_VALUE)
+                .addComponent(aboutApplicationButton)
+                .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(frinthesiaAnimatedLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(24, 24, 24))
+        aboutPanelLayout.setVerticalGroup(
+            aboutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(aboutPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(aboutApplicationButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pack();
+        bottomPanel.add(aboutPanel, "about");
+
+        backOnlyButton.setText("<< BACK");
+        backOnlyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backOnlyButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout backPanelLayout = new javax.swing.GroupLayout(backPanel);
+        backPanel.setLayout(backPanelLayout);
+        backPanelLayout.setHorizontalGroup(
+            backPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(backOnlyButton, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        backPanelLayout.setVerticalGroup(
+            backPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(backOnlyButton)
+                .addContainerGap())
+        );
+
+        bottomPanel.add(backPanel, "back");
+
+        backNextPanel.setLayout(new java.awt.GridLayout(1, 2));
+
+        backButton.setText("<< BACK");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout backPartPanelLayout = new javax.swing.GroupLayout(backPartPanel);
+        backPartPanel.setLayout(backPartPanelLayout);
+        backPartPanelLayout.setHorizontalGroup(
+            backPartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backPartPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        backPartPanelLayout.setVerticalGroup(
+            backPartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backPartPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(backButton)
+                .addContainerGap())
+        );
+
+        backNextPanel.add(backPartPanel);
+
+        nextButton.setText("NEXT >>");
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout nextPartPanelLayout = new javax.swing.GroupLayout(nextPartPanel);
+        nextPartPanel.setLayout(nextPartPanelLayout);
+        nextPartPanelLayout.setHorizontalGroup(
+            nextPartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(nextPartPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        nextPartPanelLayout.setVerticalGroup(
+            nextPartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, nextPartPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(nextButton)
+                .addContainerGap())
+        );
+
+        backNextPanel.add(nextPartPanel);
+
+        bottomPanel.add(backNextPanel, "backNext");
+
+        getContentPane().add(bottomPanel, java.awt.BorderLayout.SOUTH);
+
+        setSize(new java.awt.Dimension(626, 548));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void playMidiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playMidiButtonActionPerformed
@@ -138,6 +280,60 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
                     .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_openEditorButtonActionPerformed
+
+    private void aboutApplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutApplicationButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_aboutApplicationButtonActionPerformed
+
+    private void browseMidiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseMidiButtonActionPerformed
+        FrinthesiaPanelRecord midiBrowserPanelRecord = new FrinthesiaPanelRecord(midiBrowserPanel, BROWSER_PANEL_NAME, false);
+        panels.add(midiBrowserPanelRecord);
+        setCurrentPanel(midiBrowserPanelRecord);
+    }//GEN-LAST:event_browseMidiButtonActionPerformed
+
+    private void backOnlyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backOnlyButtonActionPerformed
+        backButtonActionPerformed(evt);
+    }//GEN-LAST:event_backOnlyButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        FrinthesiaPanelRecord backPanelRecord = panels.get(panels.size() - 2);
+        if (backPanelRecord.isLazy()) {
+            mainPanel.remove(backPanelRecord.getPanel());
+        }
+        panels.remove(panels.size() - 1);
+        setCurrentPanel(backPanelRecord);
+    }//GEN-LAST:event_backButtonActionPerformed
+
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        JPanel currentPanel = panels.get(panels.size() -1).getPanel();
+        if (currentPanel instanceof FrinthesiaPanel) {
+            FrinthesiaPanelRecord nextPanel = ((FrinthesiaPanel) currentPanel).getNextPanel();
+            if (nextPanel.isLazy()) {
+                mainPanel.add(nextPanel.getPanel(), nextPanel.getPanelName());
+            }
+
+            panels.add(nextPanel);
+            setCurrentPanel(nextPanel);
+        }
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    public void setCurrentPanel(FrinthesiaPanelRecord panelRecord) {
+        CardLayout mainLayout = (CardLayout) mainPanel.getLayout();
+        mainLayout.show(mainPanel, panelRecord.getPanelName());
+
+        boolean canNext = false;
+        JPanel panel = panelRecord.getPanel();
+        if (panel instanceof FrinthesiaPanel) {
+            canNext = ((FrinthesiaPanel) panel).canNext();
+        }
+
+        CardLayout bottomLayout = (CardLayout) bottomPanel.getLayout();
+        if (panel == startPanel) {
+            bottomLayout.show(bottomPanel, "about");
+        } else {
+            bottomLayout.show(bottomPanel, canNext ? "backNext" : "back");
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -174,10 +370,22 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton aboutApplicationButton;
+    private javax.swing.JPanel aboutPanel;
+    private javax.swing.JButton backButton;
+    private javax.swing.JPanel backNextPanel;
+    private javax.swing.JButton backOnlyButton;
+    private javax.swing.JPanel backPanel;
+    private javax.swing.JPanel backPartPanel;
+    private javax.swing.JPanel bottomPanel;
+    private javax.swing.JButton browseMidiButton;
     private frinthesia.gui.FrinthesiaAnimatedLogo frinthesiaAnimatedLogo;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JButton nextButton;
+    private javax.swing.JPanel nextPartPanel;
     private javax.swing.JButton openEditorButton;
     private javax.swing.JButton playMidiButton;
+    private javax.swing.JPanel startPanel;
     // End of variables declaration//GEN-END:variables
 
 }

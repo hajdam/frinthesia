@@ -33,8 +33,10 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPopupMenu;
 
 /**
+ * Main play dialog for the game.
  *
- * @author hajdam
+ * @version 0.1.0 2015/11/28
+ * @author Frinthesia Project
  */
 public class PlayDialog extends javax.swing.JDialog {
 
