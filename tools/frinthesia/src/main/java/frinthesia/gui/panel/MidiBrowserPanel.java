@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.table.TableCellEditor;
 
 /**
  * MIDI browser panel.
@@ -26,6 +25,7 @@ public class MidiBrowserPanel extends javax.swing.JPanel implements FrinthesiaPa
     private File currentPath;
     private final MidiBrowserModel tableModel = new MidiBrowserModel();
     private JFileChooser fileChooser = new JFileChooser();
+    private PanelOpenerListener panelOpener;
 
     /**
      * Creates new form midiBrowserPanel
@@ -132,6 +132,9 @@ public class MidiBrowserPanel extends javax.swing.JPanel implements FrinthesiaPa
             FileRecord record = tableModel.getRecord(row);
             if (record.getFileType() == FileRecord.FileType.DIRECTORY) {
                 setCurrentPath(record.getFile());
+            } else if (record.getFileType() == FileRecord.FileType.MIDI) {
+                PlayMidiPanel playMidiPanel = new PlayMidiPanel();
+                panelOpener.openPanel(new FrinthesiaPanelRecord(playMidiPanel, "play", true));
             }
         }
     }//GEN-LAST:event_browserTableMousePressed
@@ -172,5 +175,10 @@ public class MidiBrowserPanel extends javax.swing.JPanel implements FrinthesiaPa
     public FrinthesiaPanelRecord getNextPanel() {
         PlayMidiPanel playMidiPanel = new PlayMidiPanel();
         return new FrinthesiaPanelRecord(playMidiPanel, "play", true);
+    }
+
+    @Override
+    public void registerPanelOpener(PanelOpenerListener panelOpener) {
+        this.panelOpener = panelOpener;
     }
 }

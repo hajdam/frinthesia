@@ -327,6 +327,17 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
         JPanel panel = panelRecord.getPanel();
         if (panel instanceof FrinthesiaPanel) {
             canNext = ((FrinthesiaPanel) panel).canNext();
+            ((FrinthesiaPanel) panel).registerPanelOpener(new FrinthesiaPanel.PanelOpenerListener() {
+                @Override
+                public void openPanel(FrinthesiaPanelRecord panelRecord) {
+                    if (panelRecord.isLazy()) {
+                        mainPanel.add(panelRecord.getPanel(), panelRecord.getPanelName());
+                    }
+
+                    panels.add(panelRecord);
+                    setCurrentPanel(panelRecord);
+                }
+            });
         }
 
         CardLayout bottomLayout = (CardLayout) bottomPanel.getLayout();

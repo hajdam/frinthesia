@@ -36,4 +36,20 @@ public interface FrinthesiaPanel {
      */
     FrinthesiaPanelRecord getNextPanel();
 
+    /**
+     * Registers panel opener in this panel.
+     *
+     * @param panelOpener
+     */
+    void registerPanelOpener(PanelOpenerListener panelOpener);
+
+    public interface PanelOpenerListener {
+
+        /**
+         * Opens given panel in main fram.
+         *
+         * @param panelRecord
+         */
+        void openPanel(FrinthesiaPanelRecord panelRecord);
+    }
 }

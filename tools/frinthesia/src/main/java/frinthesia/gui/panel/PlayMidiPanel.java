@@ -13,6 +13,8 @@ package frinthesia.gui.panel;
  */
 public class PlayMidiPanel extends javax.swing.JPanel implements FrinthesiaPanel {
 
+    private PanelOpenerListener panelOpener;
+
     /**
      * Creates new form midiBrowserPanel
      */
@@ -111,5 +113,10 @@ public class PlayMidiPanel extends javax.swing.JPanel implements FrinthesiaPanel
     @Override
     public FrinthesiaPanelRecord getNextPanel() {
         return null;
+    }
+
+    @Override
+    public void registerPanelOpener(PanelOpenerListener panelOpener) {
+        this.panelOpener = panelOpener;
     }
 }
