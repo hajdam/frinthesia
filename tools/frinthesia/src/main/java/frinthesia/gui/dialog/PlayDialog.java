@@ -17,7 +17,6 @@ import com.frinika.sequencer.gui.tracker.TrackerPanel;
 import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import com.frinika.sequencer.project.mididevices.gui.MidiDevicesPanel;
 import com.frinika.tootX.midi.MidiLearnIF;
-import com.sun.media.sound.SoftSynthesizer;
 import frinthesia.gui.FrinthesiaFrame;
 import java.awt.BorderLayout;
 import java.awt.Component;

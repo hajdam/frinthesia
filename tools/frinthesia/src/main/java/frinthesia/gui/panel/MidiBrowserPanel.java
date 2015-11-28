@@ -42,7 +42,6 @@ public class MidiBrowserPanel extends javax.swing.JPanel implements FrinthesiaPa
 
         setCurrentPath(initialPath);
         tableModel.init();
-        TableCellEditor cellEditor = browserTable.getCellEditor();
     }
 
     /**

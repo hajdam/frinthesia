@@ -8,6 +8,7 @@ package frinthesia.gui;
 import com.frinika.frame.FrinikaFrame;
 import com.frinika.project.ProjectContainer;
 import com.sun.media.sound.SoftSynthesizer;
+import frinthesia.gui.dialog.AboutDialog;
 import frinthesia.gui.dialog.PlayDialog;
 import frinthesia.gui.panel.FrinthesiaPanel;
 import frinthesia.gui.panel.FrinthesiaPanelRecord;
@@ -282,7 +283,8 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_openEditorButtonActionPerformed
 
     private void aboutApplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutApplicationButtonActionPerformed
-        // TODO add your handling code here:
+        AboutDialog aboutDialog = new AboutDialog(this, true);
+        aboutDialog.setVisible(true);
     }//GEN-LAST:event_aboutApplicationButtonActionPerformed
 
     private void browseMidiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseMidiButtonActionPerformed
@@ -305,7 +307,7 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
-        JPanel currentPanel = panels.get(panels.size() -1).getPanel();
+        JPanel currentPanel = panels.get(panels.size() - 1).getPanel();
         if (currentPanel instanceof FrinthesiaPanel) {
             FrinthesiaPanelRecord nextPanel = ((FrinthesiaPanel) currentPanel).getNextPanel();
             if (nextPanel.isLazy()) {
