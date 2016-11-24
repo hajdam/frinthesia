@@ -3,6 +3,11 @@ Frinthesia - Synthesia Java Clone Using Frinika
 
 Frinthesia is free game / learning tool for piano keyboards / MIDI instruments build.
 
+Screenshot
+----------
+
+![Frinthesia Screenshot](images/screenshot.png?raw=true)
+
 Homepage: https://github.com/hajdam/frinthesia (temporary)
 
 Code is based on Frinika music workstation software: http://frinika.com

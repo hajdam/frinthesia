@@ -69,6 +69,7 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
         browseMidiButton = new javax.swing.JButton();
         playMidiButton = new javax.swing.JButton();
         openEditorButton = new javax.swing.JButton();
+        optionsButton = new javax.swing.JButton();
         frinthesiaAnimatedLogo = new frinthesia.gui.FrinthesiaAnimatedLogo();
         bottomPanel = new javax.swing.JPanel();
         aboutPanel = new javax.swing.JPanel();
@@ -107,16 +108,24 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
             }
         });
 
+        optionsButton.setText("OPTIONS");
+        optionsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optionsButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout startPanelLayout = new javax.swing.GroupLayout(startPanel);
         startPanel.setLayout(startPanelLayout);
         startPanelLayout.setHorizontalGroup(
             startPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, startPanelLayout.createSequentialGroup()
+            .addGroup(startPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(startPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(playMidiButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(openEditorButton, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
-                    .addComponent(browseMidiButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(browseMidiButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(optionsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE))
                 .addContainerGap())
         );
         startPanelLayout.setVerticalGroup(
@@ -128,7 +137,9 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
                 .addComponent(playMidiButton)
                 .addGap(18, 18, 18)
                 .addComponent(openEditorButton)
-                .addContainerGap(222, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
+                .addComponent(optionsButton)
+                .addContainerGap())
         );
 
         mainPanel.add(startPanel, "start");
@@ -319,6 +330,10 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_nextButtonActionPerformed
 
+    private void optionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_optionsButtonActionPerformed
+
     public void setCurrentPanel(FrinthesiaPanelRecord panelRecord) {
         CardLayout mainLayout = (CardLayout) mainPanel.getLayout();
         mainLayout.show(mainPanel, panelRecord.getPanelName());
@@ -397,6 +412,7 @@ public class FrinthesiaFrame extends javax.swing.JFrame {
     private javax.swing.JButton nextButton;
     private javax.swing.JPanel nextPartPanel;
     private javax.swing.JButton openEditorButton;
+    private javax.swing.JButton optionsButton;
     private javax.swing.JButton playMidiButton;
     private javax.swing.JPanel startPanel;
     // End of variables declaration//GEN-END:variables

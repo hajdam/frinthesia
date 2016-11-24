@@ -27,9 +27,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="backOnlyButton" min="-2" pref="205" max="-2" attributes="0"/>
-                  <EmptySpace pref="316" max="32767" attributes="0"/>
+                  <EmptySpace pref="533" max="32767" attributes="0"/>
                   <Component id="playPauseButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -39,30 +37,22 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="playPauseButton" min="-2" max="-2" attributes="0"/>
-                      <Component id="backOnlyButton" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="playPauseButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="13" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JButton" name="backOnlyButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="&lt;&lt; BACK"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="backOnlyButtonActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JButton" name="playPauseButton">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/frinthesia/resources/icons/pause16.png"/>
+              <Image iconType="3" name="/frinthesia/resources/icons/play16.png"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="playPauseButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

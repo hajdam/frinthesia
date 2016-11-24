@@ -134,6 +134,7 @@ public class MidiBrowserPanel extends javax.swing.JPanel implements FrinthesiaPa
                 setCurrentPath(record.getFile());
             } else if (record.getFileType() == FileRecord.FileType.MIDI) {
                 PlayMidiPanel playMidiPanel = new PlayMidiPanel();
+                playMidiPanel.setFile(record.getFile());
                 panelOpener.openPanel(new FrinthesiaPanelRecord(playMidiPanel, "play", true));
             }
         }

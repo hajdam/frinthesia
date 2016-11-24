@@ -5,6 +5,15 @@
  */
 package frinthesia.gui.panel;
 
+import com.frinika.frame.FrinikaFrame;
+import com.frinika.project.ProjectContainer;
+import com.sun.media.sound.SoftSynthesizer;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiSystem;
+
 /**
  * MIDI browser panel.
  *
@@ -14,6 +23,7 @@ package frinthesia.gui.panel;
 public class PlayMidiPanel extends javax.swing.JPanel implements FrinthesiaPanel {
 
     private PanelOpenerListener panelOpener;
+    private File file;
 
     /**
      * Creates new form midiBrowserPanel
@@ -32,30 +42,25 @@ public class PlayMidiPanel extends javax.swing.JPanel implements FrinthesiaPanel
     private void initComponents() {
 
         controlPanel = new javax.swing.JPanel();
-        backOnlyButton = new javax.swing.JButton();
         playPauseButton = new javax.swing.JButton();
         positionPanel = new javax.swing.JPanel();
         progressBar = new javax.swing.JProgressBar();
 
         setLayout(new java.awt.BorderLayout());
 
-        backOnlyButton.setText("<< BACK");
-        backOnlyButton.addActionListener(new java.awt.event.ActionListener() {
+        playPauseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/frinthesia/resources/icons/play16.png"))); // NOI18N
+        playPauseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                backOnlyButtonActionPerformed(evt);
+                playPauseButtonActionPerformed(evt);
             }
         });
-
-        playPauseButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/frinthesia/resources/icons/pause16.png"))); // NOI18N
 
         javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
         controlPanel.setLayout(controlPanelLayout);
         controlPanelLayout.setHorizontalGroup(
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(controlPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(backOnlyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 316, Short.MAX_VALUE)
+                .addContainerGap(533, Short.MAX_VALUE)
                 .addComponent(playPauseButton)
                 .addContainerGap())
         );
@@ -63,9 +68,7 @@ public class PlayMidiPanel extends javax.swing.JPanel implements FrinthesiaPanel
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(controlPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(playPauseButton)
-                    .addComponent(backOnlyButton))
+                .addComponent(playPauseButton)
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
@@ -87,18 +90,33 @@ public class PlayMidiPanel extends javax.swing.JPanel implements FrinthesiaPanel
         add(positionPanel, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void backOnlyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backOnlyButtonActionPerformed
-
-    }//GEN-LAST:event_backOnlyButtonActionPerformed
+    private void playPauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playPauseButtonActionPerformed
+        try {
+            FrinikaFrame project = new FrinikaFrame();
+            MidiDevice mididDevice = new SoftSynthesizer();
+            mididDevice.open();
+            project.setProject(new ProjectContainer(MidiSystem.getSequence(file), mididDevice));
+            project.getProjectContainer().getSequencer().start();
+        } catch (Exception ex) {
+            Logger.getLogger(PlayMidiPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_playPauseButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton backOnlyButton;
     private javax.swing.JPanel controlPanel;
     private javax.swing.JButton playPauseButton;
     private javax.swing.JPanel positionPanel;
     private javax.swing.JProgressBar progressBar;
     // End of variables declaration//GEN-END:variables
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
 
     @Override
     public boolean canNext() {

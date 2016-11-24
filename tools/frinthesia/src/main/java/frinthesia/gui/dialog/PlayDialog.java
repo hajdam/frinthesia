@@ -17,6 +17,7 @@ import com.frinika.sequencer.gui.tracker.TrackerPanel;
 import com.frinika.sequencer.project.AbstractSequencerProjectContainer;
 import com.frinika.sequencer.project.mididevices.gui.MidiDevicesPanel;
 import com.frinika.tootX.midi.MidiLearnIF;
+import com.sun.media.sound.SoftSynthesizer;
 import frinthesia.gui.FrinthesiaFrame;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -114,6 +115,7 @@ public class PlayDialog extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 PlayDialog dialog = new PlayDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
