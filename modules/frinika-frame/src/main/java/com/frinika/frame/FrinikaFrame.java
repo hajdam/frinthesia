@@ -76,7 +76,6 @@ import com.frinika.tootX.midi.MidiInDeviceManager;
 import com.frinika.tootX.midi.MidiLearnIF;
 import com.frinika.tracker.MidiFileFilter;
 import com.frinika.tracker.ProjectFileFilter;
-import com.frinika.versionmanagement.AutomaticVersionCheck;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -2539,18 +2538,6 @@ public class FrinikaFrame extends JFrame implements ProjectFrame {
 		});
 		aboutMenuItem.setMnemonic(KeyEvent.VK_A);
 		helpMenu.add(aboutMenuItem);
-                final JCheckBoxMenuItem automaticCheckNewVersionMenuItem = new JCheckBoxMenuItem(getMessage("project.menu.help.automatickcheckfornewversion"),FrinikaConfig.getAutomaticCheckForNewVersion());
-                automaticCheckNewVersionMenuItem.addItemListener(new ItemListener() {
-
-                    public void itemStateChanged(ItemEvent itemEvent) {
-                        FrinikaConfig.setAutomatickCheckForNewVersion(automaticCheckNewVersionMenuItem.getState());
-                        // If previously deselected check for new version when selected
-                        if(automaticCheckNewVersionMenuItem.getState())
-                            AutomaticVersionCheck.checkLatestVersion(FrinikaFrame.this,automaticCheckNewVersionMenuItem);
-                    }
-                });
-                helpMenu.add(automaticCheckNewVersionMenuItem);
-                AutomaticVersionCheck.checkLatestVersion(FrinikaFrame.this,automaticCheckNewVersionMenuItem);
 		return helpMenu;
 
 	}

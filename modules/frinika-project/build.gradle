@@ -45,7 +45,6 @@ dependencies {
     compile(project(':modules:frinika-sequencer'))
     compile(project(':modules:sevenzip'))
     compile ':js'
-    compile ':lmappletserver_core'
     compile ':FrinikaServerInterfaces'
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
